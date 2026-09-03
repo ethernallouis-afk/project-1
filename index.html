@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sosial Media UI</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f0f2f5; color: #1c1e21; }
+
+    /* Header Navbar */
+    .navbar { background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; box-shadow: 0 2px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: bold; color: #1877f2; }
+    .search-bar input { padding: 8px 16px; border: none; background: #f0f2f5; border-radius: 20px; outline: none; width: 250px; }
+    .nav-links button { background: none; border: none; font-size: 15px; margin-left: 15px; cursor: pointer; color: #65676b; font-weight: 600; }
+
+    /* Main Container */
+    .container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+
+    /* Layout Columns */
+    .sidebar-left, .sidebar-right { flex: 1; display: none; }
+    .feed { flex: 2; }
+
+    @media (min-width: 768px) { .sidebar-left { display: block; } }
+    @media (min-width: 992px) { .sidebar-right { display: block; } }
+
+    /* Card Box */
+    .card { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+    /* Create Post Box */
+    .create-post textarea { width: 100%; border: none; background: #f0f2f5; padding: 12px; border-radius: 8px; resize: none; outline: none; margin-bottom: 10px; }
+    .post-actions { display: flex; justify-content: space-between; align-items: center; }
+    .btn-post { background: #1877f2; color: #fff; border: none; padding: 8px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+    /* Post Item */
+    .post-header { display: flex; align-items: center; margin-bottom: 10px; }
+    .avatar { width: 40px; height: 40px; background: #007bff; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+    .user-info h4 { font-size: 14px; }
+    .user-info span { font-size: 12px; color: #65676b; }
+    .post-content { margin-bottom: 15px; font-size: 14px; line-height: 1.5; }
+    .post-footer { display: flex; border-top: 1px solid #e4e6eb; padding-top: 10px; justify-content: space-around; }
+    .post-footer button { background: none; border: none; color: #65676b; font-weight: 600; cursor: pointer; width: 100%; padding: 5px; }
+    .post-footer button:hover { background: #f0f2f5; border-radius: 5px; }
+
+    /* Sidebar Menu */
+    .menu-item { padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #050505; }
+    .menu-item:hover { background: #e4e6eb; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">SosMed</div>
+    <div class="search-bar"><input type="text" placeholder="Cari di SosMed..."></div>
+    <div class="nav-links">
+      <button>Beranda</button>
+      <button>Pesan</button>
+      <button>Profil</button>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <div class="sidebar-left">
+      <div class="card">
+        <div class="menu-item">👤 Profil Saya</div>
+        <div class="menu-item">👥 Teman</div>
+        <div class="menu-item">🔖 Tersimpan</div>
+        <div class="menu-item">⚙️ Pengaturan</div>
+      </div>
+    </div>
+
+    <div class="feed">
+      <div class="card create-post">
+        <textarea rows="3" placeholder="Apa yang sedang kamu pikirkan?"></textarea>
+        <div class="post-actions">
+          <button style="background:none; border:none; cursor:pointer;">📷 Foto/Video</button>
+          <button class="btn-post">Posting</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="post-header">
+          <div class="avatar">A</div>
+          <div class="user-info">
+            <h4>Alex Turn</h4>
+            <span>10 menit yang lalu</span>
+          </div>
+        </div>
+        <div class="post-content">
+          Akhirnya kelar juga prototype UI buat sosial media sederhana! Menurut kalian gimana strukturnya? 🚀
+        </div>
+        <div class="post-footer">
+          <button>❤️ Like</button>
+          <button>💬 Komentar</button>
+          <button>🔁 Bagikan</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-right">
+      <div class="card">
+        <h4>Trending Hari Ini</h4>
+        <br>
+        <div class="menu-item">#WebDevelopment</div>
+        <div class="menu-item">#Javascript</div>
+        <div class="menu-item">#UIUXDesign</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
