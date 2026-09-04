@@ -1,26 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media + Music Player 9999+ Hits</title>
+  <title>Underworld Social - 99999+ Infinite Hell Playlist & Viral Indonesia</title>
   <style>
     :root {
-      --bg-color: #fafafa;
-      --card-bg: #ffffff;
-      --text-color: #262626;
-      --border-color: #dbdbdb;
-      --subtext-color: #8e8e8e;
-      --primary-color: #0095f6;
+      --bg-color: #080808;
+      --card-bg: #141414;
+      --text-color: #ededed;
+      --border-color: #262626;
+      --subtext-color: #888888;
+      --primary-color: #ff2222;
     }
 
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #f5f5f5;
-      --border-color: #333333;
-      --subtext-color: #aaaaaa;
-      --primary-color: #3797f0;
+    [data-theme="light"] {
+      --bg-color: #f4f4f4;
+      --card-bg: #ffffff;
+      --text-color: #1a1a1a;
+      --border-color: #dcdcdc;
+      --subtext-color: #777777;
+      --primary-color: #e60000;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -28,116 +29,112 @@
 
     /* Navbar */
     .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 22px; font-weight: 700; cursor: pointer; }
+    .logo { font-size: 18px; font-weight: 700; color: var(--primary-color); cursor: pointer; }
     .nav-icons { display: flex; gap: 14px; align-items: center; }
-    .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); position: relative; }
+    .nav-icons button { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); }
 
-    /* Container */
-    .container { display: flex; max-width: 935px; margin: 20px auto; gap: 20px; padding: 0 15px; }
-    .main-content { flex: 2; }
-    .sidebar-right { flex: 1; }
+    /* Container Layout */
+    .container { display: flex; max-width: 950px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+    .main-content { flex: 2; max-width: 580px; }
+    .sidebar-right { flex: 1.3; }
 
-    /* Floating Music Sticky Bar Header */
-    .music-player-bar { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
-    .music-player-bar audio { flex: 1; height: 32px; }
-    .music-now-playing { font-size: 12px; font-weight: bold; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* Pemutar Musik Global */
+    .music-player-bar { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(255,34,34,0.1); }
+    .music-player-bar audio { flex: 1; height: 32px; filter: invert(0.85); }
+    .music-now-playing { font-size: 11px; font-weight: bold; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--primary-color); }
 
-    /* Profile Header */
+    /* Profil Pengguna */
     .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
     .profile-header-top { display: flex; align-items: center; gap: 20px; }
     .profile-avatar-box { position: relative; }
-    .avatar-lg { width: 75px; height: 75px; border-radius: 50%; background: #262626; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; overflow: hidden; object-fit: cover; }
+    .avatar-lg { width: 75px; height: 75px; border-radius: 50%; background: #222; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; overflow: hidden; object-fit: cover; }
     
-    .note-bubble { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 4px 10px; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; gap: 4px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+    .note-bubble { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 4px 10px; font-size: 10px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 4px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
 
     .profile-info { flex: 1; }
-    .profile-info-name { font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-    .btn-edit-profile { padding: 5px 12px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-color); cursor: pointer; font-weight: 600; }
-    .profile-bio { font-size: 12px; margin-top: 6px; color: var(--text-color); line-height: 1.3; }
+    .profile-info-name { font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .btn-edit-profile { padding: 4px 10px; font-size: 11px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-color); cursor: pointer; font-weight: 600; }
+    .profile-bio { font-size: 11px; margin-top: 6px; color: var(--subtext-color); line-height: 1.3; }
 
     /* Post Card */
     .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; }
-    .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
-    .post-header-left { display: flex; align-items: center; gap: 10px; }
-    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; object-fit: cover; }
-
-    .post-media-container { width: 100%; max-height: 400px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .post-media-container img, .post-media-container video { width: 100%; max-height: 400px; object-fit: contain; }
-
-    .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
-    .action-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); }
-    .post-likes { padding: 0 16px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .post-caption { padding: 0 16px; font-size: 13px; margin-bottom: 6px; }
-
-    .comment-list { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
+    .post-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; }
+    .avatar-sm { width: 30px; height: 30px; border-radius: 50%; background: var(--primary-color); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; overflow: hidden; object-fit: cover; }
+    .post-media-container { width: 100%; max-height: 380px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .post-media-container img, .post-media-container video { width: 100%; max-height: 380px; object-fit: contain; }
+    .post-action-bar { padding: 10px 16px; display: flex; gap: 12px; }
+    .action-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); }
+    .post-likes { padding: 0 16px; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+    .post-caption { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
+    .comment-list { padding: 0 16px; font-size: 11px; margin-bottom: 6px; color: var(--subtext-color); }
     .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 8px 16px; }
-    .comment-form input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 13px; }
+    .comment-form input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 12px; }
     .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
 
-    /* Playlist 9999+ Viral Box */
+    /* Playlist 99999+ Infinite Box */
     .music-list-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: sticky; top: 70px; }
-    .song-search-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 12px; margin-bottom: 10px; outline: none; }
-    .song-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); cursor: pointer; font-size: 12px; transition: 0.2s; }
-    .song-item:hover { background: var(--border-color); }
+    .song-search-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 11px; margin-bottom: 8px; outline: none; }
+    .song-counter { font-size: 10px; color: var(--primary-color); margin-bottom: 6px; font-weight: bold; }
+    .song-list { max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
+    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); cursor: pointer; font-size: 11px; border-left: 3px solid var(--primary-color); }
+    .song-item:hover { background: rgba(255,34,34,0.08); }
 
-    /* Modals & DM Chat */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    /* Modals & DM System */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card-bg); width: 400px; padding: 20px; border-radius: 12px; max-height: 90vh; overflow-y: auto; }
-    .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 6px; margin-bottom: 12px; font-size: 12px; }
+    .modal-box { background: var(--card-bg); width: 380px; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
+    .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 5px; margin-bottom: 10px; font-size: 11px; }
 
-    /* DM Modal */
-    .chat-box { width: 600px; height: 450px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
+    /* Chat Modal */
+    .chat-box { width: 560px; height: 420px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
     .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
-    .chat-user-item { padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+    .chat-user-item { padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; border-bottom: 1px solid var(--border-color); font-size: 11px; }
     .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
-    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    .message { max-width: 70%; padding: 8px 12px; border-radius: 14px; font-size: 12px; }
+    .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+    .message { max-width: 75%; padding: 7px 10px; border-radius: 12px; font-size: 11px; }
     .message.received { background: var(--bg-color); align-self: flex-start; }
     .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
 
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 12px; display: none; z-index: 2000; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,34,34,0.95); color: #fff; padding: 7px 16px; border-radius: 20px; font-size: 11px; display: none; z-index: 2000; font-weight: bold; }
   </style>
 </head>
-<body>
+<body data-theme="dark">
 
-  <!-- Navbar Navigation -->
+  <!-- Navbar -->
   <div class="navbar">
-    <div class="logo">Instagram Music+</div>
+    <div class="logo">🔥 Infinite Hell & Indo Viral</div>
     <div class="nav-icons">
-      <button title="Direct Message (Chat)" onclick="openModal('chatModal')">💬</button>
-      <button title="Buat Postingan Baru" onclick="openModal('createPostModal')">➕</button>
-      <button title="Ganti Mode Gelap/Terang" onclick="toggleDarkMode()">🌙</button>
+      <button title="Direct Message" onclick="openModal('chatModal')">💬</button>
+      <button title="Buat Postingan" onclick="openModal('createPostModal')">➕</button>
+      <button title="Ganti Tema" onclick="toggleTheme()">☀️/🌙</button>
     </div>
   </div>
 
   <div class="container">
-    <!-- Main Feed Section -->
+    <!-- Main Feed -->
     <div class="main-content">
       
       <!-- Pemutar Musik Global -->
       <div class="music-player-bar">
-        <div class="music-now-playing" id="nowPlayingTitle">🎵 Blinding Lights</div>
+        <div class="music-now-playing" id="nowPlayingTitle">🇮🇩 Satu Bulan - Bernadya</div>
         <audio id="globalAudioPlayer" controls autoplay src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
       </div>
 
-      <!-- Header Profil User -->
+      <!-- Profil Akun -->
       <div class="profile-card">
         <div class="profile-header-top">
           <div class="profile-avatar-box">
-            <!-- Music Note Floating Bubble (Instagram Style) -->
-            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Klik untuk ubah lagu catatan">
-              🎵 <span id="noteSongTitle">Blinding Lights</span> • <span id="noteTextTitle">Vibe era 80an!</span>
+            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Ubah status lagu catatan">
+              🎵 <span id="noteSongTitle">Satu Bulan</span> • <span id="noteTextTitle">Lagi viral nih!</span>
             </div>
-            <img id="userAvatarImg" class="avatar-lg" src="https://via.placeholder.com/75" alt="Avatar">
+            <img id="userAvatarImg" class="avatar-lg" src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=150" alt="Avatar">
           </div>
           <div class="profile-info">
             <div class="profile-info-name">
-              <span id="userNameDisplay">music_lover</span>
+              <span id="userNameDisplay">indoclub_music</span>
               <button class="btn-edit-profile" onclick="openModal('editProfileModal')">Edit Profil</button>
             </div>
-            <div class="profile-bio" id="userBioDisplay">Selamat datang! Dengarkan 9999+ lagu hits viral jadul & kekinian langsung di sini.</div>
+            <div class="profile-bio" id="userBioDisplay">Koleksi lagu viral Indonesia 2020–2026 dan 99999+ lagu tanpa batas gabungan neraka. Putar sesukamu!</div>
           </div>
         </div>
       </div>
@@ -146,20 +143,18 @@
       <div id="feedList">
         <div class="post-card">
           <div class="post-header">
-            <div class="post-header-left">
-              <div class="avatar-sm">A</div>
-              <span class="username" style="font-size:13px; font-weight:bold;">alex_turn</span>
-            </div>
+            <div class="avatar-sm">B</div>
+            <span style="font-size: 12px; font-weight: bold;">bernadya_fans</span>
           </div>
           <div class="post-media-container">
-            <img src="https://picsum.photos/600/400" alt="Post Foto">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600" alt="Music Vibe">
           </div>
           <div class="post-action-bar">
             <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="action-btn" onclick="openChatWith('alex_turn')">💬</button>
+            <button class="action-btn" onclick="openChatWith('bernadya_fans')">💬</button>
           </div>
-          <div class="post-likes"><span>1,240</span> suka</div>
-          <div class="post-caption"><strong>alex_turn</strong> Lagi dengerin lagu klasik rock sambil santai Sore! 🎧</div>
+          <div class="post-likes"><span>2026</span> suka</div>
+          <div class="post-caption"><strong>bernadya_fans</strong> Menikmati lagu-lagu hits Indonesia tahun ini. Suasananya dapet banget! 🎶</div>
           <div class="comment-list"></div>
           <form class="comment-form" onsubmit="addComment(event, this)">
             <input type="text" placeholder="Tambahkan komentar...">
@@ -170,81 +165,79 @@
 
     </div>
 
-    <!-- Sidebar Right: Playlist 9999+ Lagu Viral -->
+    <!-- Sidebar Playlist Viral & 99999+ Tak Terbatas -->
     <div class="sidebar-right">
       <div class="music-list-card">
-        <h4 style="margin-bottom: 8px; font-size: 13px;">🔥 9999+ Lagu Viral (Jadul - Now)</h4>
-        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari judul lagu / penyanyi..." onkeyup="filterSongs()">
+        <h4 style="margin-bottom: 4px; font-size: 12px; color: var(--primary-color);">🇮🇩 Viral Indo (2020-2026) & Infinite</h4>
+        <div class="song-counter" id="songCounterText">Memuat total lagu...</div>
+        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari lagu viral atau 99999+ lainnya..." onkeyup="filterSongs()">
         <div class="song-list" id="songListContainer">
-          <!-- Daftar lagu di-generate secara otomatis via JS -->
+          <!-- Diisi otomatis melalui JS -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modals 1: Edit Profil -->
+  <!-- Modals -->
   <div class="modal-overlay" id="editProfileModal">
     <div class="modal-box">
       <h3>Edit Profil</h3>
-      <label>Nama Akun:</label>
-      <input type="text" id="editNameInput" value="music_lover">
-      <label>URL Foto Profil:</label>
+      <label style="font-size:11px;">Nama Akun:</label>
+      <input type="text" id="editNameInput" value="indoclub_music">
+      <label style="font-size:11px;">URL Avatar:</label>
       <input type="text" id="editAvatarInput" placeholder="https://...">
-      <label>Bio Profil:</label>
-      <textarea id="editBioInput" rows="3">Bio profil kamu...</textarea>
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="saveProfile()">Simpan Profil</button>
+      <label style="font-size:11px;">Bio:</label>
+      <textarea id="editBioInput" rows="2">Bio profil...</textarea>
+      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="saveProfile()">Simpan</button>
     </div>
   </div>
 
-  <!-- Modals 2: Catatan Musik / Status -->
   <div class="modal-overlay" id="noteModal">
     <div class="modal-box">
-      <h3>Pilih Lagu Untuk Status Catatan</h3>
-      <label>Pilih Lagu Viral:</label>
+      <h3>Catatan Lagu Status</h3>
+      <label style="font-size:11px;">Pilih Lagu Favorit:</label>
       <select id="noteSongSelect"></select>
-      <label>Status Pesan (Maks 25 Karakter):</label>
-      <input type="text" id="noteTextInput" placeholder="Lagi santai dengerin musik..." maxlength="25">
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="saveNote()">Pasang di Profil</button>
+      <label style="font-size:11px;">Pesan Status (Maks 25 Karakter):</label>
+      <input type="text" id="noteTextInput" placeholder="Lagi galau..." maxlength="25">
+      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="saveNote()">Pasang Status</button>
     </div>
   </div>
 
-  <!-- Modals 3: Buat Postingan Baru -->
   <div class="modal-overlay" id="createPostModal">
     <div class="modal-box">
-      <h3>Buat Postingan Baru</h3>
-      <label>Tipe Konten:</label>
+      <h3>Buat Postingan</h3>
+      <label style="font-size:11px;">Tipe:</label>
       <select id="mediaTypeSelect">
-        <option value="image">Foto (URL Gambar)</option>
-        <option value="video">Video (URL MP4)</option>
+        <option value="image">Foto (URL)</option>
+        <option value="video">Video MP4 (URL)</option>
       </select>
-      <label>URL Media:</label>
+      <label style="font-size:11px;">URL Media:</label>
       <input type="text" id="mediaUrlInput" placeholder="https://...">
-      <label>Caption Postingan:</label>
-      <textarea id="postCaptionInput" rows="2" placeholder="Tulis deskripsi..."></textarea>
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="submitNewPost()">Bagikan Postingan</button>
+      <label style="font-size:11px;">Caption:</label>
+      <textarea id="postCaptionInput" rows="2" placeholder="Caption..."></textarea>
+      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="submitNewPost()">Bagikan</button>
     </div>
   </div>
 
-  <!-- Modals 4: Chat Direct Message (DM) -->
   <div class="modal-overlay" id="chatModal">
     <div class="modal-box chat-box">
       <div class="chat-sidebar">
-        <div class="chat-user-item" onclick="selectChatUser('Alex Turn')">
-          <div class="avatar-sm">A</div>
-          <div><strong style="font-size:12px;">Alex Turn</strong></div>
+        <div class="chat-user-item" onclick="selectChatUser('bernadya_fans')">
+          <div class="avatar-sm">B</div>
+          <div><strong>bernadya_fans</strong></div>
         </div>
-        <div class="chat-user-item" onclick="selectChatUser('Sarah Design')">
-          <div class="avatar-sm" style="background:#e91e63;">S</div>
-          <div><strong style="font-size:12px;">Sarah Design</strong></div>
+        <div class="chat-user-item" onclick="selectChatUser('salpriadi_vibe')">
+          <div class="avatar-sm" style="background:#444;">S</div>
+          <div><strong>salpriadi_vibe</strong></div>
         </div>
       </div>
       <div class="chat-area">
-        <div style="padding:10px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:13px;" id="activeChatUsername">Alex Turn</div>
+        <div style="padding:8px 12px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:11px;" id="activeChatUsername">bernadya_fans</div>
         <div class="chat-messages" id="chatMessages">
-          <div class="message received">Halo! Cobain lagu viral terbaru yang ada di playlist kanan deh! 🎵</div>
+          <div class="message received">Kirimkan rekomendasi lagu viral Indonesia terbaik ke sini! 🎶</div>
         </div>
-        <form style="display:flex; border-top:1px solid var(--border-color); padding:8px;" onsubmit="sendChatMessage(event)">
-          <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:12px;" placeholder="Kirim pesan...">
+        <form style="display:flex; border-top:1px solid var(--border-color); padding:6px;" onsubmit="sendChatMessage(event)">
+          <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:11px;" placeholder="Kirim pesan...">
           <button type="submit" class="btn-submit-comment">Kirim</button>
         </form>
       </div>
@@ -254,99 +247,111 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    /* Database Demo 9999+ Lagu Viral (Zaman Dulu sampai Zaman Sekarang) */
-    const songsDatabase = [
-      { id: 1, title: "Blinding Lights", artist: "The Weeknd", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { id: 2, title: "Bohemian Rhapsody", artist: "Queen", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-      { id: 3, title: "Billie Jean", artist: "Michael Jackson", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-      { id: 4, title: "Smells Like Teen Spirit", artist: "Nirvana", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-      { id: 5, title: "Shape of You", artist: "Ed Sheeran", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-      { id: 6, title: "As It Was", artist: "Harry Styles", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-      { id: 7, title: "Die With A Smile", artist: "Lady Gaga & Bruno Mars", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-      { id: 8, title: "Hotel California", artist: "Eagles", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-      { id: 9, title: "Cruel Summer", artist: "Taylor Swift", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-      { id: 10, title: "BIRDS OF A FEATHER", artist: "Billie Eilish", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+    /* Daftar Unggulan Lagu Viral Indonesia 2020 - 2026 */
+    const curatedIndoViral = [
+      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+      { id: "v4", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+      { id: "v5", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+      { id: "v6", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+      { id: "v7", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+      { id: "v8", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+      { id: "v9", title: "Tertawan Hati - Awdella", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
     ];
 
-    // Simulasi mengisi otomatis hingga 9999+ entri lagu secara dinamis
-    for (let i = 11; i <= 10000; i++) {
-      songsDatabase.push({
+    /* Generator Katalog 99999+ Lagu Tambahan & Neraka */
+    const realmsList = ["Indo Pop Era", "Indie Nusantara", "TikTok Hits Indo", "Tartarus Core", "Dante's Inferno", "Abyssal Plain"];
+    const adjectiveList = ["Malam", "Rindu", "Luka", "Senja", "Hampa", "Cinta", "Bayang", "Dark", "Eternal", "Phantom"];
+    const nounList = ["Melodi", "Kisah", "Asmara", "Lagu", "Symphony", "Anthem", "Echo", "Requiem", "Hymn", "Sonata"];
+
+    let infiniteHellSongs = [...curatedIndoViral]; // Gabungkan lagu viral asli di urutan teratas
+    
+    // Generate hingga 100.000 lagu total
+    for (let i = 11; i <= 100000; i++) {
+      let adj = adjectiveList[i % adjectiveList.length];
+      let noun = nounList[Math.floor(i / 7) % nounList.length];
+      let realm = realmsList[i % realmsList.length];
+      
+      infiniteHellSongs.push({
         id: i,
-        title: `Viral Song Track #${i}`,
-        artist: `Artist Top Hit #${i}`,
-        era: i % 2 === 0 ? "Jadul" : "Now",
+        title: `${adj} ${noun} #${i}`,
+        realm: realm,
         url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
       });
     }
 
-    // Inisialisasi Aplikasi
     window.onload = function() {
-      renderSongList(songsDatabase.slice(0, 50)); // Load 50 lagu pertama untuk performa cepat
+      document.getElementById('songCounterText').innerText = `Total Katalog: ${infiniteHellSongs.length.toLocaleString()} Lagu Aktif`;
+      renderSongList(infiniteHellSongs.slice(0, 100)); // Render 100 lagu awal untuk responsivitas
       populateNoteSelect();
     };
 
     function renderSongList(songs) {
       const container = document.getElementById('songListContainer');
       container.innerHTML = '';
-      songs.forEach(song => {
+      
+      songs.slice(0, 150).forEach(song => {
         const div = document.createElement('div');
         div.className = 'song-item';
         div.innerHTML = `
           <div>
-            <strong>${song.title}</strong>
-            <div style="font-size:10px; color:var(--subtext-color);">${song.artist} • <span style="color:var(--primary-color);">${song.era}</span></div>
+            <strong>🎵 ${song.title}</strong>
+            <div style="font-size:9px; color:var(--subtext-color);">Kategori: <span style="color:var(--primary-color);">${song.realm}</span></div>
           </div>
-          <button style="border:none; background:none; cursor:pointer;" onclick="playSong('${song.title}', '${song.artist}', '${song.url}')">▶️</button>
+          <button style="border:none; background:none; cursor:pointer; font-size:12px;" onclick="playSong('${song.title}', '${song.realm}', '${song.url}')">▶️</button>
         `;
         container.appendChild(div);
       });
     }
 
-    function playSong(title, artist, url) {
+    function playSong(title, realm, url) {
       const player = document.getElementById('globalAudioPlayer');
       const titleDisplay = document.getElementById('nowPlayingTitle');
       player.src = url;
       player.play();
-      titleDisplay.innerText = `🎵 ${title} - ${artist}`;
+      titleDisplay.innerText = `🎵 ${title}`;
       showToast(`Memutar: ${title}`);
     }
 
     function filterSongs() {
       const query = document.getElementById('songSearch').value.toLowerCase();
-      const filtered = songsDatabase.filter(s => 
-        s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query)
-      ).slice(0, 50);
+      if (!query) {
+        renderSongList(infiniteHellSongs.slice(0, 100));
+        return;
+      }
+      const filtered = infiniteHellSongs.filter(s => 
+        s.title.toLowerCase().includes(query) || s.realm.toLowerCase().includes(query)
+      );
       renderSongList(filtered);
     }
 
     function populateNoteSelect() {
       const select = document.getElementById('noteSongSelect');
-      songsDatabase.slice(0, 20).forEach(song => {
+      infiniteHellSongs.slice(0, 30).forEach(song => {
         const opt = document.createElement('option');
-        opt.value = `${song.title} - ${song.artist}`;
-        opt.innerText = `🎵 ${song.title} (${song.artist})`;
+        opt.value = `${song.title} - ${song.realm}`;
+        opt.innerText = `🎵 ${song.title} (${song.realm})`;
         select.appendChild(opt);
       });
     }
 
-    /* System Controller Modal & Utility */
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    function toggleDarkMode() {
-      document.body.getAttribute('data-theme') === 'dark' 
-        ? document.body.removeAttribute('data-theme') 
-        : document.body.setAttribute('data-theme', 'dark');
+    
+    function toggleTheme() {
+      const body = document.body;
+      body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     }
 
     function saveProfile() {
       const name = document.getElementById('editNameInput').value.trim();
       const bio = document.getElementById('editBioInput').value.trim();
       const avatar = document.getElementById('editAvatarInput').value.trim();
-
       if (name) document.getElementById('userNameDisplay').innerText = name;
       if (bio) document.getElementById('userBioDisplay').innerText = bio;
       if (avatar) document.getElementById('userAvatarImg').src = avatar;
-
       closeModal('editProfileModal');
       showToast("Profil berhasil diperbarui!");
     }
@@ -358,7 +363,7 @@
         document.getElementById('noteSongTitle').innerText = song.split('-')[0];
         document.getElementById('noteTextTitle').innerText = text;
         closeModal('noteModal');
-        showToast("Catatan lagu diperbarui!");
+        showToast("Catatan lagu profil diperbarui!");
       }
     }
 
@@ -367,18 +372,17 @@
       const url = document.getElementById('mediaUrlInput').value.trim();
       const caption = document.getElementById('postCaptionInput').value.trim();
       const userName = document.getElementById('userNameDisplay').innerText;
-
-      if (!url) { showToast("Masukkan URL terlebih dahulu!"); return; }
+      if (!url) { showToast("Masukkan URL media terlebih dahulu!"); return; }
 
       let mediaHtml = type === 'video' ? `<video controls src="${url}"></video>` : `<img src="${url}">`;
       const feedList = document.getElementById('feedList');
       const newPost = document.createElement('div');
       newPost.className = 'post-card';
       newPost.innerHTML = `
-        <div class="post-header"><div class="post-header-left"><div class="avatar-sm">U</div><span class="username">${userName}</span></div></div>
+        <div class="post-header"><div class="avatar-sm">U</div><span style="font-size:12px; font-weight:bold;">${userName}</span></div>
         <div class="post-media-container">${mediaHtml}</div>
         <div class="post-action-bar"><button class="action-btn" onclick="toggleLike(this)">🤍</button></div>
-        <div class="post-likes"><span>0</span> suka</div>
+        <div class="post-likes"><span>1</span> suka</div>
         <div class="post-caption"><strong>${userName}</strong> ${caption}</div>
         <div class="comment-list"></div>
         <form class="comment-form" onsubmit="addComment(event, this)">
@@ -388,13 +392,13 @@
       `;
       feedList.prepend(newPost);
       closeModal('createPostModal');
-      showToast("Postingan dipublikasikan!");
+      showToast("Postingan berhasil dibagikan!");
     }
 
     function toggleLike(btn) {
       const card = btn.closest('.post-card');
       const countElem = card.querySelector('.post-likes span');
-      let count = parseInt(countElem.innerText.replace(',', ''));
+      let count = parseInt(countElem.innerText);
       if (btn.classList.contains('liked')) {
         btn.innerText = '🤍';
         btn.classList.remove('liked');
@@ -404,7 +408,7 @@
         btn.classList.add('liked');
         count++;
       }
-      countElem.innerText = count.toLocaleString();
+      countElem.innerText = count;
     }
 
     function addComment(e, form) {
@@ -413,7 +417,6 @@
       const list = form.closest('.post-card').querySelector('.comment-list');
       const userName = document.getElementById('userNameDisplay').innerText;
       if (!input.value.trim()) return;
-
       const item = document.createElement('div');
       item.innerHTML = `<strong>${userName}</strong> ${input.value}`;
       list.appendChild(item);
@@ -427,7 +430,7 @@
 
     function selectChatUser(user) {
       document.getElementById('activeChatUsername').innerText = user;
-      document.getElementById('chatMessages').innerHTML = `<div class="message received">Halo! Kirimkan rekomendasi lagu favoritmu ke ${user}!</div>`;
+      document.getElementById('chatMessages').innerHTML = `<div class="message received">Halo! Bahas lagu viral Indonesia atau katalog 99999+ di sini! 🎶</div>`;
     }
 
     function sendChatMessage(e) {
@@ -435,7 +438,6 @@
       const input = document.getElementById('chatInput');
       const box = document.getElementById('chatMessages');
       if (!input.value.trim()) return;
-
       const msg = document.createElement('div');
       msg.className = 'message sent';
       msg.innerText = input.value;
