@@ -1,73 +1,558 @@
-<style>
-  /* 1. Mood Filter UI */
-  .mood-bar { display: flex; gap: 8px; padding: 10px 16px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); overflow-x: auto; }
-  .mood-chip { padding: 4px 12px; border-radius: 15px; border: 1px solid var(--border-color); font-size: 12px; cursor: pointer; white-space: nowrap; }
-  .mood-chip.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Next-Gen - Complete UI</title>
+  <style>
+    :root {
+      --bg-color: #fafafa;
+      --card-bg: #ffffff;
+      --text-color: #262626;
+      --border-color: #dbdbdb;
+      --subtext-color: #8e8e8e;
+      --primary-color: #0095f6;
+    }
 
-  /* 2. Audio Caption Bar */
-  .voice-caption { display: flex; align-items: center; gap: 8px; background: var(--bg-color); padding: 8px 12px; border-radius: 20px; margin: 8px 16px; font-size: 12px; }
-  .voice-play-btn { background: var(--primary-color); color: #fff; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #f5f5f5;
+      --border-color: #333333;
+      --subtext-color: #aaaaaa;
+      --primary-color: #3797f0;
+    }
 
-  /* 3. Anti-Doomscroll Floating Reminder */
-  .wellbeing-banner { background: #ff9800; color: #fff; text-align: center; padding: 8px; font-size: 12px; font-weight: bold; display: none; }
+    [data-text-only="true"] .post-media-box,
+    [data-text-only="true"] .stories-container,
+    [data-text-only="true"] .avatar-sm,
+    [data-text-only="true"] .story-avatar { display: none !important; }
 
-  /* 4. Time Capsule Post Tag */
-  .capsule-badge { background: #9c27b0; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px; }
-</style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
 
-<div class="wellbeing-banner" id="doomscrollBanner">
-  ⏰ Kamu sudah scrolling selama 15 menit. Istirahatkan matamu sejenak!
-</div>
+    /* Anti-Doomscroll & Bedtime Banner */
+    .system-banner { background: #ff9800; color: #fff; text-align: center; padding: 8px; font-size: 12px; font-weight: bold; display: none; position: sticky; top: 0; z-index: 101; }
+    .bedtime-banner { background: #673ab7; }
 
-<div class="mood-bar">
-  <div class="mood-chip active" onclick="filterMood('all', this)">🌀 Semua</div>
-  <div class="mood-chip" onclick="filterMood('relax', this)">☕ Santai</div>
-  <div class="mood-chip" onclick="filterMood('learn', this)">💡 Edukasi</div>
-  <div class="mood-chip" onclick="filterMood('humor', this)">😂 Lucu</div>
-</div>
+    /* Top Navigation Bar */
+    .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: 700; cursor: pointer; }
+    .search-bar input { padding: 7px 16px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 8px; outline: none; width: 180px; font-size: 13px; text-align: center; }
+    .nav-icons { display: flex; gap: 12px; align-items: center; position: relative; }
+    .nav-icons button { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); position: relative; }
 
-<script>
-  // 1. FILTER FEED BERDASARKAN SUASANA HATI (MOOD FEED)
-  function filterMood(mood, chip) {
-    document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    
-    const posts = document.querySelectorAll('.post-card');
-    posts.forEach(post => {
-      if (mood === 'all' || post.dataset.mood === mood) {
-        post.style.display = 'block';
-      } else {
-        post.style.display = 'none';
+    .notification-badge { position: absolute; top: -2px; right: -4px; background: #ed4956; color: #fff; font-size: 10px; font-weight: bold; border-radius: 50%; padding: 2px 5px; }
+
+    /* Dropdown Notifikasi */
+    .notif-dropdown { display: none; position: absolute; top: 35px; right: 0; width: 280px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 10px; z-index: 200; }
+    .notif-dropdown.active { display: block; }
+    .notif-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+
+    /* Mood Filter Bar */
+    .mood-bar { display: flex; gap: 8px; padding: 10px 15%; background: var(--card-bg); border-bottom: 1px solid var(--border-color); overflow-x: auto; }
+    .mood-chip { padding: 4px 12px; border-radius: 15px; border: 1px solid var(--border-color); font-size: 12px; cursor: pointer; white-space: nowrap; }
+    .mood-chip.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+
+    /* Main Grid Layout */
+    .container { display: flex; max-width: 935px; margin: 20px auto; gap: 32px; padding: 0 20px; }
+    .main-content { flex: 2; max-width: 614px; }
+    .sidebar-right { flex: 1; display: none; }
+    @media (min-width: 1000px) { .sidebar-right { display: block; } }
+
+    /* Stories Section */
+    .stories-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px 10px; margin-bottom: 20px; display: flex; gap: 15px; overflow-x: auto; }
+    .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 66px; position: relative; }
+    .story-avatar-ring { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; display: flex; align-items: center; justify-content: center; }
+    .story-avatar-ring.seen { background: var(--border-color); }
+    .story-avatar { width: 54px; height: 54px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid var(--card-bg); font-weight: bold; }
+    .story-username { font-size: 11px; margin-top: 4px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 60px; color: var(--text-color); }
+    .online-indicator { width: 12px; height: 12px; background: #4cd964; border: 2px solid var(--card-bg); border-radius: 50%; position: absolute; bottom: 18px; right: 4px; }
+
+    /* Post Card */
+    .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; position: relative; }
+    .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
+    .post-header-left { display: flex; align-items: center; gap: 10px; position: relative; }
+    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+    .username { font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-color); }
+    .trust-badge { font-size: 10px; background: #4caf50; color: #fff; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
+    .hashtag { color: var(--primary-color); font-weight: 600; cursor: pointer; }
+
+    /* Hover Card / Profile Popup */
+    .profile-hover-card { display: none; position: absolute; top: 40px; left: 0; width: 200px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10; font-size: 12px; }
+    .post-header-left:hover .profile-hover-card { display: block; }
+
+    /* Post Media & Double Tap FX */
+    .post-media-box { position: relative; overflow: hidden; cursor: pointer; }
+    .post-media { width: 100%; height: 320px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: bold; user-select: none; }
+    .heart-effect { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 70px; transition: transform 0.3s ease; opacity: 0; pointer-events: none; }
+    .heart-effect.animate { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+    .raw-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 4px; }
+
+    /* Voice Caption & Soundscape */
+    .voice-caption { display: flex; align-items: center; gap: 8px; background: var(--bg-color); padding: 6px 12px; border-radius: 16px; margin: 8px 16px; font-size: 12px; }
+    .voice-play-btn { background: var(--primary-color); color: #fff; border: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; }
+
+    /* Post Actions & Elements */
+    .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
+    .left-actions { display: flex; gap: 14px; }
+    .action-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); }
+    .action-btn.liked { color: #ed4956; }
+
+    .post-likes { padding: 0 16px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .post-caption { padding: 0 16px; font-size: 13px; line-height: 1.4; margin-bottom: 6px; }
+    .comment-list { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
+    .comment-item { margin-top: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .comment-item .delete-btn { color: #ed4956; cursor: pointer; display: none; font-size: 10px; }
+    .comment-item:hover .delete-btn { display: inline; }
+    .private-comment { color: #9c27b0; font-style: italic; }
+
+    .post-time { padding: 0 16px; font-size: 10px; color: var(--subtext-color); text-transform: uppercase; margin-bottom: 10px; }
+
+    .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 8px 16px; align-items: center; }
+    .comment-form input { flex: 1; border: none; outline: none; font-size: 13px; background: transparent; color: var(--text-color); }
+    .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; opacity: 0.5; font-size: 13px; }
+    .btn-submit-comment.active { opacity: 1; }
+
+    /* Modals System */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: var(--card-bg); width: 420px; padding: 20px; border-radius: 12px; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal-close { position: absolute; right: 15px; top: 15px; border: none; background: none; font-size: 16px; cursor: pointer; color: var(--text-color); }
+
+    /* Chat DM System Styling */
+    .chat-box { width: 620px; height: 480px; display: flex; padding: 0; overflow: hidden; }
+    .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
+    .chat-user-item { padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+    .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
+    .chat-header { padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; font-size: 13px; }
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .message { max-width: 75%; padding: 8px 12px; border-radius: 14px; font-size: 12px; }
+    .message.received { background: var(--bg-color); align-self: flex-start; }
+    .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
+    .chat-input-box { display: flex; border-top: 1px solid var(--border-color); padding: 8px 12px; }
+    .chat-input-box input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 13px; }
+
+    /* Toast Notification */
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 12px; display: none; z-index: 2000; }
+
+    /* Sidebar Right & Karma Badge */
+    .karma-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-top: 15px; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <div class="system-banner" id="doomscrollBanner">
+    ⏰ Kamu sudah membaca feed selama 15 menit. Istirahatkan matamu sejenak!
+  </div>
+  <div class="system-banner bedtime-banner" id="bedtimeBanner">
+    🌙 Mode Jam Tidur Aktif. Akses aplikasi dibatasi untuk kesehatan tidurmu.
+  </div>
+
+  <div class="navbar">
+    <div class="logo" onclick="togglePureFeed()">Instagram+</div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Cari akun atau hashtag...">
+    </div>
+    <div class="nav-icons">
+      <button title="Beranda" onclick="resetFeed()">🏠</button>
+      <button title="Direct Message" onclick="openModal('chatModal')">💬<span class="notification-badge">1</span></button>
+      <button title="Buat Postingan Baru" onclick="openModal('createPostModal')">➕</button>
+      <button title="Eksplorasi Album Sekitar" onclick="openGeofenceAlbum()">📍</button>
+      <button title="Ruang Dengar Suara" onclick="toggleVoiceDropIn()">🎙️</button>
+      <button title="Mode Terang/Gelap" onclick="toggleDarkMode()">🌙</button>
+      <button title="Mode Hemat Teks" onclick="toggleTextOnlyMode()">📄</button>
+      <button title="Notifikasi" onclick="toggleNotifDropdown()">❤️<span class="notification-badge">2</span></button>
+
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-item"><strong>sarah_design</strong> menyukai postingan Anda.</div>
+        <div class="notif-item"><strong>alex_turn</strong> mengirimkan pesan suara.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mood-bar">
+    <div class="mood-chip active" onclick="filterMood('all', this)">🌀 Semua</div>
+    <div class="mood-chip" onclick="filterMood('relax', this)">☕ Santai</div>
+    <div class="mood-chip" onclick="filterMood('learn', this)">💡 Edukasi</div>
+    <div class="mood-chip" onclick="filterMood('humor', this)">😂 Lucu</div>
+  </div>
+
+  <div class="container">
+    <div class="main-content">
+      
+      <div class="stories-container">
+        <div class="story-item" onclick="openStory('alex_turn', 'A', '#007bff')">
+          <div class="story-avatar-ring"><div class="story-avatar">A</div></div>
+          <div class="online-indicator"></div>
+          <span class="story-username">alex</span>
+        </div>
+        <div class="story-item" onclick="openStory('bella_design', 'B', '#e91e63')">
+          <div class="story-avatar-ring"><div class="story-avatar" style="background:#e91e63;">B</div></div>
+          <span class="story-username">bella</span>
+        </div>
+        <div class="story-item" onclick="openStory('chris_code', 'C', '#4caf50')">
+          <div class="story-avatar-ring"><div class="story-avatar" style="background:#4caf50;">C</div></div>
+          <span class="story-username">chris</span>
+        </div>
+      </div>
+
+      <div id="feedList">
+        
+        <div class="post-card" data-mood="learn" data-time="1">
+          <div class="post-header">
+            <div class="post-header-left">
+              <div class="avatar-sm">A</div>
+              <div>
+                <span class="username">alex_turn</span>
+                <span class="trust-badge" title="Skor Reputasi">Trust 98%</span>
+              </div>
+              <div class="profile-hover-card">
+                <strong>alex_turn</strong><br>
+                <span>UI/UX Designer & Developer</span><br>
+                <small style="color:var(--subtext-color)">Pengikut: 12.4k</small>
+              </div>
+            </div>
+            <button class="action-btn" style="font-size:14px;" onclick="deletePost(this)">✕</button>
+          </div>
+
+          <div class="post-media-box" onclick="handleDoubleTap(this)">
+            <div class="post-media">📸 Next-Gen UI Prototype</div>
+            <div class="heart-effect">❤️</div>
+            <div class="raw-badge">RAW LOCK</div>
+          </div>
+
+          <div class="voice-caption">
+            <button class="voice-play-btn" onclick="playVoiceCaption(this)">▶</button>
+            <span>Voice Caption (0:15)</span>
+          </div>
+
+          <div class="post-action-bar">
+            <div class="left-actions">
+              <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+              <button class="action-btn" onclick="focusComment(this)">💬</button>
+              <button class="action-btn" onclick="openShareModal()">✈️</button>
+              <button class="action-btn" onclick="sendVoiceReaction()">🎙️</button>
+            </div>
+            <button class="action-btn" onclick="toggleSave(this)">🔖</button>
+          </div>
+
+          <div class="post-likes"><span>1.240</span> suka</div>
+          <div class="post-caption">
+            <span>alex_turn</span>Uji coba antarmuka baru dengan fitur lengkap! <span class="hashtag">#WebDev</span> <span class="hashtag">#UIUX</span>
+          </div>
+
+          <div class="comment-list">
+            <div class="comment-item">
+              <div><span>sarah_design</span>Keren banget konsepnya! 🔥</div>
+              <span class="delete-btn" onclick="deleteComment(this)">Hapus</span>
+            </div>
+            <div class="comment-item private-comment">
+              <div><span>[Private] chris_code</span>Sistemnya rapi bro!</div>
+            </div>
+          </div>
+
+          <div class="post-time">10 Menit Yang Lalu</div>
+
+          <form class="comment-form" onsubmit="addComment(event, this)">
+            <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)" onkeydown="checkToneIndicator(this)">
+            <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
+          </form>
+        </div>
+
+        <div class="post-card" data-mood="relax" data-time="2">
+          <div class="post-header">
+            <div class="post-header-left">
+              <div class="avatar-sm" style="background:#e91e63;">B</div>
+              <span class="username">bella_design</span>
+            </div>
+            <button class="action-btn" style="font-size:14px;" onclick="deletePost(this)">✕</button>
+          </div>
+
+          <div class="post-media-box">
+            <div class="post-media" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+              🔒 Terkunci (Kapsul Waktu 2028)
+            </div>
+          </div>
+
+          <div class="post-action-bar">
+            <div class="left-actions">
+              <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+              <button class="action-btn" onclick="focusComment(this)">💬</button>
+            </div>
+            <button class="action-btn" onclick="toggleSave(this)">🔖</button>
+          </div>
+
+          <div class="post-likes"><span>450</span> suka</div>
+          <div class="post-caption"><span>bella_design</span>Pesan untuk masa depan. <span class="hashtag">#TimeCapsule</span></div>
+          <div class="comment-list"></div>
+          <div class="post-time">1 Jam Yang Lalu</div>
+
+          <form class="comment-form" onsubmit="addComment(event, this)">
+            <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)">
+            <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sidebar-right">
+      <div class="user-profile-summary">
+        <div class="avatar-sm" style="width:48px; height:48px; font-size:16px;">ME</div>
+        <div>
+          <div class="username">my_account</div>
+          <div style="font-size: 11px; color: var(--subtext-color);">Pengguna Aktif</div>
+        </div>
+      </div>
+
+      <div class="karma-card">
+        <strong>🌱 Social Karma Score: 420 Poin</strong>
+        <p style="margin-top:4px; color:var(--subtext-color)">Didapat dari kontribusi positif & berbagi konten edukatif.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="chatModal">
+    <div class="modal-box chat-box">
+      <div class="chat-sidebar">
+        <div class="chat-user-item" onclick="selectChatUser('Alex Turn')">
+          <div class="avatar-sm">A</div>
+          <div>
+            <div style="font-size: 12px; font-weight: bold;">Alex Turn</div>
+            <div style="font-size: 10px; color: var(--subtext-color);">Ada pesan baru...</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-area">
+        <div class="chat-header">
+          <span id="chatActiveUser">Alex Turn</span>
+          <button style="float:right; border:none; background:none; cursor:pointer; color:var(--text-color)" onclick="closeModal('chatModal')">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="message received">Halo! Gimana antarmuka barunya?</div>
+        </div>
+        <form class="chat-input-box" onsubmit="sendChatMessage(event)">
+          <input type="text" id="chatInput" placeholder="Ketik pesan...">
+          <button type="submit" class="btn-submit-comment active">Kirim</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="createPostModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('createPostModal')">✕</button>
+      <h3 style="margin-bottom:15px; text-align:center;">Buat Postingan Baru</h3>
+      <textarea id="postCaptionInput" rows="3" style="width:100%; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color); color:var(--text-color); margin-bottom:10px;" placeholder="Tulis caption..."></textarea>
+      <label style="font-size:12px; display:block; margin-bottom:10px;">
+        <input type="checkbox" id="rawCameraCheck"> Aktifkan RAW Camera Lock
+      </label>
+      <button class="btn-submit-comment active" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="submitNewPost()">Bagikan</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal-box" style="text-align: center;">
+      <h3>Bagikan Postingan</h3><br>
+      <button class="btn-submit-comment active" style="font-size: 14px;" onclick="copyPostLink()">📋 Salin Tautan</button><br><br>
+      <button style="border:none; background:none; cursor:pointer; color:var(--text-color);" onclick="closeModal('shareModal')">Tutup</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="storyModal" onclick="closeModal('storyModal')">
+    <div style="text-align:center; color:#fff;">
+      <div id="storyAvatar" class="avatar-sm" style="width:80px; height:80px; font-size:28px; margin:0 auto 10px;">A</div>
+      <h3 id="storyUser">Username</h3>
+      <p style="font-size:12px; opacity:0.8; margin-top:5px;">Baru saja membagikan cerita</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMsg">Notifikasi</div>
+
+  <script>
+    // --- STATE MANAGEMENT & LIMITS ---
+    let reactionQuota = 10;
+
+    // 1. OPEN & CLOSE MODALS
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    // 2. DARK MODE TOGGLE
+    function toggleDarkMode() {
+      document.body.getAttribute('data-theme') === 'dark' 
+        ? document.body.removeAttribute('data-theme') 
+        : document.body.setAttribute('data-theme', 'dark');
+    }
+
+    // 3. TEXT-ONLY MODE TOGGLE
+    function toggleTextOnlyMode() {
+      const isTextOnly = document.body.getAttribute('data-text-only') === 'true';
+      document.body.setAttribute('data-text-only', !isTextOnly);
+      showToast(!isTextOnly ? "Mode Hemat Teks Aktif" : "Mode Gambar Aktif");
+    }
+
+    // 4. MOOD FILTER
+    function filterMood(mood, chip) {
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.querySelectorAll('.post-card').forEach(post => {
+        post.style.display = (mood === 'all' || post.dataset.mood === mood) ? 'block' : 'none';
+      });
+      showToast(`Kategori: ${chip.innerText}`);
+    }
+
+    // 5. LIKE SYSTEM (WITH DAILY REACTION QUOTA LIMIT)
+    function toggleLike(btn) {
+      if (reactionQuota <= 0) {
+        showToast("Kuota reaksi harianmu telah habis!");
+        return;
       }
+      const card = btn.closest('.post-card');
+      const likeCountElem = card.querySelector('.post-likes span');
+      let count = parseFloat(likeCountElem.innerText.replace('.', ''));
+
+      if (btn.classList.contains('liked')) {
+        btn.innerText = '🤍';
+        btn.classList.remove('liked');
+        count--;
+      } else {
+        btn.innerText = '❤️';
+        btn.classList.add('liked');
+        count++;
+        reactionQuota--;
+      }
+      likeCountElem.innerText = count.toLocaleString('id-ID');
+    }
+
+    // 6. DOUBLE TAP LIKE ANIMATION
+    let lastTap = 0;
+    function handleDoubleTap(box) {
+      const currentTime = new Date().getTime();
+      if (currentTime - lastTap < 300 && currentTime - lastTap > 0) {
+        const heart = box.querySelector('.heart-effect');
+        const likeBtn = box.closest('.post-card').querySelector('.left-actions .action-btn');
+        heart.classList.add('animate');
+        setTimeout(() => heart.classList.remove('animate'), 800);
+        if (!likeBtn.classList.contains('liked')) toggleLike(likeBtn);
+      }
+      lastTap = currentTime;
+    }
+
+    // 7. KOMENTAR REAL-TIME & SENSOR TONE INDICATOR
+    function checkCommentInput(input) {
+      const btn = input.nextElementSibling;
+      btn.disabled = input.value.trim().length === 0;
+      btn.classList.toggle('active', !btn.disabled);
+    }
+
+    function checkToneIndicator(input) {
+      const toxicWords = ['benci', 'kasar', 'jelek', 'bodoh'];
+      if (toxicWords.some(word => input.value.toLowerCase().includes(word))) {
+        showToast("⚠️ Peringatan Bahasa: Gunakan tutur kata yang santun!");
+      }
+    }
+
+    function addComment(event, form) {
+      event.preventDefault();
+      const input = form.querySelector('input');
+      const commentList = form.closest('.post-card').querySelector('.comment-list');
+      if (!input.value.trim()) return;
+
+      const newComment = document.createElement('div');
+      newComment.className = 'comment-item';
+      newComment.innerHTML = `
+        <div><span>my_account</span>${escapeHTML(input.value)}</div>
+        <span class="delete-btn" onclick="deleteComment(this)">Hapus</span>
+      `;
+      commentList.appendChild(newComment);
+      input.value = '';
+      checkCommentInput(input);
+    }
+
+    function deleteComment(btn) {
+      btn.closest('.comment-item').remove();
+      showToast("Komentar dihapus");
+    }
+
+    // 8. DIRECT MESSAGE CHAT SYSTEM
+    function selectChatUser(name) { document.getElementById('chatActiveUser').innerText = name; }
+    function sendChatMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const msgBox = document.getElementById('chatMessages');
+      if (!input.value.trim()) return;
+
+      const msg = document.createElement('div');
+      msg.className = 'message sent';
+      msg.innerText = input.value;
+      msgBox.appendChild(msg);
+      input.value = '';
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    // 9. VOICE CAPTION & REACTION SIMULATION
+    function playVoiceCaption(btn) {
+      btn.innerText = btn.innerText === '▶' ? '⏸' : '▶';
+      showToast(btn.innerText === '⏸' ? "Memutar Voice Caption..." : "Diberhentikan");
+    }
+
+    function sendVoiceReaction() { showToast("🎙️ Merekam Voice Reaction 3 detik..."); }
+
+    // 10. POSTINGAN BARU
+    function submitNewPost() {
+      const caption = document.getElementById('postCaptionInput').value.trim();
+      if (!caption) return;
+      const feedList = document.getElementById('feedList');
+      const newPost = document.createElement('div');
+      newPost.className = 'post-card';
+      newPost.setAttribute('data-mood', 'relax');
+      newPost.innerHTML = `
+        <div class="post-header">
+          <div class="post-header-left">
+            <div class="avatar-sm" style="background:#262626;">ME</div>
+            <span class="username">my_account</span>
+          </div>
+          <button class="action-btn" style="font-size:14px;" onclick="deletePost(this)">✕</button>
+        </div>
+        <div class="post-media-box" onclick="handleDoubleTap(this)">
+          <div class="post-media" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">📸 Postingan Baru</div>
+          <div class="heart-effect">❤️</div>
+        </div>
+        <div class="post-action-bar">
+          <div class="left-actions">
+            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+            <button class="action-btn" onclick="focusComment(this)">💬</button>
+          </div>
+          <button class="action-btn" onclick="toggleSave(this)">🔖</button>
+        </div>
+        <div class="post-likes"><span>0</span> suka</div>
+        <div class="post-caption"><span>my_account</span>${escapeHTML(caption)}</div>
+        <div class="comment-list"></div>
+        <div class="post-time">Baru Saja</div>
+        <form class="comment-form" onsubmit="addComment(event, this)">
+          <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)">
+          <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
+        </form>
+      `;
+      feedList.prepend(newPost);
+      document.getElementById('postCaptionInput').value = '';
+      closeModal('createPostModal');
+      showToast("Postingan berhasil dibagikan!");
+    }
+
+    // 11. DYNAMIC SEARCH (USERS & HASHTAGS)
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      document.querySelectorAll('.post-card').forEach(post => {
+        const text = post.innerText.toLowerCase();
+        post.style.display = text.includes(query) ? 'block' : 'none';
+      });
     });
-    showToast(`Menampilkan feed kategori: ${chip.innerText}`);
-  }
 
-  // 2. TIMEOUT SYSTEM (ANTI-DOOMSCROLLING REMINDER)
-  let scrollTime = 0;
-  setInterval(() => {
-    scrollTime += 1;
-    if (scrollTime >= 15) { // Muncul setiap 15 unit waktu/menit
-      document.getElementById('doomscrollBanner').style.display = 'block';
-    }
-  }, 60000); // Evaluasi berkala
-
-  // 3. CAPTION SUARA (VOICE CAPTION SIMULATION)
-  function playVoiceCaption(btn) {
-    if (btn.innerText === '▶') {
-      btn.innerText = '⏸';
-      showToast("Memutar Voice Caption (0:15)...");
-      setTimeout(() => { btn.innerText = '▶'; }, 3000);
-    } else {
-      btn.innerText = '▶';
-    }
-  }
-
-  // 4. CAPSULE POST UNLOCK CHECKER
-  function checkCapsulePost(card, unlockYear) {
-    const currentYear = new Date().getFullYear();
-    if (currentYear < unlockYear) {
-      card.querySelector('.post-media').innerText = `🔒 Terkunci hingga tahun ${unlockYear}`;
-    }
-  }
-</script>
+    // 12. FITUR UTILITAS LAINNYA
+    function deletePost(btn) { if (confirm("Hapus postingan ini?")) btn.closest('.post-card').remove(); }
+    function toggleSave(btn) { btn.innerText = btn.innerText === '🔖' ? '🏷️' : '🔖'; }
+    function focusComment(btn) { btn.closest('.post-card').querySelector('.comment-form input').focus(); }
+    function toggleNotifDropdown() { document.getElementById('notifDropdown').classList.toggle('active'); }
+    function
