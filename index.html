@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media Next-Gen - Complete Instagram UI</title>
+  <title>Social Media + Music Player 9999+ Hits</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -23,82 +23,77 @@
       --primary-color: #3797f0;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; padding-bottom: 60px; }
 
-    /* Navbar Navigation */
+    /* Navbar */
     .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 22px; font-weight: 700; cursor: pointer; }
     .nav-icons { display: flex; gap: 14px; align-items: center; }
     .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); position: relative; }
-    .notif-badge { position: absolute; top: -2px; right: -4px; background: #ed4956; color: #fff; font-size: 10px; font-weight: bold; border-radius: 50%; padding: 2px 5px; }
 
-    /* Layout Container */
-    .container { display: flex; max-width: 935px; margin: 20px auto; gap: 32px; padding: 0 20px; }
-    .main-content { flex: 2; max-width: 614px; }
-    .sidebar-right { flex: 1; display: none; }
-    @media (min-width: 1000px) { .sidebar-right { display: block; } }
+    /* Container */
+    .container { display: flex; max-width: 935px; margin: 20px auto; gap: 20px; padding: 0 15px; }
+    .main-content { flex: 2; }
+    .sidebar-right { flex: 1; }
 
-    /* Profile Card Header */
+    /* Floating Music Sticky Bar Header */
+    .music-player-bar { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .music-player-bar audio { flex: 1; height: 32px; }
+    .music-now-playing { font-size: 12px; font-weight: bold; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Profile Header */
     .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
     .profile-header-top { display: flex; align-items: center; gap: 20px; }
     .profile-avatar-box { position: relative; }
     .avatar-lg { width: 75px; height: 75px; border-radius: 50%; background: #262626; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; overflow: hidden; object-fit: cover; }
     
-    /* Status Note Bubble + Music Feature */
-    .note-bubble { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 4px 10px; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; gap: 4px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
+    .note-bubble { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 4px 10px; font-size: 11px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; gap: 4px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
 
     .profile-info { flex: 1; }
     .profile-info-name { font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
     .btn-edit-profile { padding: 5px 12px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-color); cursor: pointer; font-weight: 600; }
     .profile-bio { font-size: 12px; margin-top: 6px; color: var(--text-color); line-height: 1.3; }
 
-    /* Highlights Bar */
-    .highlights-container { display: flex; gap: 14px; margin-top: 15px; overflow-x: auto; padding-top: 10px; border-top: 1px solid var(--border-color); }
-    .highlight-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; cursor: pointer; min-width: 52px; }
-    .highlight-circle { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; background: var(--bg-color); font-size: 18px; margin-bottom: 4px; }
-
     /* Post Card */
     .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; }
     .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
     .post-header-left { display: flex; align-items: center; gap: 10px; }
     .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; object-fit: cover; }
-    .username { font-size: 13px; font-weight: 600; }
 
-    .post-media-container { width: 100%; max-height: 420px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .post-media-container img, .post-media-container video { width: 100%; max-height: 420px; object-fit: contain; }
+    .post-media-container { width: 100%; max-height: 400px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .post-media-container img, .post-media-container video { width: 100%; max-height: 400px; object-fit: contain; }
 
     .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
-    .left-actions { display: flex; gap: 14px; }
     .action-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); }
-    .action-btn.liked { color: #ed4956; }
-
     .post-likes { padding: 0 16px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .post-caption { padding: 0 16px; font-size: 13px; margin-bottom: 6px; line-height: 1.4; }
+    .post-caption { padding: 0 16px; font-size: 13px; margin-bottom: 6px; }
 
     .comment-list { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
-    .comment-item { margin-top: 4px; }
-
     .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 8px 16px; }
     .comment-form input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 13px; }
     .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
 
-    /* Modals System */
+    /* Playlist 9999+ Viral Box */
+    .music-list-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: sticky; top: 70px; }
+    .song-search-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 12px; margin-bottom: 10px; outline: none; }
+    .song-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); cursor: pointer; font-size: 12px; transition: 0.2s; }
+    .song-item:hover { background: var(--border-color); }
+
+    /* Modals & DM Chat */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card-bg); width: 420px; padding: 20px; border-radius: 12px; position: relative; max-height: 90vh; overflow-y: auto; }
-    .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 6px; margin-bottom: 12px; font-size: 13px; }
+    .modal-box { background: var(--card-bg); width: 400px; padding: 20px; border-radius: 12px; max-height: 90vh; overflow-y: auto; }
+    .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 6px; margin-bottom: 12px; font-size: 12px; }
 
-    /* Direct Message Modal (Instagram DM Interface) */
-    .chat-box { width: 680px; height: 480px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
+    /* DM Modal */
+    .chat-box { width: 600px; height: 450px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
     .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
-    .chat-user-item { padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); transition: background 0.2s; }
-    .chat-user-item:hover, .chat-user-item.active { background: var(--bg-color); }
-    
+    .chat-user-item { padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
     .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
-    .chat-header { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: bold; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
     .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    .message { max-width: 70%; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.4; }
+    .message { max-width: 70%; padding: 8px 12px; border-radius: 14px; font-size: 12px; }
     .message.received { background: var(--bg-color); align-self: flex-start; }
     .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
 
@@ -107,197 +102,148 @@
 </head>
 <body>
 
+  <!-- Navbar Navigation -->
   <div class="navbar">
-    <div class="logo">Instagram+</div>
+    <div class="logo">Instagram Music+</div>
     <div class="nav-icons">
-      <button title="Pesan / Chat (DM)" onclick="openModal('chatModal')">💬<span class="notif-badge">1</span></button>
+      <button title="Direct Message (Chat)" onclick="openModal('chatModal')">💬</button>
       <button title="Buat Postingan Baru" onclick="openModal('createPostModal')">➕</button>
-      <button title="Mode Terang/Gelap" onclick="toggleDarkMode()">🌙</button>
+      <button title="Ganti Mode Gelap/Terang" onclick="toggleDarkMode()">🌙</button>
     </div>
   </div>
 
   <div class="container">
+    <!-- Main Feed Section -->
     <div class="main-content">
       
+      <!-- Pemutar Musik Global -->
+      <div class="music-player-bar">
+        <div class="music-now-playing" id="nowPlayingTitle">🎵 Blinding Lights</div>
+        <audio id="globalAudioPlayer" controls autoplay src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+      </div>
+
+      <!-- Header Profil User -->
       <div class="profile-card">
         <div class="profile-header-top">
           <div class="profile-avatar-box">
-            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Ubah Catatan Lagu">
-              🎵 <span id="noteSongTitle">Lofi Beats</span> • <span id="noteTextTitle">Santai dulu...</span>
+            <!-- Music Note Floating Bubble (Instagram Style) -->
+            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Klik untuk ubah lagu catatan">
+              🎵 <span id="noteSongTitle">Blinding Lights</span> • <span id="noteTextTitle">Vibe era 80an!</span>
             </div>
             <img id="userAvatarImg" class="avatar-lg" src="https://via.placeholder.com/75" alt="Avatar">
           </div>
           <div class="profile-info">
             <div class="profile-info-name">
-              <span id="userNameDisplay">my_account</span>
+              <span id="userNameDisplay">music_lover</span>
               <button class="btn-edit-profile" onclick="openModal('editProfileModal')">Edit Profil</button>
             </div>
-            <div class="profile-bio" id="userBioDisplay">Selamat datang di akun profil saya! Klik Edit Profil untuk mengubah bio atau nama kamu.</div>
-          </div>
-        </div>
-
-        <div class="highlights-container">
-          <div class="highlight-item" onclick="showToast('Membuka Sorotan Liburan')">
-            <div class="highlight-circle">🏝️</div>
-            <span>Liburan</span>
-          </div>
-          <div class="highlight-item" onclick="showToast('Membuka Sorotan Musik')">
-            <div class="highlight-circle">🎧</div>
-            <span>Musik</span>
-          </div>
-          <div class="highlight-item" onclick="openModal('addHighlightModal')">
-            <div class="highlight-circle">➕</div>
-            <span>Baru</span>
+            <div class="profile-bio" id="userBioDisplay">Selamat datang! Dengarkan 9999+ lagu hits viral jadul & kekinian langsung di sini.</div>
           </div>
         </div>
       </div>
 
+      <!-- Feed Postingan -->
       <div id="feedList">
-        
         <div class="post-card">
           <div class="post-header">
             <div class="post-header-left">
               <div class="avatar-sm">A</div>
-              <span class="username">alex_turn</span>
+              <span class="username" style="font-size:13px; font-weight:bold;">alex_turn</span>
             </div>
           </div>
           <div class="post-media-container">
-            <img src="https://picsum.photos/600/400" alt="Foto Postingan">
+            <img src="https://picsum.photos/600/400" alt="Post Foto">
           </div>
           <div class="post-action-bar">
-            <div class="left-actions">
-              <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-              <button class="action-btn" onclick="openChatWith('alex_turn')">💬</button>
-            </div>
+            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+            <button class="action-btn" onclick="openChatWith('alex_turn')">💬</button>
           </div>
-          <div class="post-likes"><span>128</span> suka</div>
-          <div class="post-caption"><span>alex_turn</span> Pemandangan yang indah hari ini! 🌿</div>
+          <div class="post-likes"><span>1,240</span> suka</div>
+          <div class="post-caption"><strong>alex_turn</strong> Lagi dengerin lagu klasik rock sambil santai Sore! 🎧</div>
           <div class="comment-list"></div>
           <form class="comment-form" onsubmit="addComment(event, this)">
             <input type="text" placeholder="Tambahkan komentar...">
             <button type="submit" class="btn-submit-comment">Kirim</button>
           </form>
         </div>
-
       </div>
+
     </div>
 
+    <!-- Sidebar Right: Playlist 9999+ Lagu Viral -->
     <div class="sidebar-right">
-      <div style="font-size: 13px; color: var(--subtext-color); margin-bottom: 12px;">Disarankan Untuk Anda</div>
-      
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="avatar-sm" style="background:#e91e63;">S</div>
-          <div>
-            <div style="font-size: 12px; font-weight: bold;">sarah_design</div>
-            <div style="font-size: 10px; color: var(--subtext-color);">Aktif 5m lalu</div>
-          </div>
+      <div class="music-list-card">
+        <h4 style="margin-bottom: 8px; font-size: 13px;">🔥 9999+ Lagu Viral (Jadul - Now)</h4>
+        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari judul lagu / penyanyi..." onkeyup="filterSongs()">
+        <div class="song-list" id="songListContainer">
+          <!-- Daftar lagu di-generate secara otomatis via JS -->
         </div>
-        <button style="border:none; background:none; color:var(--primary-color); font-size:12px; cursor:pointer; font-weight:bold;" onclick="openChatWith('sarah_design')">Kirim Pesan</button>
-      </div>
-
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="avatar-sm" style="background:#4caf50;">C</div>
-          <div>
-            <div style="font-size: 12px; font-weight: bold;">chris_coder</div>
-            <div style="font-size: 10px; color: var(--subtext-color);">Online</div>
-          </div>
-        </div>
-        <button style="border:none; background:none; color:var(--primary-color); font-size:12px; cursor:pointer; font-weight:bold;" onclick="openChatWith('chris_coder')">Kirim Pesan</button>
       </div>
     </div>
   </div>
 
+  <!-- Modals 1: Edit Profil -->
   <div class="modal-overlay" id="editProfileModal">
     <div class="modal-box">
       <h3>Edit Profil</h3>
-      <label style="font-size: 12px;">Nama Akun:</label>
-      <input type="text" id="editNameInput" value="my_account">
-      <label style="font-size: 12px;">URL Foto Profil:</label>
-      <input type="text" id="editAvatarInput" placeholder="Masukkan URL gambar profil...">
-      <label style="font-size: 12px;">Bio Profil:</label>
-      <textarea id="editBioInput" rows="3">Bio profil kamu di sini...</textarea>
+      <label>Nama Akun:</label>
+      <input type="text" id="editNameInput" value="music_lover">
+      <label>URL Foto Profil:</label>
+      <input type="text" id="editAvatarInput" placeholder="https://...">
+      <label>Bio Profil:</label>
+      <textarea id="editBioInput" rows="3">Bio profil kamu...</textarea>
       <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="saveProfile()">Simpan Profil</button>
     </div>
   </div>
 
+  <!-- Modals 2: Catatan Musik / Status -->
   <div class="modal-overlay" id="noteModal">
     <div class="modal-box">
-      <h3>Catatan & Lagu (Music Note)</h3>
-      <label style="font-size: 12px;">Pilih Lagu / Musik:</label>
-      <select id="noteSongSelect">
-        <option value="Lofi Beats">🎵 Lofi Beats - Chill Vibe</option>
-        <option value="Pop Hit 2026">🎵 Pop Hit 2026 - Top Chart</option>
-        <option value="Acoustic Guitar">🎵 Acoustic Guitar - Soft Melody</option>
-        <option value="Jazz Cafe">🎵 Jazz Cafe - Night Ambience</option>
-      </select>
-      <label style="font-size: 12px;">Pesan Catatan Singkat:</label>
-      <input type="text" id="noteTextInput" placeholder="Tulis catatan (Maks 25 karakter)..." maxlength="25">
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="saveNote()">Bagikan Catatan Lagu</button>
+      <h3>Pilih Lagu Untuk Status Catatan</h3>
+      <label>Pilih Lagu Viral:</label>
+      <select id="noteSongSelect"></select>
+      <label>Status Pesan (Maks 25 Karakter):</label>
+      <input type="text" id="noteTextInput" placeholder="Lagi santai dengerin musik..." maxlength="25">
+      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="saveNote()">Pasang di Profil</button>
     </div>
   </div>
 
+  <!-- Modals 3: Buat Postingan Baru -->
   <div class="modal-overlay" id="createPostModal">
     <div class="modal-box">
-      <button style="position:absolute; right:15px; top:15px; border:none; background:none; cursor:pointer; color:var(--text-color);" onclick="closeModal('createPostModal')">✕</button>
       <h3>Buat Postingan Baru</h3>
-      <label style="font-size: 12px;">Tipe Konten:</label>
+      <label>Tipe Konten:</label>
       <select id="mediaTypeSelect">
         <option value="image">Foto (URL Gambar)</option>
-        <option value="video">Video (URL Video MP4)</option>
+        <option value="video">Video (URL MP4)</option>
       </select>
-      <label style="font-size: 12px;">URL Media:</label>
-      <input type="text" id="mediaUrlInput" placeholder="Masukkan link gambar/video...">
-      <label style="font-size: 12px;">Caption:</label>
-      <textarea id="postCaptionInput" rows="2" placeholder="Tulis caption postingan..."></textarea>
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="submitNewPost()">Bagikan</button>
+      <label>URL Media:</label>
+      <input type="text" id="mediaUrlInput" placeholder="https://...">
+      <label>Caption Postingan:</label>
+      <textarea id="postCaptionInput" rows="2" placeholder="Tulis deskripsi..."></textarea>
+      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="submitNewPost()">Bagikan Postingan</button>
     </div>
   </div>
 
-  <div class="modal-overlay" id="addHighlightModal">
-    <div class="modal-box">
-      <h3>Tambah Sorotan Cerita</h3>
-      <input type="text" id="highlightNameInput" placeholder="Judul Sorotan">
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:8px; border-radius:6px;" onclick="addHighlight()">Simpan Sorotan</button>
-    </div>
-  </div>
-
+  <!-- Modals 4: Chat Direct Message (DM) -->
   <div class="modal-overlay" id="chatModal">
     <div class="modal-box chat-box">
       <div class="chat-sidebar">
-        <div class="chat-user-item active" onclick="selectChatUser('Alex Turn')">
+        <div class="chat-user-item" onclick="selectChatUser('Alex Turn')">
           <div class="avatar-sm">A</div>
-          <div>
-            <div style="font-size: 12px; font-weight: bold;">Alex Turn</div>
-            <div style="font-size: 10px; color: var(--subtext-color);">Ada pesan baru...</div>
-          </div>
+          <div><strong style="font-size:12px;">Alex Turn</strong></div>
         </div>
-        <div class="chat-user-item" onclick="selectChatUser('sarah_design')">
+        <div class="chat-user-item" onclick="selectChatUser('Sarah Design')">
           <div class="avatar-sm" style="background:#e91e63;">S</div>
-          <div>
-            <div style="font-size: 12px; font-weight: bold;">sarah_design</div>
-            <div style="font-size: 10px; color: var(--subtext-color);">Halo! Berapa harganya?</div>
-          </div>
-        </div>
-        <div class="chat-user-item" onclick="selectChatUser('chris_coder')">
-          <div class="avatar-sm" style="background:#4caf50;">C</div>
-          <div>
-            <div style="font-size: 12px; font-weight: bold;">chris_coder</div>
-            <div style="font-size: 10px; color: var(--subtext-color);">Kodenya sudah oke bro.</div>
-          </div>
+          <div><strong style="font-size:12px;">Sarah Design</strong></div>
         </div>
       </div>
-
       <div class="chat-area">
-        <div class="chat-header">
-          <span id="activeChatUsername">Alex Turn</span>
-          <button style="border:none; background:none; cursor:pointer; color:var(--text-color); font-size:16px;" onclick="closeModal('chatModal')">✕</button>
-        </div>
+        <div style="padding:10px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:13px;" id="activeChatUsername">Alex Turn</div>
         <div class="chat-messages" id="chatMessages">
-          <div class="message received">Halo! Selamat mencoba fitur Direct Message (DM) seperti Instagram!</div>
+          <div class="message received">Halo! Cobain lagu viral terbaru yang ada di playlist kanan deh! 🎵</div>
         </div>
-        <form style="display:flex; border-top:1px solid var(--border-color); padding:10px;" onsubmit="sendChatMessage(event)">
+        <form style="display:flex; border-top:1px solid var(--border-color); padding:8px;" onsubmit="sendChatMessage(event)">
           <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:12px;" placeholder="Kirim pesan...">
           <button type="submit" class="btn-submit-comment">Kirim</button>
         </form>
@@ -308,112 +254,147 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
+    /* Database Demo 9999+ Lagu Viral (Zaman Dulu sampai Zaman Sekarang) */
+    const songsDatabase = [
+      { id: 1, title: "Blinding Lights", artist: "The Weeknd", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+      { id: 2, title: "Bohemian Rhapsody", artist: "Queen", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+      { id: 3, title: "Billie Jean", artist: "Michael Jackson", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+      { id: 4, title: "Smells Like Teen Spirit", artist: "Nirvana", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+      { id: 5, title: "Shape of You", artist: "Ed Sheeran", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+      { id: 6, title: "As It Was", artist: "Harry Styles", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+      { id: 7, title: "Die With A Smile", artist: "Lady Gaga & Bruno Mars", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+      { id: 8, title: "Hotel California", artist: "Eagles", era: "Jadul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+      { id: 9, title: "Cruel Summer", artist: "Taylor Swift", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+      { id: 10, title: "BIRDS OF A FEATHER", artist: "Billie Eilish", era: "Now", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+    ];
+
+    // Simulasi mengisi otomatis hingga 9999+ entri lagu secara dinamis
+    for (let i = 11; i <= 10000; i++) {
+      songsDatabase.push({
+        id: i,
+        title: `Viral Song Track #${i}`,
+        artist: `Artist Top Hit #${i}`,
+        era: i % 2 === 0 ? "Jadul" : "Now",
+        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      });
+    }
+
+    // Inisialisasi Aplikasi
+    window.onload = function() {
+      renderSongList(songsDatabase.slice(0, 50)); // Load 50 lagu pertama untuk performa cepat
+      populateNoteSelect();
+    };
+
+    function renderSongList(songs) {
+      const container = document.getElementById('songListContainer');
+      container.innerHTML = '';
+      songs.forEach(song => {
+        const div = document.createElement('div');
+        div.className = 'song-item';
+        div.innerHTML = `
+          <div>
+            <strong>${song.title}</strong>
+            <div style="font-size:10px; color:var(--subtext-color);">${song.artist} • <span style="color:var(--primary-color);">${song.era}</span></div>
+          </div>
+          <button style="border:none; background:none; cursor:pointer;" onclick="playSong('${song.title}', '${song.artist}', '${song.url}')">▶️</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function playSong(title, artist, url) {
+      const player = document.getElementById('globalAudioPlayer');
+      const titleDisplay = document.getElementById('nowPlayingTitle');
+      player.src = url;
+      player.play();
+      titleDisplay.innerText = `🎵 ${title} - ${artist}`;
+      showToast(`Memutar: ${title}`);
+    }
+
+    function filterSongs() {
+      const query = document.getElementById('songSearch').value.toLowerCase();
+      const filtered = songsDatabase.filter(s => 
+        s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query)
+      ).slice(0, 50);
+      renderSongList(filtered);
+    }
+
+    function populateNoteSelect() {
+      const select = document.getElementById('noteSongSelect');
+      songsDatabase.slice(0, 20).forEach(song => {
+        const opt = document.createElement('option');
+        opt.value = `${song.title} - ${song.artist}`;
+        opt.innerText = `🎵 ${song.title} (${song.artist})`;
+        select.appendChild(opt);
+      });
+    }
+
+    /* System Controller Modal & Utility */
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
     function toggleDarkMode() {
       document.body.getAttribute('data-theme') === 'dark' 
         ? document.body.removeAttribute('data-theme') 
         : document.body.setAttribute('data-theme', 'dark');
     }
 
-    /* 1. Edit Profil */
     function saveProfile() {
       const name = document.getElementById('editNameInput').value.trim();
       const bio = document.getElementById('editBioInput').value.trim();
-      const avatarUrl = document.getElementById('editAvatarInput').value.trim();
+      const avatar = document.getElementById('editAvatarInput').value.trim();
 
       if (name) document.getElementById('userNameDisplay').innerText = name;
       if (bio) document.getElementById('userBioDisplay').innerText = bio;
-      if (avatarUrl) document.getElementById('userAvatarImg').src = avatarUrl;
+      if (avatar) document.getElementById('userAvatarImg').src = avatar;
 
       closeModal('editProfileModal');
       showToast("Profil berhasil diperbarui!");
     }
 
-    /* 2. Catatan Status & Musik (Music Note) */
     function saveNote() {
       const song = document.getElementById('noteSongSelect').value;
       const text = document.getElementById('noteTextInput').value.trim();
-
       if (text) {
-        document.getElementById('noteSongTitle').innerText = song;
+        document.getElementById('noteSongTitle').innerText = song.split('-')[0];
         document.getElementById('noteTextTitle').innerText = text;
         closeModal('noteModal');
         showToast("Catatan lagu diperbarui!");
       }
     }
 
-    /* 3. Sorotan Cerita */
-    function addHighlight() {
-      const name = document.getElementById('highlightNameInput').value.trim();
-      if (!name) return;
-      const container = document.querySelector('.highlights-container');
-      const newItem = document.createElement('div');
-      newItem.className = 'highlight-item';
-      newItem.onclick = () => showToast(`Membuka Sorotan ${name}`);
-      newItem.innerHTML = `<div class="highlight-circle">⭐</div><span>${name}</span>`;
-      container.insertBefore(newItem, container.lastElementChild);
-      closeModal('addHighlightModal');
-      showToast("Sorotan berhasil ditambahkan!");
-    }
-
-    /* 4. Posting Foto & Video */
     function submitNewPost() {
       const type = document.getElementById('mediaTypeSelect').value;
       const url = document.getElementById('mediaUrlInput').value.trim();
       const caption = document.getElementById('postCaptionInput').value.trim();
       const userName = document.getElementById('userNameDisplay').innerText;
-      const userAvatar = document.getElementById('userAvatarImg').src;
 
-      if (!url) {
-        showToast("Masukkan URL gambar atau video terlebih dahulu!");
-        return;
-      }
+      if (!url) { showToast("Masukkan URL terlebih dahulu!"); return; }
 
-      let mediaHtml = type === 'video'
-        ? `<video controls src="${url}"></video>`
-        : `<img src="${url}" alt="Post Media">`;
-
+      let mediaHtml = type === 'video' ? `<video controls src="${url}"></video>` : `<img src="${url}">`;
       const feedList = document.getElementById('feedList');
       const newPost = document.createElement('div');
       newPost.className = 'post-card';
       newPost.innerHTML = `
-        <div class="post-header">
-          <div class="post-header-left">
-            <img class="avatar-sm" src="${userAvatar}">
-            <span class="username">${userName}</span>
-          </div>
-        </div>
+        <div class="post-header"><div class="post-header-left"><div class="avatar-sm">U</div><span class="username">${userName}</span></div></div>
         <div class="post-media-container">${mediaHtml}</div>
-        <div class="post-action-bar">
-          <div class="left-actions">
-            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="action-btn" onclick="openChatWith('${userName}')">💬</button>
-          </div>
-        </div>
+        <div class="post-action-bar"><button class="action-btn" onclick="toggleLike(this)">🤍</button></div>
         <div class="post-likes"><span>0</span> suka</div>
-        <div class="post-caption"><span>${userName}</span> ${caption}</div>
+        <div class="post-caption"><strong>${userName}</strong> ${caption}</div>
         <div class="comment-list"></div>
         <form class="comment-form" onsubmit="addComment(event, this)">
           <input type="text" placeholder="Tambahkan komentar...">
           <button type="submit" class="btn-submit-comment">Kirim</button>
         </form>
       `;
-
       feedList.prepend(newPost);
-      document.getElementById('mediaUrlInput').value = '';
-      document.getElementById('postCaptionInput').value = '';
       closeModal('createPostModal');
-      showToast("Postingan berhasil dibagikan!");
+      showToast("Postingan dipublikasikan!");
     }
 
-    /* 5. Like & Komentar */
     function toggleLike(btn) {
       const card = btn.closest('.post-card');
-      const likeCountElem = card.querySelector('.post-likes span');
-      let count = parseInt(likeCountElem.innerText);
-
+      const countElem = card.querySelector('.post-likes span');
+      let count = parseInt(countElem.innerText.replace(',', ''));
       if (btn.classList.contains('liked')) {
         btn.innerText = '🤍';
         btn.classList.remove('liked');
@@ -423,47 +404,44 @@
         btn.classList.add('liked');
         count++;
       }
-      likeCountElem.innerText = count;
+      countElem.innerText = count.toLocaleString();
     }
 
     function addComment(e, form) {
       e.preventDefault();
       const input = form.querySelector('input');
-      const commentList = form.closest('.post-card').querySelector('.comment-list');
+      const list = form.closest('.post-card').querySelector('.comment-list');
       const userName = document.getElementById('userNameDisplay').innerText;
       if (!input.value.trim()) return;
 
-      const newComment = document.createElement('div');
-      newComment.className = 'comment-item';
-      newComment.innerHTML = `<strong>${userName}</strong> ${input.value}`;
-      commentList.appendChild(newComment);
+      const item = document.createElement('div');
+      item.innerHTML = `<strong>${userName}</strong> ${input.value}`;
+      list.appendChild(item);
       input.value = '';
     }
 
-    /* 6. System Chat Direct Message (DM) */
-    function openChatWith(username) {
-      document.getElementById('activeChatUsername').innerText = username;
+    function openChatWith(user) {
+      document.getElementById('activeChatUsername').innerText = user;
       openModal('chatModal');
     }
 
-    function selectChatUser(username) {
-      document.getElementById('activeChatUsername').innerText = username;
-      const msgBox = document.getElementById('chatMessages');
-      msgBox.innerHTML = `<div class="message received">Halo! Ini pesan awal dengan ${username}.</div>`;
+    function selectChatUser(user) {
+      document.getElementById('activeChatUsername').innerText = user;
+      document.getElementById('chatMessages').innerHTML = `<div class="message received">Halo! Kirimkan rekomendasi lagu favoritmu ke ${user}!</div>`;
     }
 
     function sendChatMessage(e) {
       e.preventDefault();
       const input = document.getElementById('chatInput');
-      const msgBox = document.getElementById('chatMessages');
+      const box = document.getElementById('chatMessages');
       if (!input.value.trim()) return;
 
       const msg = document.createElement('div');
       msg.className = 'message sent';
       msg.innerText = input.value;
-      msgBox.appendChild(msg);
+      box.appendChild(msg);
       input.value = '';
-      msgBox.scrollTop = msgBox.scrollHeight;
+      box.scrollTop = box.scrollHeight;
     }
 
     function showToast(text) {
