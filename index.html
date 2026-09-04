@@ -1,142 +1,102 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Clone UI</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: #fafafa; color: #262626; }
+<script>
+    // State Variables
+    let isLiked = false;
+    let likeCounter = 1240;
+    let isSaved = false;
 
-    /* Top Navigation Bar */
-    .navbar { background: #ffffff; display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid #dbdbdb; position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 24px; font-weight: 700; font-family: 'Grand Hotel', cursive, sans-serif; letter-spacing: 1px; }
-    .search-bar input { padding: 7px 16px; border: 1px solid #dbdbdb; background: #fafafa; border-radius: 8px; outline: none; width: 220px; font-size: 14px; text-align: center; }
-    .search-bar input:focus { text-align: left; background: #fff; }
-    .nav-icons { display: flex; gap: 20px; align-items: center; }
-    .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: #262626; }
+    // --- 1. FITUR LIKE & DOUBLE TAP ---
+    function toggleLike() {
+      const likeBtn = document.getElementById('likeBtn');
+      const likeCountElem = document.getElementById('likeCount');
 
-    /* Main Grid Layout */
-    .container { display: flex; max-width: 935px; margin: 30px auto; gap: 32px; padding: 0 20px; }
-    .main-content { flex: 2; max-width: 614px; }
-    .sidebar-right { flex: 1; display: none; }
+      isLiked = !isLiked;
+      if (isLiked) {
+        likeBtn.innerText = '❤️';
+        likeBtn.classList.add('liked');
+        likeCounter++;
+      } else {
+        likeBtn.innerText = '🤍';
+        likeBtn.classList.remove('liked');
+        likeCounter--;
+      }
+      likeCountElem.innerText = likeCounter.toLocaleString('id-ID');
+    }
 
-    @media (min-width: 1000px) { .sidebar-right { display: block; } }
+    // Double-click pada gambar postingan untuk like
+    const postMedia = document.querySelector('.post-media');
+    if (postMedia) {
+      postMedia.addEventListener('dblclick', () => {
+        if (!isLiked) toggleLike();
+      });
+    }
 
-    /* Stories Section */
-    .stories-container { background: #fff; border: 1px solid #dbdbdb; border-radius: 8px; padding: 16px 10px; margin-bottom: 24px; display: flex; gap: 15px; overflow-x: auto; }
-    .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 66px; }
-    .story-avatar-ring { width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; display: flex; align-items: center; justify-content: center; }
-    .story-avatar { width: 56px; height: 56px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; font-weight: bold; }
-    .story-username { font-size: 12px; margin-top: 4px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 60px; }
+    // --- 2. FITUR BOOKMARK / SAVE ---
+    function toggleSave() {
+      const saveBtn = document.getElementById('saveBtn');
+      isSaved = !isSaved;
+      saveBtn.innerText = isSaved ? '🏷️' : '🔖';
+    }
 
-    /* Post Card */
-    .post-card { background: #fff; border: 1px solid #dbdbdb; border-radius: 8px; margin-bottom: 24px; }
-    .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
-    .post-header-left { display: flex; align-items: center; gap: 10px; }
-    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
-    .username { font-size: 14px; font-weight: 600; cursor: pointer; }
-    .post-options { background: none; border: none; font-weight: bold; cursor: pointer; }
+    // --- 3. FITUR KOMENTAR REAL-TIME ---
+    function focusComment() {
+      document.getElementById('commentInput').focus();
+    }
 
-    .post-media { width: 100%; max-height: 500px; background: #000; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: bold; }
+    function checkCommentInput() {
+      const input = document.getElementById('commentInput');
+      const btn = document.getElementById('submitCommentBtn');
+      btn.disabled = input.value.trim().length === 0;
+      btn.classList.toggle('active', !btn.disabled);
+    }
 
-    /* Post Actions & Interactions */
-    .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
-    .left-actions { display: flex; gap: 16px; }
-    .action-btn { background: none; border: none; font-size: 22px; cursor: pointer; transition: transform 0.1s ease; }
-    .action-btn:active { transform: scale(1.2); }
-    .action-btn.liked { color: #ed4956; }
-    .action-btn.saved { color: #000; }
+    function addComment(event) {
+      event.preventDefault();
+      const input = document.getElementById('commentInput');
+      const commentList = document.getElementById('commentList');
 
-    .post-likes { padding: 0 16px; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-    .post-caption { padding: 0 16px; font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
-    .post-caption span { font-weight: 600; margin-right: 6px; }
-    
-    .comment-list { padding: 0 16px; font-size: 13px; color: #262626; margin-bottom: 8px; }
-    .comment-item { margin-top: 4px; }
-    .comment-item span { font-weight: 600; margin-right: 6px; }
+      if (input.value.trim() === '') return;
 
-    .post-time { padding: 0 16px; font-size: 10px; color: #8e8e8e; text-transform: uppercase; margin-bottom: 12px; }
-
-    /* Comment Form Input */
-    .comment-form { display: flex; border-top: 1px solid #efefef; padding: 10px 16px; align-items: center; }
-    .comment-form input { flex: 1; border: none; outline: none; font-size: 14px; }
-    .btn-submit-comment { background: none; border: none; color: #0095f6; font-weight: 600; cursor: pointer; opacity: 0.6; }
-    .btn-submit-comment.active { opacity: 1; }
-
-    /* Sidebar Right (Suggestions) */
-    .user-profile-summary { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .user-profile-summary .avatar-md { width: 56px; height: 56px; border-radius: 50%; background: #262626; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-    .sidebar-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: #8e8e8e; margin-bottom: 12px; }
-    .suggestion-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .suggestion-info { display: flex; align-items: center; gap: 10px; }
-    .btn-follow { background: none; border: none; color: #0095f6; font-size: 12px; font-weight: 600; cursor: pointer; }
-  </style>
-</head>
-<body>
-
-  <div class="navbar">
-    <div class="logo">Instagram</div>
-    <div class="search-bar">
-      <input type="text" placeholder="Cari">
-    </div>
-    <div class="nav-icons">
-      <button title="Beranda">🏠</button>
-      <button title="Pesan">💬</button>
-      <button title="Buat Postingan">➕</button>
-      <button title="Jelajahi">🧭</button>
-      <button title="Notifikasi">❤️</button>
-    </div>
-  </div>
-
-  <div class="container">
-    
-    <div class="main-content">
+      const newComment = document.createElement('div');
+      newComment.className = 'comment-item';
+      newComment.innerHTML = `<span>my_account</span>${escapeHTML(input.value)}`;
       
-      <div class="stories-container">
-        <div class="story-item">
-          <div class="story-avatar-ring"><div class="story-avatar">A</div></div>
-          <span class="story-username">alex</span>
-        </div>
-        <div class="story-item">
-          <div class="story-avatar-ring"><div class="story-avatar" style="background:#e91e63;">B</div></div>
-          <span class="story-username">bella</span>
-        </div>
-        <div class="story-item">
-          <div class="story-avatar-ring"><div class="story-avatar" style="background:#4caf50;">C</div></div>
-          <span class="story-username">chris</span>
-        </div>
-        <div class="story-item">
-          <div class="story-avatar-ring"><div class="story-avatar" style="background:#ff9800;">D</div></div>
-          <span class="story-username">david</span>
-        </div>
-      </div>
+      commentList.appendChild(newComment);
+      input.value = '';
+      checkCommentInput();
+    }
 
-      <div class="post-card">
-        <div class="post-header">
-          <div class="post-header-left">
-            <div class="avatar-sm">A</div>
-            <span class="username">alex_turn</span>
-          </div>
-          <button class="post-options">•••</button>
-        </div>
+    // Sanitisasi Input Komentar (Keamanan XSS)
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
 
-        <div class="post-media" style="height: 350px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          📸 Prototype Feed Image
-        </div>
+    // --- 4. FITUR PENCARIAN REAL-TIME ---
+    const searchInput = document.querySelector('.search-bar input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const suggestions = document.querySelectorAll('.suggestion-item');
 
-        <div class="post-action-bar">
-          <div class="left-actions">
-            <button class="action-btn" id="likeBtn" onclick="toggleLike()">🤍</button>
-            <button class="action-btn" onclick="focusComment()">💬</button>
-            <button class="action-btn">✈️</button>
-          </div>
-          <button class="action-btn" id="saveBtn" onclick="toggleSave()">🔖</button>
-        </div>
+        suggestions.forEach(item => {
+          const username = item.querySelector('.username').innerText.toLowerCase();
+          item.style.display = username.includes(query) ? 'flex' : 'none';
+        });
+      });
+    }
 
-        <div class="post-likes"><span id="likeCount">1,240</span> suka</div>
-        <div class="post-caption">
-          <span>alex_turn</span>Akhirnya kelar juga prototype UI buat sosial media sederhana bergaya Instagram! Menurut kalian gimana strukturnya? 🚀
-        </div>
-
-        <div class="comment-list" id="commentList
+    // --- 5. FITUR FOLLOW / UNFOLLOW SIDEBAR ---
+    const followButtons = document.querySelectorAll('.btn-follow');
+    followButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.innerText === 'Ikuti') {
+          this.innerText = 'Mengikuti';
+          this.style.color = '#262626';
+        } else {
+          this.innerText = 'Ikuti';
+          this.style.color = '#0095f6';
+        }
+      });
+    });
+  </script>
