@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Clone UI Interaktif</title>
+  <title>Instagram Clone UI Fully Interactive</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -24,24 +24,16 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s, color 0.3s; }
+    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
 
     /* Top Navigation Bar */
     .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 24px; font-weight: 700; font-family: sans-serif; letter-spacing: 1px; }
-    .search-bar input { padding: 7px 16px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 8px; outline: none; width: 220px; font-size: 14px; text-align: center; }
-    .search-bar input:focus { text-align: left; background: var(--card-bg); }
+    .logo { font-size: 24px; font-weight: 700; }
+    .search-bar input { padding: 7px 16px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 8px; outline: none; width: 200px; font-size: 14px; text-align: center; }
     .nav-icons { display: flex; gap: 15px; align-items: center; position: relative; }
     .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); position: relative; }
 
-    /* Badge Notifikasi */
     .notification-badge { position: absolute; top: -2px; right: -4px; background: #ed4956; color: #fff; font-size: 10px; font-weight: bold; border-radius: 50%; padding: 2px 5px; }
-
-    /* Dropdown Notifikasi */
-    .notif-dropdown { display: none; position: absolute; top: 35px; right: 0; width: 280px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 10px; z-index: 200; }
-    .notif-dropdown.active { display: block; }
-    .notif-item { font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
-    .notif-item:last-child { border-bottom: none; }
 
     /* Main Grid Layout */
     .container { display: flex; max-width: 935px; margin: 30px auto; gap: 32px; padding: 0 20px; }
@@ -52,20 +44,28 @@
 
     /* Stories Section */
     .stories-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 10px; margin-bottom: 24px; display: flex; gap: 15px; overflow-x: auto; }
-    .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 66px; }
+    .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 66px; position: relative; }
     .story-avatar-ring { width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; display: flex; align-items: center; justify-content: center; }
     .story-avatar-ring.seen { background: var(--border-color); }
     .story-avatar { width: 56px; height: 56px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid var(--card-bg); font-weight: bold; }
     .story-username { font-size: 12px; margin-top: 4px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 60px; color: var(--text-color); }
+    
+    /* 9. Status Online Indicator */
+    .online-indicator { width: 14px; height: 14px; background: #4cd964; border: 2px solid var(--card-bg); border-radius: 50%; position: absolute; bottom: 18px; right: 4px; }
 
     /* Post Card */
-    .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 24px; }
+    .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 24px; position: relative; }
     .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
     .post-header-left { display: flex; align-items: center; gap: 10px; }
     .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: #007bff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
     .username { font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-color); }
+    .hashtag { color: var(--primary-color); font-weight: 600; }
 
-    .post-media { width: 100%; height: 350px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; user-select: none; }
+    /* 3. Double Tap Animation Frame */
+    .post-media-box { position: relative; overflow: hidden; cursor: pointer; }
+    .post-media { width: 100%; height: 350px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: bold; user-select: none; }
+    .heart-effect { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 80px; transition: transform 0.3s ease; opacity: 0; pointer-events: none; }
+    .heart-effect.animate { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
 
     /* Post Actions */
     .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
@@ -75,118 +75,113 @@
 
     .post-likes { padding: 0 16px; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
     .post-caption { padding: 0 16px; font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
-    .post-caption span { font-weight: 600; margin-right: 6px; }
     
     .comment-list { padding: 0 16px; font-size: 13px; margin-bottom: 8px; }
-    .comment-item { margin-top: 4px; }
-    .comment-item span { font-weight: 600; margin-right: 6px; }
+    .comment-item { margin-top: 4px; display: flex; justify-content: space-between; }
+    .comment-item .delete-btn { color: #ed4956; cursor: pointer; display: none; font-size: 11px; }
+    .comment-item:hover .delete-btn { display: inline; }
 
     .post-time { padding: 0 16px; font-size: 10px; color: var(--subtext-color); text-transform: uppercase; margin-bottom: 12px; }
 
-    /* Comment Form Input */
     .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 10px 16px; align-items: center; }
     .comment-form input { flex: 1; border: none; outline: none; font-size: 14px; background: transparent; color: var(--text-color); }
     .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; opacity: 0.5; }
     .btn-submit-comment.active { opacity: 1; }
 
-    /* Sidebar Right */
-    .user-profile-summary { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .user-profile-summary .avatar-md { width: 56px; height: 56px; border-radius: 50%; background: #262626; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-    .sidebar-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--subtext-color); margin-bottom: 12px; }
-    .suggestion-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .suggestion-info { display: flex; align-items: center; gap: 10px; }
-    .btn-follow { background: none; border: none; color: var(--primary-color); font-size: 12px; font-weight: 600; cursor: pointer; }
-
-    /* Modal Styling */
+    /* Modal Overlay & General Popups */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card-bg); width: 400px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: relative; }
-    .modal-header { font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-    .modal-close { position: absolute; right: 15px; top: 15px; border: none; background: none; font-size: 18px; cursor: pointer; color: var(--text-color); }
-    .modal-body textarea { width: 100%; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 8px; padding: 10px; resize: none; outline: none; margin-bottom: 12px; }
-    .btn-primary { width: 100%; background: var(--primary-color); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .modal-box { background: var(--card-bg); width: 420px; padding: 20px; border-radius: 12px; position: relative; }
 
-    /* Story Overlay Viewer */
-    .story-viewer-content { text-align: center; color: #fff; }
-    .story-viewer-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; background: #007bff; }
+    /* 1. FITUR CHAT (DIRECT MESSAGE) STYLING */
+    .chat-box { width: 600px; height: 500px; display: flex; border-radius: 12px; overflow: hidden; }
+    .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
+    .chat-user-item { padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+    .chat-user-item:hover { background: var(--bg-color); }
+    .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
+    .chat-header { padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: bold; }
+    .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 70%; padding: 8px 12px; border-radius: 15px; font-size: 13px; }
+    .message.received { background: var(--bg-color); align-self: flex-start; }
+    .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
+    .chat-input-box { display: flex; border-top: 1px solid var(--border-color); padding: 10px; }
+    .chat-input-box input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); }
+
+    /* 10. Toast Notification */
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 2000; }
+
+    /* Sidebar Right */
+    .sidebar-right { flex: 1; }
+    .user-profile-summary { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   </style>
 </head>
 <body>
 
-  <!-- Top Navbar -->
   <div class="navbar">
     <div class="logo">Instagram</div>
     <div class="search-bar">
-      <input type="text" placeholder="Cari akun...">
+      <input type="text" placeholder="Cari...">
     </div>
     <div class="nav-icons">
       <button title="Beranda">🏠</button>
-      <button title="Pesan">💬</button>
-      <button title="Buat Postingan Baru" onclick="openCreateModal()">➕</button>
-      <button title="Mode Gelap/Terang" onclick="toggleDarkMode()">🌙</button>
       
-      <!-- Button Notifikasi dengan Dropdown -->
-      <button title="Notifikasi" onclick="toggleNotifications()">
-        ❤️
-        <span class="notification-badge" id="notifBadge">2</span>
+      <button title="Pesan Chat" onclick="openChatModal()">
+        💬
+        <span class="notification-badge">1</span>
       </button>
 
-      <div class="notif-dropdown" id="notifDropdown">
-        <div class="notif-item"><strong>sarah_design</strong> menyukai postingan Anda.</div>
-        <div class="notif-item"><strong>alex_turn</strong> mulai mengikuti Anda.</div>
-      </div>
+      <button title="Buat Postingan" onclick="openCreateModal()">➕</button>
+      <button title="Mode Gelap/Terang" onclick="toggleDarkMode()">🌙</button>
     </div>
   </div>
 
-  <!-- Main Container -->
   <div class="container">
     <div class="main-content">
       
-      <!-- Story Bar -->
       <div class="stories-container">
-        <div class="story-item" onclick="openStory('alex_turn', 'A', '#007bff', this)">
+        <div class="story-item" onclick="openStory('alex_turn', 'A', '#007bff')">
           <div class="story-avatar-ring"><div class="story-avatar">A</div></div>
+          <div class="online-indicator"></div>
           <span class="story-username">alex</span>
         </div>
-        <div class="story-item" onclick="openStory('bella_design', 'B', '#e91e63', this)">
+        <div class="story-item" onclick="openStory('bella_design', 'B', '#e91e63')">
           <div class="story-avatar-ring"><div class="story-avatar" style="background:#e91e63;">B</div></div>
           <span class="story-username">bella</span>
         </div>
-        <div class="story-item" onclick="openStory('chris_code', 'C', '#4caf50', this)">
-          <div class="story-avatar-ring"><div class="story-avatar" style="background:#4caf50;">C</div></div>
-          <span class="story-username">chris</span>
-        </div>
       </div>
 
-      <!-- Feed Container -->
       <div id="feedList">
-        <!-- Post Item Sample -->
         <div class="post-card">
           <div class="post-header">
             <div class="post-header-left">
               <div class="avatar-sm">A</div>
               <span class="username">alex_turn</span>
             </div>
-            <button class="action-btn" style="font-size:14px;">•••</button>
+            <button class="action-btn" style="font-size:14px;" onclick="deletePost(this)">✕</button>
           </div>
 
-          <div class="post-media" onclick="handleDoubleTap(this)">
-            📸 Prototype Feed Image
+          <div class="post-media-box" onclick="handleDoubleTap(this)">
+            <div class="post-media">📸 Prototype Instagram UI</div>
+            <div class="heart-effect">❤️</div>
           </div>
 
           <div class="post-action-bar">
             <div class="left-actions">
               <button class="action-btn" onclick="toggleLike(this)">🤍</button>
               <button class="action-btn" onclick="focusComment(this)">💬</button>
+              <button class="action-btn" onclick="openShareModal()">✈️</button>
             </div>
             <button class="action-btn" onclick="toggleSave(this)">🔖</button>
           </div>
 
-          <div class="post-likes"><span>1,240</span> suka</div>
-          <div class="post-caption"><span>alex_turn</span>Akhirnya kelar juga prototype UI buat sosial media sederhana bergaya Instagram! 🚀</div>
+          <div class="post-likes"><span>1.240</span> suka</div>
+          <div class="post-caption"><span>alex_turn</span>Uji coba UI baru lengkap dengan fitur obrolan! <span class="hashtag">#WebDev</span> <span class="hashtag">#Javascript</span></div>
           
           <div class="comment-list">
-            <div class="comment-item"><span>sarah_design</span>Suka banget sama layout barunya! 🔥</div>
+            <div class="comment-item">
+              <div><span>sarah_design</span>Suka banget fiturnya! 🔥</div>
+              <span class="delete-btn" onclick="deleteComment(this)">Hapus</span>
+            </div>
           </div>
 
           <div class="post-time">10 Menit Yang Lalu</div>
@@ -200,149 +195,160 @@
 
     </div>
 
-    <!-- Right Sidebar -->
     <div class="sidebar-right">
       <div class="user-profile-summary">
-        <div class="avatar-md">ME</div>
+        <div class="avatar-sm" style="width:50px; height:50px; font-size:18px;">ME</div>
         <div>
           <div class="username">my_account</div>
-          <div style="font-size: 12px; color: var(--subtext-color);">Pengguna Instagram</div>
+          <div style="font-size: 12px; color: var(--subtext-color);">Pengguna Aktif</div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="sidebar-header">
-        <span>Saran untuk Anda</span>
-        <a href="#" style="color: var(--text-color); text-decoration: none; font-size: 12px;">Lihat Semua</a>
-      </div>
-
-      <div class="suggestion-item">
-        <div class="suggestion-info">
-          <div class="avatar-sm" style="background:#9c27b0;">J</div>
+  <div class="modal-overlay" id="chatModal">
+    <div class="modal-box chat-box">
+      <div class="chat-sidebar">
+        <div class="chat-user-item" onclick="selectChatUser('Alex Turn', 'A', '#007bff')">
+          <div class="avatar-sm">A</div>
           <div>
-            <div class="username" style="font-size: 13px;">johndoe</div>
-            <div style="font-size: 11px; color: var(--subtext-color);">Diikuti oleh alex_turn</div>
+            <div style="font-size: 13px; font-weight: bold;">Alex Turn</div>
+            <div style="font-size: 11px; color: var(--subtext-color);">Ada pesan baru...</div>
           </div>
         </div>
-        <button class="btn-follow" onclick="toggleFollow(this)">Ikuti</button>
+        <div class="chat-user-item" onclick="selectChatUser('Bella', 'B', '#e91e63')">
+          <div class="avatar-sm" style="background:#e91e63;">B</div>
+          <div>
+            <div style="font-size: 13px; font-weight: bold;">Bella</div>
+            <div style="font-size: 11px; color: var(--subtext-color);">Keren banget!</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-area">
+        <div class="chat-header">
+          <span id="chatActiveUser">Alex Turn</span>
+          <button style="float:right; border:none; background:none; cursor:pointer;" onclick="closeChatModal()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="message received">Halo! Apa kabar prototype UI kamu?</div>
+        </div>
+        <form class="chat-input-box" onsubmit="sendChatMessage(event)">
+          <input type="text" id="chatInput" placeholder="Ketik pesan...">
+          <button type="submit" class="btn-submit-comment active">Kirim</button>
+        </form>
       </div>
     </div>
   </div>
 
-  <!-- Modal 1: Create Post -->
-  <div class="modal-overlay" id="createPostModal">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeCreateModal()">✕</button>
-      <div class="modal-header">Buat Postingan Baru</div>
-      <div class="modal-body">
-        <textarea id="postCaptionInput" rows="4" placeholder="Tulis caption Anda..."></textarea>
-        <button class="btn-primary" onclick="submitPost()">Bagikan</button>
-      </div>
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal-box" style="text-align: center;">
+      <h3>Bagikan Postingan</h3>
+      <br>
+      <button class="btn-submit-comment active" style="font-size: 16px;" onclick="copyPostLink()">📋 Salin Tautan</button>
+      <br><br>
+      <button style="border:none; background:none; cursor:pointer;" onclick="closeShareModal()">Tutup</button>
     </div>
   </div>
 
-  <!-- Modal 2: Story Viewer -->
-  <div class="modal-overlay" id="storyViewerModal" onclick="closeStory()">
-    <div class="story-viewer-content">
-      <div class="story-viewer-avatar" id="storyViewerAvatar"></div>
-      <h3 id="storyViewerUsername">Username</h3>
-      <p style="font-size:12px; opacity:0.8; margin-top:5px;">Baru saja membagikan cerita</p>
-    </div>
-  </div>
+  <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    // 1. FITUR DARK MODE TOGGLE
-    function toggleDarkMode() {
-      const currentTheme = document.body.getAttribute('data-theme');
-      if (currentTheme === 'dark') {
-        document.body.removeAttribute('data-theme');
-      } else {
-        document.body.setAttribute('data-theme', 'dark');
+    // --- 1. FITUR CHAT / DIRECT MESSAGE ---
+    function openChatModal() { document.getElementById('chatModal').classList.add('active'); }
+    function closeChatModal() { document.getElementById('chatModal').classList.remove('active'); }
+
+    function selectChatUser(name, initial, color) {
+      document.getElementById('chatActiveUser').innerText = name;
+      const chatMessages = document.getElementById('chatMessages');
+      chatMessages.innerHTML = `<div class="message received">Halo, ini obrolan bersama ${name}!</div>`;
+    }
+
+    function sendChatMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+      if (!input.value.trim()) return;
+
+      const msg = document.createElement('div');
+      msg.className = 'message sent';
+      msg.innerText = input.value;
+      chatMessages.appendChild(msg);
+      
+      input.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Balasan Otomatis Bot Simulasi
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.className = 'message received';
+        reply.innerText = 'Pesan kamu sudah diterima!';
+        chatMessages.appendChild(reply);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1000);
+    }
+
+    // --- 2. HAPUS POSTINGAN ---
+    function deletePost(btn) {
+      if (confirm("Apakah kamu yakin ingin menghapus postingan ini?")) {
+        btn.closest('.post-card').remove();
+        showToast("Postingan dihapus");
       }
     }
 
-    // 2. FITUR DROPDOWN NOTIFIKASI
-    function toggleNotifications() {
-      const dropdown = document.getElementById('notifDropdown');
-      const badge = document.getElementById('notifBadge');
-      dropdown.classList.toggle('active');
-      if (badge) badge.style.display = 'none'; // Sembunyikan badge jika dibaca
+    // --- 3. DOUBLE TAP LIKE ANIMATION ---
+    let lastTap = 0;
+    function handleDoubleTap(box) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        const heart = box.querySelector('.heart-effect');
+        const card = box.closest('.post-card');
+        const likeBtn = card.querySelector('.left-actions .action-btn');
+
+        heart.classList.add('animate');
+        setTimeout(() => heart.classList.remove('animate'), 800);
+
+        if (!likeBtn.classList.contains('liked')) {
+          toggleLike(likeBtn);
+        }
+      }
+      lastTap = currentTime;
     }
 
-    // 3. FITUR STORY VIEWER
-    function openStory(username, initial, bgColor, element) {
-      const modal = document.getElementById('storyViewerModal');
-      const avatar = document.getElementById('storyViewerAvatar');
-      const userText = document.getElementById('storyViewerUsername');
-
-      avatar.innerText = initial;
-      avatar.style.background = bgColor;
-      userText.innerText = username;
-
-      // Tandai story sudah dilihat
-      element.querySelector('.story-avatar-ring').classList.add('seen');
-      modal.classList.add('active');
+    // --- 4. HAPUS KOMENTAR ---
+    function deleteComment(btn) {
+      btn.closest('.comment-item').remove();
+      showToast("Komentar dihapus");
     }
 
-    function closeStory() {
-      document.getElementById('storyViewerModal').classList.remove('active');
+    // --- 5. MODAL SHARE & COPY LINK ---
+    function openShareModal() { document.getElementById('shareModal').classList.add('active'); }
+    function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
+    function copyPostLink() {
+      navigator.clipboard.writeText(window.location.href);
+      closeShareModal();
+      showToast("Tautan postingan berhasil disalin!");
     }
 
-    // 4. FITUR MODAL & MEMBUAT POSTINGAN BARU
-    function openCreateModal() {
-      document.getElementById('createPostModal').classList.add('active');
+    // --- 10. TOAST NOTIFICATION ---
+    function showToast(text) {
+      const toast = document.getElementById('toastMsg');
+      toast.innerText = text;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 2000);
     }
 
-    function closeCreateModal() {
-      document.getElementById('createPostModal').classList.remove('active');
+    // FITUR UTAMA SEBELUMNYA
+    function toggleDarkMode() {
+      document.body.getAttribute('data-theme') === 'dark' 
+        ? document.body.removeAttribute('data-theme') 
+        : document.body.setAttribute('data-theme', 'dark');
     }
 
-    function submitPost() {
-      const captionText = document.getElementById('postCaptionInput').value.trim();
-      if (!captionText) return;
-
-      const feedList = document.getElementById('feedList');
-      const newPost = document.createElement('div');
-      newPost.className = 'post-card';
-      
-      // Dynamic HTML Post Card
-      newPost.innerHTML = `
-        <div class="post-header">
-          <div class="post-header-left">
-            <div class="avatar-sm" style="background:#262626;">ME</div>
-            <span class="username">my_account</span>
-          </div>
-          <button class="action-btn" style="font-size:14px;">•••</button>
-        </div>
-        <div class="post-media" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);" onclick="handleDoubleTap(this)">
-          📸 Postingan Baru
-        </div>
-        <div class="post-action-bar">
-          <div class="left-actions">
-            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="action-btn" onclick="focusComment(this)">💬</button>
-          </div>
-          <button class="action-btn" onclick="toggleSave(this)">🔖</button>
-        </div>
-        <div class="post-likes"><span>0</span> suka</div>
-        <div class="post-caption"><span>my_account</span>${escapeHTML(captionText)}</div>
-        <div class="comment-list"></div>
-        <div class="post-time">Baru Saja</div>
-        <form class="comment-form" onsubmit="addComment(event, this)">
-          <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)">
-          <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
-        </form>
-      `;
-
-      feedList.prepend(newPost); // Tambahkan ke paling atas feed
-      document.getElementById('postCaptionInput').value = '';
-      closeCreateModal();
-    }
-
-    // 5. FITUR LIKE & DOUBLE TAP (REUSABLE)
     function toggleLike(btn) {
       const card = btn.closest('.post-card');
       const likeCountElem = card.querySelector('.post-likes span');
-      let count = parseInt(likeCountElem.innerText.replace('.', ''));
+      let count = parseFloat(likeCountElem.innerText.replace('.', ''));
 
       if (btn.classList.contains('liked')) {
         btn.innerText = '🤍';
@@ -356,39 +362,14 @@
       likeCountElem.innerText = count.toLocaleString('id-ID');
     }
 
-    let lastTap = 0;
-    function handleDoubleTap(mediaElem) {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
-      if (tapLength < 300 && tapLength > 0) {
-        const card = mediaElem.closest('.post-card');
-        const likeBtn = card.querySelector('.left-actions .action-btn');
-        if (!likeBtn.classList.contains('liked')) {
-          toggleLike(likeBtn);
-        }
-      }
-      lastTap = currentTime;
-    }
-
-    // 6. FITUR BOOKMARK & FOLLOW
     function toggleSave(btn) {
-      btn.innerText = btn.innerText === '🔖' ? '🏷️' : '🔖';
+      const isSaved = btn.innerText === '🔖';
+      btn.innerText = isSaved ? '🏷️' : '🔖';
+      showToast(isSaved ? "Tersimpan di koleksi" : "Dihapus dari koleksi");
     }
 
-    function toggleFollow(btn) {
-      if (btn.innerText === 'Ikuti') {
-        btn.innerText = 'Mengikuti';
-        btn.style.color = 'var(--text-color)';
-      } else {
-        btn.innerText = 'Ikuti';
-        btn.style.color = 'var(--primary-color)';
-      }
-    }
-
-    // 7. FITUR KOMENTAR (REUSABLE)
     function focusComment(btn) {
-      const card = btn.closest('.post-card');
-      card.querySelector('.comment-form input').focus();
+      btn.closest('.post-card').querySelector('.comment-form input').focus();
     }
 
     function checkCommentInput(input) {
@@ -401,32 +382,19 @@
       event.preventDefault();
       const input = form.querySelector('input');
       const commentList = form.closest('.post-card').querySelector('.comment-list');
-
       if (!input.value.trim()) return;
 
       const newComment = document.createElement('div');
       newComment.className = 'comment-item';
-      newComment.innerHTML = `<span>my_account</span>${escapeHTML(input.value)}`;
+      newComment.innerHTML = `
+        <div><span>my_account</span>${input.value}</div>
+        <span class="delete-btn" onclick="deleteComment(this)">Hapus</span>
+      `;
       
       commentList.appendChild(newComment);
       input.value = '';
       checkCommentInput(input);
     }
-
-    function escapeHTML(str) {
-      return str.replace(/[&<>'"]/g, 
-        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-      );
-    }
-
-    // 8. FITUR PENCARIAN REAL-TIME
-    document.querySelector('.search-bar input').addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      document.querySelectorAll('.suggestion-item').forEach(item => {
-        const username = item.querySelector('.username').innerText.toLowerCase();
-        item.style.display = username.includes(query) ? 'flex' : 'none';
-      });
-    });
   </script>
 </body>
 </html>
