@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media Next-Gen - Complete UI</title>
+  <title>Social Media Next-Gen - 35 Features Complete UI</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -28,10 +28,15 @@
     [data-text-only="true"] .avatar-sm,
     [data-text-only="true"] .story-avatar { display: none !important; }
 
+    /* 35. Slow-Read Mode (Sembunyikan angka like & follower) */
+    [data-slow-read="true"] .post-likes,
+    [data-slow-read="true"] .trust-badge,
+    [data-slow-read="true"] .karma-card { display: none !important; }
+
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; }
 
-    /* System Banners */
+    /* Banners System */
     .system-banner { background: #ff9800; color: #fff; text-align: center; padding: 8px; font-size: 12px; font-weight: bold; display: none; position: sticky; top: 0; z-index: 101; }
     .bedtime-banner { background: #673ab7; }
 
@@ -39,21 +44,19 @@
     .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 22px; font-weight: 700; cursor: pointer; }
     .search-bar input { padding: 7px 16px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 8px; outline: none; width: 180px; font-size: 13px; text-align: center; }
+    
     .nav-icons { display: flex; gap: 12px; align-items: center; position: relative; }
     .nav-icons button { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); position: relative; }
     .notification-badge { position: absolute; top: -2px; right: -4px; background: #ed4956; color: #fff; font-size: 10px; font-weight: bold; border-radius: 50%; padding: 2px 5px; }
 
-    /* Notif Dropdown */
     .notif-dropdown { display: none; position: absolute; top: 35px; right: 0; width: 280px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 10px; z-index: 200; }
     .notif-dropdown.active { display: block; }
     .notif-item { font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
 
-    /* Mood Bar */
     .mood-bar { display: flex; gap: 8px; padding: 10px 15%; background: var(--card-bg); border-bottom: 1px solid var(--border-color); overflow-x: auto; }
     .mood-chip { padding: 4px 12px; border-radius: 15px; border: 1px solid var(--border-color); font-size: 12px; cursor: pointer; white-space: nowrap; }
     .mood-chip.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
 
-    /* Layout */
     .container { display: flex; max-width: 935px; margin: 20px auto; gap: 32px; padding: 0 20px; }
     .main-content { flex: 2; max-width: 614px; }
     .sidebar-right { flex: 1; display: none; }
@@ -76,28 +79,40 @@
     .trust-badge { font-size: 10px; background: #4caf50; color: #fff; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
     .hashtag { color: var(--primary-color); font-weight: 600; cursor: pointer; }
 
-    /* Hover Card */
     .profile-hover-card { display: none; position: absolute; top: 40px; left: 0; width: 200px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10; font-size: 12px; }
     .post-header-left:hover .profile-hover-card { display: block; }
 
-    /* Post Media */
     .post-media-box { position: relative; overflow: hidden; cursor: pointer; }
-    .post-media { width: 100%; height: 320px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: bold; user-select: none; }
+    .post-media { width: 100%; height: 320px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: bold; user-select: none; transition: filter 0.3s; }
+    
+    /* 34. AR Filter Effect Styling */
+    .post-media.ar-filter { filter: sepia(0.8) hue-rotate(180deg) contrast(1.2); }
+
     .heart-effect { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 70px; transition: transform 0.3s ease; opacity: 0; pointer-events: none; }
     .heart-effect.animate { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
     .raw-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 4px; }
 
-    /* Audio Caption */
+    /* 33. Music Player Overlay */
+    .music-badge { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; }
+
     .voice-caption { display: flex; align-items: center; gap: 8px; background: var(--bg-color); padding: 6px 12px; border-radius: 16px; margin: 8px 16px; font-size: 12px; }
     .voice-play-btn { background: var(--primary-color); color: #fff; border: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; }
 
-    /* Actions */
+    /* 32. Poll Widget Styling */
+    .poll-widget { margin: 8px 16px; padding: 10px; background: var(--bg-color); border-radius: 8px; font-size: 12px; }
+    .poll-option { background: var(--card-bg); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 6px; margin-top: 6px; cursor: pointer; text-align: left; width: 100%; transition: background 0.2s; }
+    .poll-option:hover { background: var(--border-color); }
+
     .post-action-bar { padding: 10px 16px; display: flex; justify-content: space-between; }
     .left-actions { display: flex; gap: 14px; }
     .action-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); }
     .action-btn.liked { color: #ed4956; }
     .post-likes { padding: 0 16px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .post-caption { padding: 0 16px; font-size: 13px; line-height: 1.4; margin-bottom: 6px; }
+    .post-caption { padding: 0 16px; font-size: 13px; line-height: 1.4; margin-bottom: 4px; }
+    
+    /* 31. Smart Content Translator Styling */
+    .btn-translate { padding: 0 16px; font-size: 11px; color: var(--primary-color); background: none; border: none; cursor: pointer; margin-bottom: 6px; display: block; }
+
     .comment-list { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
     .comment-item { margin-top: 4px; display: flex; justify-content: space-between; align-items: center; }
     .comment-item .delete-btn { color: #ed4956; cursor: pointer; display: none; font-size: 10px; }
@@ -110,13 +125,12 @@
     .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; opacity: 0.5; font-size: 13px; }
     .btn-submit-comment.active { opacity: 1; }
 
-    /* Modals */
+    /* Modals System */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
     .modal-box { background: var(--card-bg); width: 420px; padding: 20px; border-radius: 12px; position: relative; max-height: 90vh; overflow-y: auto; }
     .modal-close { position: absolute; right: 15px; top: 15px; border: none; background: none; font-size: 16px; cursor: pointer; color: var(--text-color); }
 
-    /* Chat DM Box */
     .chat-box { width: 620px; height: 480px; display: flex; padding: 0; overflow: hidden; }
     .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
     .chat-user-item { padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
@@ -129,22 +143,22 @@
     .chat-input-box { display: flex; border-top: 1px solid var(--border-color); padding: 8px 12px; }
     .chat-input-box input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 13px; }
 
-    /* Toast */
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 12px; display: none; z-index: 2000; }
     .karma-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-top: 15px; font-size: 12px; }
   </style>
 </head>
 <body>
 
-  <div class="system-banner" id="doomscrollBanner">⏰ Kamu telah membuka feed selama 15 menit. Istirahatkan matamu!</div>
+  <div class="system-banner" id="doomscrollBanner">⏰ Kamu telah membaca feed selama 15 menit. Istirahatkan matamu!</div>
 
   <div class="navbar">
-    <div class="logo" onclick="resetFeed()">Instagram+</div>
+    <div class="logo" onclick="togglePureFeed()">Instagram+</div>
     <div class="search-bar"><input type="text" id="searchInput" placeholder="Cari..."></div>
     <div class="nav-icons">
       <button title="Beranda" onclick="resetFeed()">🏠</button>
       <button title="Direct Message" onclick="openModal('chatModal')">💬<span class="notification-badge">1</span></button>
       <button title="Buat Postingan Baru" onclick="openModal('createPostModal')">➕</button>
+      <button title="Mode Fokus / Slow-Read" onclick="toggleSlowReadMode()">👁️‍🗨️</button>
       <button title="Mode Terang/Gelap" onclick="toggleDarkMode()">🌙</button>
       <button title="Mode Hemat Teks" onclick="toggleTextOnlyMode()">📄</button>
       <button title="Notifikasi" onclick="toggleNotifDropdown()">❤️<span class="notification-badge">2</span></button>
@@ -198,14 +212,24 @@
           </div>
 
           <div class="post-media-box" onclick="handleDoubleTap(this)">
-            <div class="post-media">📸 Next-Gen UI Interactive</div>
+            <div class="post-media" id="mediaPost1">📸 Next-Gen UI Prototype</div>
             <div class="heart-effect">❤️</div>
             <div class="raw-badge">RAW LOCK</div>
+            
+            <div class="music-badge">🎵 Lofi Beats - Chill Track</div>
           </div>
+
+          <button style="margin: 8px 16px 0; font-size:11px; background:none; border:none; color:var(--primary-color); cursor:pointer;" onclick="toggleARFilter('mediaPost1')">✨ Terapkan/Lepas AR Filter</button>
 
           <div class="voice-caption">
             <button class="voice-play-btn" onclick="playVoiceCaption(this)">▶</button>
             <span>Voice Caption (0:15)</span>
+          </div>
+
+          <div class="poll-widget">
+            <strong>Apakah desain antarmuka ini cukup responsif?</strong>
+            <button class="poll-option" onclick="votePoll(this, 'Sangat Bagus!')">👍 Sangat Bagus!</button>
+            <button class="poll-option" onclick="votePoll(this, 'Bisa Ditingkatkan')">💡 Bisa Ditingkatkan</button>
           </div>
 
           <div class="post-action-bar">
@@ -213,12 +237,17 @@
               <button class="action-btn" onclick="toggleLike(this)">🤍</button>
               <button class="action-btn" onclick="focusComment(this)">💬</button>
               <button class="action-btn" onclick="openShareModal()">✈️</button>
+              <button class="action-btn" onclick="sendVoiceReaction()">🎙️</button>
             </div>
             <button class="action-btn" onclick="toggleSave(this)">🔖</button>
           </div>
 
           <div class="post-likes"><span>1.240</span> suka</div>
-          <div class="post-caption"><span>alex_turn</span>Antarmuka lengkap dengan fitur unik! <span class="hashtag">#WebDev</span></div>
+          
+          <div class="post-caption" id="captionText1">
+            <span>alex_turn</span>Welcome to the future of social media UI components! <span class="hashtag">#WebDev</span>
+          </div>
+          <button class="btn-translate" onclick="translateCaption('captionText1', 'alex_turn')">🌐 Terjemahkan Ke Bahasa Indonesia</button>
 
           <div class="comment-list">
             <div class="comment-item">
@@ -230,7 +259,7 @@
           <div class="post-time">10 Menit Yang Lalu</div>
 
           <form class="comment-form" onsubmit="addComment(event, this)">
-            <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)">
+            <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)" onkeydown="checkToneIndicator(this)">
             <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
           </form>
         </div>
@@ -249,7 +278,7 @@
 
       <div class="karma-card">
         <strong>🌱 Social Karma Score: 420 Poin</strong>
-        <p style="margin-top:4px; color:var(--subtext-color)">Poin positif dari aktivitas interaksi aplikasi.</p>
+        <p style="margin-top:4px; color:var(--subtext-color)">Poin aktivitas positif pada platform.</p>
       </div>
     </div>
   </div>
@@ -298,9 +327,18 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="storyModal" onclick="closeModal('storyModal')">
+    <div style="text-align:center; color:#fff;">
+      <div id="storyAvatar" class="avatar-sm" style="width:80px; height:80px; font-size:28px; margin:0 auto 10px;">A</div>
+      <h3 id="storyUser">Username</h3>
+    </div>
+  </div>
+
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
+    let reactionQuota = 10;
+
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -311,3 +349,206 @@
     }
 
     function toggleTextOnlyMode() {
+      const isText = document.body.getAttribute('data-text-only') === 'true';
+      document.body.setAttribute('data-text-only', !isText);
+      showToast(!isText ? "Mode Hemat Teks Aktif" : "Mode Gambar Aktif");
+    }
+
+    // 35. Mode Fokus / Slow-Read
+    function toggleSlowReadMode() {
+      const isSlow = document.body.getAttribute('data-slow-read') === 'true';
+      document.body.setAttribute('data-slow-read', !isSlow);
+      showToast(!isSlow ? "Mode Fokus Aktif (Indikator Angka Disembunyikan)" : "Mode Standar Aktif");
+    }
+
+    // 34. Toggle AR Filter
+    function toggleARFilter(mediaId) {
+      const media = document.getElementById(mediaId);
+      media.classList.toggle('ar-filter');
+      showToast(media.classList.contains('ar-filter') ? "✨ Filter AR Diterapkan" : "Filter AR Dilepas");
+    }
+
+    // 31. Smart Content Translator
+    function translateCaption(elemId, username) {
+      const elem = document.getElementById(elemId);
+      elem.innerHTML = `<span>${username}</span> Selamat datang di masa depan komponen antarmuka media sosial! <span class="hashtag">#WebDev</span>`;
+      showToast("Caption Diterjemahkan");
+    }
+
+    // 32. Poll / Voting System
+    function votePoll(btn, choice) {
+      const widget = btn.closest('.poll-widget');
+      widget.innerHTML = `<strong>Terima kasih atas pilihanmu!</strong><p style="margin-top:4px; color:var(--primary-color);">Pilihan kamu: ${choice} (50% Suara)</p>`;
+      showToast("Pilihan tersimpan");
+    }
+
+    function filterMood(mood, chip) {
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.querySelectorAll('.post-card').forEach(post => {
+        post.style.display = (mood === 'all' || post.dataset.mood === mood) ? 'block' : 'none';
+      });
+    }
+
+    function toggleLike(btn) {
+      if (reactionQuota <= 0) {
+        showToast("Kuota reaksi harianmu telah habis!");
+        return;
+      }
+      const card = btn.closest('.post-card');
+      const likeCountElem = card.querySelector('.post-likes span');
+      let count = parseFloat(likeCountElem.innerText.replace('.', ''));
+
+      if (btn.classList.contains('liked')) {
+        btn.innerText = '🤍';
+        btn.classList.remove('liked');
+        count--;
+      } else {
+        btn.innerText = '❤️';
+        btn.classList.add('liked');
+        count++;
+        reactionQuota--;
+      }
+      likeCountElem.innerText = count.toLocaleString('id-ID');
+    }
+
+    let lastTap = 0;
+    function handleDoubleTap(box) {
+      const currentTime = new Date().getTime();
+      if (currentTime - lastTap < 300 && currentTime - lastTap > 0) {
+        const heart = box.querySelector('.heart-effect');
+        const likeBtn = box.closest('.post-card').querySelector('.left-actions .action-btn');
+        heart.classList.add('animate');
+        setTimeout(() => heart.classList.remove('animate'), 800);
+        if (!likeBtn.classList.contains('liked')) toggleLike(likeBtn);
+      }
+      lastTap = currentTime;
+    }
+
+    function checkToneIndicator(input) {
+      const toxicWords = ['benci', 'kasar', 'jelek', 'bodoh'];
+      if (toxicWords.some(word => input.value.toLowerCase().includes(word))) {
+        showToast("⚠️ Peringatan Bahasa: Tetap gunakan bahasa yang santun!");
+      }
+    }
+
+    function checkCommentInput(input) {
+      const btn = input.nextElementSibling;
+      btn.disabled = input.value.trim().length === 0;
+      btn.classList.toggle('active', !btn.disabled);
+    }
+
+    function addComment(event, form) {
+      event.preventDefault();
+      const input = form.querySelector('input');
+      const commentList = form.closest('.post-card').querySelector('.comment-list');
+      if (!input.value.trim()) return;
+
+      const newComment = document.createElement('div');
+      newComment.className = 'comment-item';
+      newComment.innerHTML = `<div><span>my_account</span>${input.value}</div><span class="delete-btn" onclick="deleteComment(this)">Hapus</span>`;
+      commentList.appendChild(newComment);
+      input.value = '';
+      checkCommentInput(input);
+    }
+
+    function deleteComment(btn) {
+      btn.closest('.comment-item').remove();
+      showToast("Komentar dihapus");
+    }
+
+    function selectChatUser(name) { document.getElementById('chatActiveUser').innerText = name; }
+    function sendChatMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const msgBox = document.getElementById('chatMessages');
+      if (!input.value.trim()) return;
+
+      const msg = document.createElement('div');
+      msg.className = 'message sent';
+      msg.innerText = input.value;
+      msgBox.appendChild(msg);
+      input.value = '';
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    function playVoiceCaption(btn) {
+      btn.innerText = btn.innerText === '▶' ? '⏸' : '▶';
+      showToast(btn.innerText === '⏸' ? "Memutar Voice Caption..." : "Diberhentikan");
+    }
+    function sendVoiceReaction() { showToast("🎙️ Merekam Voice Reaction 3 detik..."); }
+
+    function submitNewPost() {
+      const caption = document.getElementById('postCaptionInput').value.trim();
+      if (!caption) return;
+      const feedList = document.getElementById('feedList');
+      const newPost = document.createElement('div');
+      newPost.className = 'post-card';
+      newPost.setAttribute('data-mood', 'relax');
+      newPost.innerHTML = `
+        <div class="post-header">
+          <div class="post-header-left">
+            <div class="avatar-sm" style="background:#262626;">ME</div>
+            <span class="username">my_account</span>
+          </div>
+          <button class="action-btn" style="font-size:14px;" onclick="deletePost(this)">✕</button>
+        </div>
+        <div class="post-media-box" onclick="handleDoubleTap(this)">
+          <div class="post-media" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">📸 Postingan Baru</div>
+          <div class="heart-effect">❤️</div>
+        </div>
+        <div class="post-action-bar">
+          <div class="left-actions">
+            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+            <button class="action-btn" onclick="focusComment(this)">💬</button>
+          </div>
+          <button class="action-btn" onclick="toggleSave(this)">🔖</button>
+        </div>
+        <div class="post-likes"><span>0</span> suka</div>
+        <div class="post-caption"><span>my_account</span>${caption}</div>
+        <div class="comment-list"></div>
+        <div class="post-time">Baru Saja</div>
+        <form class="comment-form" onsubmit="addComment(event, this)">
+          <input type="text" placeholder="Tambahkan komentar..." oninput="checkCommentInput(this)">
+          <button type="submit" class="btn-submit-comment" disabled>Kirim</button>
+        </form>
+      `;
+      feedList.prepend(newPost);
+      document.getElementById('postCaptionInput').value = '';
+      closeModal('createPostModal');
+      showToast("Postingan berhasil dibagikan!");
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      document.querySelectorAll('.post-card').forEach(post => {
+        post.style.display = post.innerText.toLowerCase().includes(query) ? 'block' : 'none';
+      });
+    });
+
+    function deletePost(btn) { if (confirm("Hapus postingan ini?")) btn.closest('.post-card').remove(); }
+    function toggleSave(btn) { btn.innerText = btn.innerText === '🔖' ? '🏷️' : '🔖'; showToast("Koleksi diperbarui"); }
+    function focusComment(btn) { btn.closest('.post-card').querySelector('.comment-form input').focus(); }
+    function toggleNotifDropdown() { document.getElementById('notifDropdown').classList.toggle('active'); }
+    function openShareModal() { openModal('shareModal'); }
+    function copyPostLink() { closeModal('shareModal'); showToast("Tautan disalin!"); }
+    
+    function showToast(text) {
+      const toast = document.getElementById('toastMsg');
+      toast.innerText = text;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 2000);
+    }
+
+    function openStory(user, avatar, bg) {
+      document.getElementById('storyUser').innerText = user;
+      document.getElementById('storyAvatar').innerText = avatar;
+      document.getElementById('storyAvatar').style.background = bg;
+      openModal('storyModal');
+    }
+
+    function togglePureFeed() { showToast("Urutan Chronological Feed Aktif"); }
+    function resetFeed() { filterMood('all', document.querySelector('.mood-chip')); }
+  </script>
+</body>
+</html>
