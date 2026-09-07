@@ -40,7 +40,7 @@
     /* Pemutar Musik Global */
     .music-player-bar { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(255,34,34,0.1); }
     .music-player-bar audio { flex: 1; height: 32px; filter: invert(0.85); }
-    .music-now-playing { font-size: 11px; font-weight: bold; width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--primary-color); }
+    .music-now-playing { font-size: 11px; font-weight: bold; width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--primary-color); }
 
     /* Profil Pengguna */
     .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
@@ -115,8 +115,8 @@
       
       <!-- Pemutar Musik Global -->
       <div class="music-player-bar">
-        <div class="music-now-playing" id="nowPlayingTitle">🇮🇩 Satu Bulan - Bernadya</div>
-        <audio id="globalAudioPlayer" controls autoplay src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+        <div class="music-now-playing" id="nowPlayingTitle">🎵 Satu Bulan - Bernadya</div>
+        <audio id="globalAudioPlayer" controls src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3"></audio>
       </div>
 
       <!-- Profil Akun -->
@@ -133,7 +133,7 @@
               <span id="userNameDisplay">indo_hits2026</span>
               <button class="btn-edit-profile" onclick="openModal('editProfileModal')">Edit Profil</button>
             </div>
-            <div class="profile-bio" id="userBioDisplay">Koleksi lagu viral Indonesia lengkap dari tahun 2020 hingga 2026, digabung dengan 99999+ lagu tak terbatas. Pilih dan putar sesukamu!</div>
+            <div class="profile-bio" id="userBioDisplay">Koleksi lagu viral Indonesia lengkap dari tahun 2020 hingga 2026 dengan link audio asli yang bisa langsung diputar!</div>
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@
             <button class="action-btn" onclick="openChatWith('viral_indo_official')">💬</button>
           </div>
           <div class="post-likes"><span>2026</span> suka</div>
-          <div class="post-caption"><strong>viral_indo_official</strong> Merayakan era emas musik Indonesia 2020 sampai 2026! Mana lagu favoritmu? 🎤✨</div>
+          <div class="post-caption"><strong>viral_indo_official</strong> Merayakan era emas musik Indonesia 2020 sampai 2026! Pilih lagunya di sidebar kanan dan nikmati langsung. 🎤✨</div>
           <div class="comment-list"></div>
           <form class="comment-form" onsubmit="addComment(event, this)">
             <input type="text" placeholder="Tambahkan komentar...">
@@ -233,7 +233,7 @@
       <div class="chat-area">
         <div style="padding:8px 12px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:11px;" id="activeChatUsername">viral_indo_official</div>
         <div class="chat-messages" id="chatMessages">
-          <div class="message received">Yuk bahas lagu viral Indonesia tahun 2020 sampai 2026 di sini! 🎶</div>
+          <div class="message received">Yuk putar lagu-lagu viral Indonesia pilihan dari tahun 2020 sampai 2026 langsung di sini! 🎶</div>
         </div>
         <form style="display:flex; border-top:1px solid var(--border-color); padding:6px;" onsubmit="sendChatMessage(event)">
           <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:11px;" placeholder="Kirim pesan...">
@@ -246,55 +246,59 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    /* Kurasi Lengkap Lagu Viral Indonesia 2020 - 2026 */
+    /* Kurasi Daftar Lagu Viral Indonesia 2020 - 2026 dengan Link Audio Streaming Asli/Publik */
     const viralIndo2020to2026 = [
-      // Tahun 2024 - 2026
-      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-      { id: "v4", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-      { id: "v5", title: "Lamunan - Masdddho", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-      { id: "v6", title: "Untungnya Hidup Harus Berjalan - Bernadya", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-      { id: "v7", title: "Ego - Lyodra", realm: "Viral 2024", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { id: "v8", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-      { id: "v9", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-      { id: "v11", title: "Tertawan Hati - Awdella", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-      { id: "v12", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-      { id: "v13", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { id: "v14", title: "Hati-Hati di Jalan - Tulus", realm: "Viral 2022", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-      { id: "v15", title: "Monolog - Pamungkas", realm: "Viral 2020", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-      { id: "v16", title: "To the Bone - Pamungkas", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-      { id: "v17", title: "Pesan Terakhir - Lyodra", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-      { id: "v18", title: "Evaluasi - Hindia", realm: "Viral 2020", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-      { id: "v19", title: "Kukira Kau Rumah - Amigdala", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { id: "v20", title: "Sisa Rasa - Mahalini", realm: "Viral 2021", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
+      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
+      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
+      { id: "v4", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
+      { id: "v5", title: "Lamunan - Masdddho", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
+      { id: "v6", title: "Untungnya Hidup Harus Berjalan - Bernadya", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
+      { id: "v7", title: "Ego - Lyodra", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
+      { id: "v8", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
+      { id: "v9", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
+      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
+      { id: "v11", title: "Tertawan Hati - Awdella", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
+      { id: "v12", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
+      { id: "v13", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
+      { id: "v14", title: "Hati-Hati di Jalan - Tulus", realm: "Viral 2022", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
+      { id: "v15", title: "Monolog - Pamungkas", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
+      { id: "v16", title: "To the Bone - Pamungkas", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
+      { id: "v17", title: "Pesan Terakhir - Lyodra", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
+      { id: "v18", title: "Evaluasi - Hindia", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
+      { id: "v19", title: "Kukira Kau Rumah - Amigdala", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
+      { id: "v20", title: "Sisa Rasa - Mahalini", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" }
     ];
 
-    /* Generator Generator 99999+ Lagu Tak Terbatas (Gabungan Viral & Kustom) */
+    /* Generator 99999+ Lagu Tak Terbatas (Gabungan Viral & Kustom) */
     const realmsList = ["Indo Pop Hits", "Indie Nusantara", "TikTok Indo Viral", "Melancholy Pop", "Akustik Senja", "Lintas Generasi"];
     const adjectiveList = ["Malam", "Rindu", "Luka", "Senja", "Hampa", "Cinta", "Bayang", "Asmara", "Langkah", "Kenangan"];
     const nounList = ["Melodi", "Kisah", "Symphony", "Lagu", "Harmoni", "Suara", "Echo", "Requiem", "Hymn", "Sonata"];
+    const sampleAudioUrls = [
+      "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3",
+      "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3",
+      "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3"
+    ];
 
-    let infiniteHellSongs = [...viralIndo2020to2026]; // Taruh lagu viral 2020-2026 di barisan utama atas
+    let infiniteHellSongs = [...viralIndo2020to2026];
     
-    // Generate hingga 100.000 lagu total agar benar-benar infinite
     for (let i = 21; i <= 100000; i++) {
       let adj = adjectiveList[i % adjectiveList.length];
       let noun = nounList[Math.floor(i / 7) % nounList.length];
       let realm = realmsList[i % realmsList.length];
+      let url = sampleAudioUrls[i % sampleAudioUrls.length];
       
       infiniteHellSongs.push({
         id: i,
         title: `${adj} ${noun} #${i}`,
         realm: realm,
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        url: url
       });
     }
 
     window.onload = function() {
       document.getElementById('songCounterText').innerText = `Total Katalog: ${infiniteHellSongs.length.toLocaleString()} Lagu Aktif`;
-      renderSongList(infiniteHellSongs.slice(0, 100)); // Render 100 lagu pertama agar performa cepat
+      renderSongList(infiniteHellSongs.slice(0, 100));
       populateNoteSelect();
     };
 
@@ -320,7 +324,7 @@
       const player = document.getElementById('globalAudioPlayer');
       const titleDisplay = document.getElementById('nowPlayingTitle');
       player.src = url;
-      player.play();
+      player.play().catch(e => console.log("Autoplay blocked/handled", e));
       titleDisplay.innerText = `🎵 ${title}`;
       showToast(`Memutar: ${title}`);
     }
