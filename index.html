@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Clone Lengkap</title>
+  <title>Instagram Clone Super Lengkap (20+ Fitur)</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -13,6 +13,7 @@
       --border-color: #dbdbdb;
       --subtext-color: #8e8e8e;
       --primary-color: #0095f6;
+      --danger-color: #ed4956;
     }
 
     [data-theme="dark"] {
@@ -22,6 +23,7 @@
       --border-color: #262626;
       --subtext-color: #a8a8a8;
       --primary-color: #0095f6;
+      --danger-color: #ed4956;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background 0.3s, color 0.3s; }
@@ -30,8 +32,8 @@
     /* Navbar Atas */
     .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
     .logo { font-size: 22px; font-weight: bold; font-family: cursive; cursor: pointer; }
-    .nav-icons { display: flex; gap: 15px; align-items: center; }
-    .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); }
+    .nav-icons { display: flex; gap: 12px; align-items: center; }
+    .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); position: relative; }
 
     /* Navigasi Bawah (Tab Menu) */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
@@ -42,20 +44,25 @@
     .page-section { display: none; max-width: 600px; margin: 20px auto; padding: 0 10px; }
     .page-section.active { display: block; }
 
-    /* Search Bar */
-    .search-box { width: 100%; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-color); font-size: 14px; margin-bottom: 15px; outline: none; }
+    /* Search & Filter Bar */
+    .search-box { width: 100%; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-color); font-size: 14px; margin-bottom: 10px; outline: none; }
+    .explore-filters { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+    .filter-chip { background: var(--border-color); border: none; padding: 6px 12px; border-radius: 16px; font-size: 12px; cursor: pointer; color: var(--text-color); white-space: nowrap; }
+    .filter-chip.active { background: var(--primary-color); color: white; }
 
     /* Catatan Notes Bar */
     .notes-scroll-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; gap: 15px; overflow-x: auto; margin-bottom: 15px; }
     .note-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; min-width: 60px; }
     .note-bubble { position: absolute; top: -22px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2px 6px; font-size: 9px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.1); max-width: 80px; overflow: hidden; text-overflow: ellipsis; color: var(--text-color); }
+    .note-avatar-wrapper { position: relative; }
     .note-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; background: #ddd; }
+    .online-dot { width: 12px; height: 12px; background: #31a24c; border: 2px solid var(--card-bg); border-radius: 50%; position: absolute; bottom: 2px; right: 2px; }
     .note-name { font-size: 10px; margin-top: 4px; color: var(--subtext-color); text-align: center; }
 
     /* Stories Bar */
     .stories-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; gap: 15px; overflow-x: auto; margin-bottom: 20px; }
     .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-    .story-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ff0055; padding: 2px; object-fit: cover; }
+    .story-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--danger-color); padding: 2px; object-fit: cover; }
     .story-name { font-size: 11px; margin-top: 4px; color: var(--text-color); width: 60px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Post Card */
@@ -63,20 +70,26 @@
     .post-header { display: flex; align-items: center; justify-content: space-between; padding: 12px; }
     .post-header-left { display: flex; align-items: center; gap: 10px; }
     .avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #ddd; }
-    .post-username { font-size: 13px; font-weight: 600; }
+    .post-username { font-size: 13px; font-weight: 600; cursor: pointer; }
     
-    .post-media { width: 100%; max-height: 500px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .post-media { width: 100%; max-height: 500px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; user-select: none; }
     .post-media img, .post-media video { width: 100%; max-height: 500px; object-fit: cover; }
+    .double-tap-heart { position: absolute; font-size: 80px; opacity: 0; transform: scale(0); transition: transform 0.3s ease, opacity 0.3s ease; pointer-events: none; z-index: 10; }
+    .double-tap-heart.animate { opacity: 1; transform: scale(1); }
     
     .post-actions { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
     .post-actions-left { display: flex; gap: 12px; }
     .action-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-color); }
     
-    .post-likes { padding: 0 12px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .post-likes { padding: 0 12px; font-size: 13px; font-weight: 600; margin-bottom: 6px; cursor: pointer; }
     .post-caption { padding: 0 12px; font-size: 13px; margin-bottom: 8px; }
     .post-caption span { font-weight: 600; margin-right: 5px; }
     
-    .comment-list { padding: 0 12px; font-size: 12px; margin-bottom: 6px; color: var(--subtext-color); max-height: 100px; overflow-y: auto; }
+    .comment-list { padding: 0 12px; font-size: 12px; margin-bottom: 6px; color: var(--subtext-color); max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+    .comment-item { display: flex; justify-content: space-between; align-items: center; }
+    .comment-item span strong { color: var(--text-color); margin-right: 5px; }
+    .delete-comment-btn { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 10px; }
+
     .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 10px 12px; }
     .comment-form input { flex: 1; border: none; outline: none; font-size: 13px; background: transparent; color: var(--text-color); }
     .btn-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
@@ -91,15 +104,33 @@
     .reel-btn { background: none; border: none; font-size: 24px; color: white; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
     /* Profil Halaman */
-    .profile-header { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .profile-header { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; align-items: center; gap: 20px; margin-bottom: 15px; }
     .profile-avatar-lg { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #ddd; }
     .profile-info h3 { font-size: 18px; margin-bottom: 5px; }
     .profile-stats { display: flex; gap: 15px; font-size: 13px; margin-top: 8px; }
+    .profile-actions-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+    .profile-btn { flex: 1; background: var(--border-color); border: none; padding: 6px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-color); }
     .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-    .profile-grid img, .profile-grid video { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; }
+    .profile-grid-item { position: relative; height: 120px; }
+    .profile-grid img, .profile-grid video { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+    .profile-grid-item button { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; cursor: pointer; display: none; }
+    .profile-grid-item:hover button { display: flex; align-items: center; justify-content: center; }
+
+    /* Notifikasi Panel List */
+    .notif-list { display: flex; flex-direction: column; gap: 12px; }
+    .notif-item { display: flex; align-items: center; gap: 12px; font-size: 13px; background: var(--card-bg); padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; }
+    .notif-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+    /* Modal Story Viewer Fullscreen */
+    .story-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; justify-content: center; align-items: center; flex-direction: column; }
+    .story-modal.active { display: flex; }
+    .story-progress-bar { position: absolute; top: 15px; left: 15px; right: 15px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; overflow: hidden; }
+    .story-progress-fill { height: 100%; width: 0%; background: white; transition: width linear; }
+    .story-content-img { max-width: 100%; max-height: 85vh; object-fit: contain; }
+    .story-close-btn { position: absolute; top: 30px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
 
     /* Chat / DM Modal Style */
-    .chat-container { display: flex; flex-direction: column; height: 350px; }
+    .chat-container { display: flex; flex-direction: column; height: 320px; }
     .chat-messages { flex: 1; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
     .chat-bubble-msg { background: var(--primary-color); color: white; padding: 6px 10px; border-radius: 10px; max-width: 75%; align-self: flex-end; }
     .chat-bubble-msg.other { background: var(--border-color); color: var(--text-color); align-self: flex-start; }
@@ -107,12 +138,15 @@
     /* Modal Form */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
     .modal.active { display: flex; }
-    .modal-content { background: var(--card-bg); color: var(--text-color); width: 350px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; }
+    .modal-content { background: var(--card-bg); color: var(--text-color); width: 360px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; }
     .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 8px; margin: 8px 0; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; background: var(--bg-color); color: var(--text-color); }
     .modal-content button { width: 100%; background: var(--primary-color); color: white; border: none; padding: 8px; border-radius: 4px; font-weight: 600; cursor: pointer; margin-top: 10px; }
 
     /* Toast Notification */
-    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; display: none; z-index: 2000; }
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; display: none; z-index: 4000; }
+    
+    /* Scroll Top Floating Button */
+    .scroll-top-btn { position: fixed; bottom: 75px; right: 20px; background: var(--card-bg); border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 99; box-shadow: 0 2px 6px rgba(0,0,0,0.2); color: var(--text-color); }
   </style>
 </head>
 <body data-theme="light">
@@ -121,6 +155,7 @@
     <div class="logo" onclick="switchTab('feed')">Instagram</div>
     <div class="nav-icons">
       <button title="Ganti Tema" onclick="toggleTheme()">🌓</button>
+      <button title="Notifikasi" onclick="switchTab('notif')">❤️<span id="notifBadge" style="position:absolute; top:0; right:0; width:8px; height:8px; background:var(--danger-color); border-radius:50%; display:none;"></span></button>
       <button title="Buat Konten" onclick="openModal('createModal')">➕</button>
       <button title="Pesan DM" onclick="openModal('chatModal')">💬</button>
     </div>
@@ -133,78 +168,67 @@
     <button id="nav-profile" onclick="switchTab('profile')">👤</button>
   </div>
 
+  <button class="scrollTopBtn" id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
+
   <div id="page-feed" class="page-section active">
     <div class="notes-scroll-container">
       <div class="note-item" onclick="openModal('noteModal')">
-        <div class="note-bubble">Catatan saya...</div>
-        <img class="note-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="My Note">
-        <span class="note-name">Catatan</span>
+        <div class="note-bubble" id="myNoteBubble">Ketuk buat catatan...</div>
+        <div class="note-avatar-wrapper">
+          <img class="note-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="My Note">
+          <div class="online-dot"></div>
+        </div>
+        <span class="note-name">Catatan Anda</span>
       </div>
-      <div class="note-item">
+      <div class="note-item" onclick="showToast('Catatan dari clarissa')">
         <div class="note-bubble">Lagi sibuk ☕</div>
-        <img class="note-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Note">
+        <div class="note-avatar-wrapper">
+          <img class="note-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Note">
+          <div class="online-dot"></div>
+        </div>
         <span class="note-name">clarissa</span>
       </div>
-      <div class="note-item">
+      <div class="note-item" onclick="showToast('Catatan dari dimas_p')">
         <div class="note-bubble">Weekend vibe!</div>
-        <img class="note-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Note">
+        <div class="note-avatar-wrapper">
+          <img class="note-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Note">
+        </div>
         <span class="note-name">dimas_p</span>
       </div>
     </div>
 
-    <div class="stories-container">
-      <div class="story-item">
+    <div class="stories-container" id="storiesContainer">
+      <div class="story-item" onclick="openStoryViewer('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600', 'clarissa')">
         <img class="story-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Story">
         <span class="story-name">clarissa</span>
       </div>
-      <div class="story-item">
+      <div class="story-item" onclick="openStoryViewer('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600', 'dimas_p')">
         <img class="story-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Story">
         <span class="story-name">dimas_p</span>
       </div>
-      <div class="story-item">
+      <div class="story-item" onclick="openStoryViewer('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600', 'siti_a')">
         <img class="story-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Story">
         <span class="story-name">siti_a</span>
       </div>
     </div>
 
-    <div id="feedContainer">
-      <div class="post-card">
-        <div class="post-header">
-          <div class="post-header-left">
-            <img class="avatar-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Avatar">
-            <span class="post-username">clarissa</span>
-          </div>
-          <button style="background:none; border:none; cursor:pointer; color:var(--text-color);" onclick="showToast('Opsi postingan')">⋮</button>
-        </div>
-        <div class="post-media">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Post Image">
-        </div>
-        <div class="post-actions">
-          <div class="post-actions-left">
-            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="action-btn" onclick="focusComment(this)">💬</button>
-            <button class="action-btn" onclick="showToast('Bagikan tautan disalin!')">✈️</button>
-          </div>
-          <button class="action-btn" onclick="toggleBookmark(this)">🔖</button>
-        </div>
-        <div class="post-likes"><span>1,245</span> suka</div>
-        <div class="post-caption"><span>clarissa</span> Menikmati senja di pantai hari ini 🌅✨</div>
-        <div class="comment-list"></div>
-        <form class="comment-form" onsubmit="addComment(event, this)">
-          <input type="text" placeholder="Tambahkan komentar...">
-          <button type="submit" class="btn-comment">Kirim</button>
-        </form>
-      </div>
-    </div>
+    <div id="feedContainer"></div>
   </div>
 
   <div id="page-explore" class="page-section">
-    <input type="text" class="search-box" id="searchExplore" placeholder="Cari postingan..." oninput="filterExplore(this.value)">
+    <input type="text" class="search-box" id="searchExplore" placeholder="Cari akun atau postingan..." oninput="filterExplore(this.value)">
+    <div class="explore-filters">
+      <button class="filter-chip active" onclick="setExploreFilter('all', this)">Semua</button>
+      <button class="filter-chip" onclick="setExploreFilter('photo', this)">Foto</button>
+      <button class="filter-chip" onclick="setExploreFilter('trending', this)">Populer</button>
+    </div>
     <div class="profile-grid" id="exploreGrid">
       <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Explore">
       <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=300" alt="Explore">
       <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300" alt="Explore">
       <img src="https://images.unsplash.com/photo-1426604966848-d7adacbd02bff?w=300" alt="Explore">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300" alt="Explore">
+      <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=300" alt="Explore">
     </div>
   </div>
 
@@ -219,11 +243,25 @@
           </div>
           <div class="reel-actions">
             <button class="reel-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="reel-btn">💬</button>
+            <button class="reel-btn" onclick="showToast('Fitur Komentar Reels')">💬</button>
             <button class="reel-btn" onclick="toggleBookmark(this)">🔖</button>
-            <button class="reel-btn">↗️</button>
+            <button class="reel-btn" onclick="showToast('Reels diteruskan')">↗️</button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-notif" class="page-section">
+    <h3 style="margin-bottom: 12px; font-size: 16px;">Aktivitas Terbaru</h3>
+    <div class="notif-list" id="notifListContainer">
+      <div class="notif-item">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="User">
+        <div><strong>clarissa</strong> menyukai postingan Anda. <span style="color:var(--subtext-color); font-size:11px;">2m</span></div>
+      </div>
+      <div class="notif-item">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="User">
+        <div><strong>dimas_p</strong> mulai mengikuti Anda. <span style="color:var(--subtext-color); font-size:11px;">1j</span></div>
       </div>
     </div>
   </div>
@@ -232,19 +270,28 @@
     <div class="profile-header">
       <img class="profile-avatar-lg" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Profile">
       <div class="profile-info">
-        <h3>pengguna_baru</h3>
-        <p style="font-size:12px; color:var(--subtext-color);">Menjelajah dunia digital ✨</p>
+        <h3 id="profileUsernameDisplay">pengguna_baru</h3>
+        <p id="profileBioDisplay" style="font-size:12px; color:var(--subtext-color);">Menjelajah dunia digital ✨</p>
         <div class="profile-stats">
-          <div><strong>1</strong> Postingan</div>
-          <div><strong>245</strong> Pengikut</div>
-          <div><strong>180</strong> Mengikuti</div>
+          <div><strong id="statPostCount">1</strong> Postingan</div>
+          <div style="cursor:pointer;" onclick="showToast('245 Pengikut')"><strong>245</strong> Pengikut</div>
+          <div style="cursor:pointer;" onclick="showToast('180 Mengikuti')"><strong>180</strong> Mengikuti</div>
         </div>
       </div>
     </div>
-    <h4 style="margin-bottom: 10px; font-size:14px;">Postingan Anda</h4>
-    <div class="profile-grid" id="profileGrid">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Thumbnail">
+    <div class="profile-actions-bar">
+      <button class="profile-btn" onclick="openModal('editProfileModal')">Edit Profil</button>
+      <button class="profile-btn" onclick="openModal('settingsModal')">Pengaturan</button>
     </div>
+    <h4 style="margin-bottom: 10px; font-size:14px;">Postingan Anda</h4>
+    <div class="profile-grid" id="profileGrid"></div>
+  </div>
+
+  <div class="story-modal" id="storyModal">
+    <div class="story-progress-bar"><div class="story-progress-fill" id="storyProgressFill"></div></div>
+    <button class="story-close-btn" onclick="closeStoryViewer()">✕</button>
+    <div style="color:white; position:absolute; top:30px; left:20px; font-weight:600; font-size:14px;" id="storyUsernameHeader">Cerita</div>
+    <img id="storyViewerImg" class="story-content-img" src="" alt="Story View">
   </div>
 
   <div class="modal" id="createModal">
@@ -264,9 +311,32 @@
   <div class="modal" id="noteModal">
     <div class="modal-content">
       <h3>Buat Catatan Baru</h3>
-      <input type="text" id="inputNoteText" placeholder="Tulis catatan singkat..." maxlength="30">
+      <input type="text" id="inputNoteText" placeholder="Tulis catatan singkat..." maxlength="30" oninput="updateNoteCounter(this)">
+      <div style="font-size:10px; color:var(--subtext-color); text-align:right;" id="noteCounter">30 karakter tersisa</div>
       <button onclick="saveNote()">Simpan Catatan</button>
       <button style="background:#8e8e8e; margin-top:5px;" onclick="closeModal('noteModal')">Batal</button>
+    </div>
+  </div>
+
+  <div class="modal" id="editProfileModal">
+    <div class="modal-content">
+      <h3>Edit Profil</h3>
+      <input type="text" id="editUsernameInput" placeholder="Username baru...">
+      <textarea id="editBioInput" placeholder="Bio baru..."></textarea>
+      <button onclick="saveProfileChanges()">Simpan</button>
+      <button style="background:#8e8e8e; margin-top:5px;" onclick="closeModal('editProfileModal')">Batal</button>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-content">
+      <h3>Pengaturan Akun</h3>
+      <ul style="list-style:none; padding:10px 0; font-size:14px; display:flex; flex-direction:column; gap:12px;">
+        <li style="cursor:pointer;" onclick="showToast('Privasi Akun: Publik')">🔒 Privasi Akun</li>
+        <li style="cursor:pointer;" onclick="showToast('Pusat Bantuan Aktif')">❓ Pusat Bantuan</li>
+        <li style="cursor:pointer; color:var(--danger-color);" onclick="logoutApp()">🚪 Keluar Akun</li>
+      </ul>
+      <button style="background:#8e8e8e; margin-top:10px;" onclick="closeModal('settingsModal')">Tutup</button>
     </div>
   </div>
 
@@ -276,7 +346,7 @@
       <div class="chat-container">
         <div class="chat-messages" id="chatMessages">
           <div class="chat-bubble-msg other">Halo, gimana kabarnya?</div>
-          <div class="chat-bubble-msg">Baik! Lagi bikin clone IG nih.</div>
+          <div class="chat-bubble-msg">Baik! Lagi uji coba clone IG lengkap.</div>
         </div>
         <form style="display:flex; gap:5px;" onsubmit="sendChatMessage(event)">
           <input type="text" id="chatInput" placeholder="Kirim pesan..." style="margin:0; flex:1;">
@@ -290,14 +360,48 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
+    // Database Data Awal
+    let currentUser = {
+      username: "pengguna_baru",
+      bio: "Menjelajah dunia digital ✨",
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
+    };
+
+    let posts = JSON.parse(localStorage.getItem('ig_posts')) || [
+      {
+        id: 1,
+        username: "clarissa",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+        mediaUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600",
+        caption: "Menikmati senja di pantai hari ini 🌅✨",
+        likes: 1245,
+        isLiked: false,
+        isBookmarked: false,
+        comments: [
+          { user: "dimas_p", text: "Keren banget pemandangannya!" },
+          { user: "siti_a", text: "Mau ikut dong ke sana 😭" }
+        ]
+      }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFeed();
+      renderProfileGrid();
+    });
+
+    // Navigasi Tab
     function switchTab(tabName) {
       document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.bottom-nav button').forEach(el => el.classList.remove('active'));
       
       document.getElementById('page-' + tabName).classList.add('active');
-      document.getElementById('nav-' + tabName).classList.add('active');
+      if(document.getElementById('nav-' + tabName)) {
+        document.getElementById('nav-' + tabName).classList.add('active');
+      }
+      window.scrollTo(0, 0);
     }
 
+    // Modal & Toast Handler
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -308,6 +412,7 @@
       setTimeout(() => toast.style.display = 'none', 2000);
     }
 
+    // Toggle Tema Terang/Gelap
     function toggleTheme() {
       const body = document.body;
       if(body.getAttribute('data-theme') === 'light') {
@@ -319,29 +424,172 @@
       }
     }
 
-    function toggleLike(btn) {
-      if(btn.innerText === '🤍') {
-        btn.innerText = '❤️';
+    // Scroll Top Button Logic
+    window.onscroll = function() {
+      const btn = document.getElementById('scrollTopBtn');
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = 'flex';
       } else {
-        btn.innerText = '🤍';
+        btn.style.display = 'none';
+      }
+    };
+    function scrollToTop() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // Render Feed Utama
+    function renderFeed() {
+      const feedContainer = document.getElementById('feedContainer');
+      feedContainer.innerHTML = '';
+
+      posts.forEach(post => {
+        const postCard = document.createElement('div');
+        postCard.className = 'post-card';
+        postCard.innerHTML = `
+          <div class="post-header">
+            <div class="post-header-left" onclick="showUserProfile('${post.username}')" style="cursor:pointer;">
+              <img class="avatar-sm" src="${post.avatar}" alt="Avatar">
+              <span class="post-username">${post.username}</span>
+            </div>
+            <button style="background:none; border:none; cursor:pointer; color:var(--text-color);" onclick="showPostOptions(${post.id})">⋮</button>
+          </div>
+          <div class="post-media" ondblclick="doubleTapLike(this, ${post.id})">
+            <div class="double-tap-heart" id="heart-${post.id}">❤️</div>
+            <img src="${post.mediaUrl}" alt="Post Media">
+          </div>
+          <div class="post-actions">
+            <div class="post-actions-left">
+              <button class="action-btn" onclick="toggleLikePost(${post.id})">${post.isLiked ? '❤️' : '🤍'}</button>
+              <button class="action-btn" onclick="focusCommentBox(${post.id})">💬</button>
+              <button class="action-btn" onclick="sharePost(${post.id})">✈️</button>
+            </div>
+            <button class="action-btn" onclick="toggleBookmarkPost(${post.id})">${post.isBookmarked ? '📌' : '🔖'}</button>
+          </div>
+          <div class="post-likes" onclick="showToast('${post.likes} orang menyukai ini')"><span>${post.likes.toLocaleString()}</span> suka</div>
+          <div class="post-caption"><span>${post.username}</span> ${post.caption}</div>
+          <div class="comment-list" id="commentList-${post.id}">
+            ${post.comments.map((c, idx) => `
+              <div class="comment-item">
+                <span><strong>${c.user}</strong> ${c.text}</span>
+                ${c.user === currentUser.username ? `<button class="delete-comment-btn" onclick="deleteComment(${post.id}, ${idx})">Hapus</button>` : ''}
+              </div>
+            `).join('')}
+          </div>
+          <form class="comment-form" onsubmit="addComment(event, ${post.id})">
+            <input type="text" id="commentInput-${post.id}" placeholder="Tambahkan komentar...">
+            <button type="submit" class="btn-comment">Kirim</button>
+          </form>
+        `;
+        feedContainer.appendChild(postCard);
+      });
+      localStorage.setItem('ig_posts', JSON.stringify(posts));
+    }
+
+    // Like & Double Tap Logic
+    function toggleLikePost(id) {
+      const post = posts.find(p => p.id === id);
+      if(post) {
+        post.isLiked = !post.isLiked;
+        post.likes += post.isLiked ? 1 : -1;
+        renderFeed();
       }
     }
 
-    function toggleBookmark(btn) {
-      if(btn.innerText === '🔖') {
-        btn.innerText = '📌';
-        showToast('Disimpan ke Koleksi');
-      } else {
-        btn.innerText = '🔖';
-        showToast('Dihapus dari Koleksi');
+    function doubleTapLike(container, id) {
+      const post = posts.find(p => p.id === id);
+      if(post && !post.isLiked) {
+        post.isLiked = true;
+        post.likes += 1;
+        renderFeed();
+      }
+      const heart = container.querySelector('.double-tap-heart');
+      heart.classList.add('animate');
+      setTimeout(() => heart.classList.remove('animate'), 600);
+    }
+
+    function toggleBookmarkPost(id) {
+      const post = posts.find(p => p.id === id);
+      if(post) {
+        post.isBookmarked = !post.isBookmarked;
+        showToast(post.isBookmarked ? 'Disimpan ke Koleksi' : 'Dihapus dari Koleksi');
+        renderFeed();
       }
     }
 
-    function focusComment(btn) {
-      const form = btn.closest('.post-card').querySelector('.comment-form input');
-      form.focus();
+    function focusCommentPost(id) {
+      document.getElementById(`commentInput-${id}`).focus();
     }
 
+    // Komentar Handler
+    function addComment(e, id) {
+      e.preventDefault();
+      const input = document.getElementById(`commentInput-${id}`);
+      if(!input.value.trim()) return;
+
+      const post = posts.find(p => p.id === id);
+      if(post) {
+        post.comments.push({ user: currentUser.username, text: input.value });
+        input.value = '';
+        renderFeed();
+        showToast('Komentar ditambahkan');
+      }
+    }
+
+    function deleteComment(postId, commentIndex) {
+      const post = posts.find(p => p.id === postId);
+      if(post) {
+        post.comments.splice(commentIndex, 1);
+        renderFeed();
+        showToast('Komentar dihapus');
+      }
+    }
+
+    // Bagikan / Share Post
+    function sharePost(id) {
+      showToast('Tautan postingan disalin ke clipboard!');
+    }
+
+    function showPostOptions(id) {
+      const post = posts.find(p => p.id === id);
+      if(post && post.username === currentUser.username) {
+        if(confirm('Hapus postingan ini?')) {
+          posts = posts.filter(p => p.id !== id);
+          renderFeed();
+          renderProfileGrid();
+          showToast('Postingan dihapus');
+        }
+      } else {
+        showToast('Laporkan atau bagikan kiriman');
+      }
+    }
+
+    // Profil Grid Render
+    function renderProfileGrid() {
+      const grid = document.getElementById('profileGrid');
+      grid.innerHTML = '';
+      
+      const myPosts = posts.filter(p => p.username === currentUser.username);
+      document.getElementById('statPostCount').innerText = myPosts.length;
+
+      myPosts.forEach(post => {
+        const item = document.createElement('div');
+        item.className = 'profile-grid-item';
+        item.innerHTML = `
+          <img src="${post.mediaUrl}" alt="Post">
+          <button onclick="deleteMyPost(${post.id})">✕</button>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function deleteMyPost(id) {
+      posts = posts.filter(p => p.id !== id);
+      renderFeed();
+      renderProfileGrid();
+      showToast('Postingan profil dihapus');
+    }
+
+    // Buat Konten Baru
     function createNewContent() {
       const type = document.getElementById('contentType').value;
       const mediaUrl = document.getElementById('inputMediaUrl').value;
@@ -353,44 +601,20 @@
       }
 
       if (type === 'post') {
-        const feed = document.getElementById('feedContainer');
-        const postCard = document.createElement('div');
-        postCard.className = 'post-card';
-        postCard.innerHTML = `
-          <div class="post-header">
-            <div class="post-header-left">
-              <img class="avatar-sm" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Avatar">
-              <span class="post-username">pengguna_baru</span>
-            </div>
-            <button style="background:none; border:none; cursor:pointer; color:var(--text-color);">⋮</button>
-          </div>
-          <div class="post-media">
-            <img src="${mediaUrl}" alt="Post Image">
-          </div>
-          <div class="post-actions">
-            <div class="post-actions-left">
-              <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-              <button class="action-btn" onclick="focusComment(this)">💬</button>
-              <button class="action-btn" onclick="showToast('Tautan disalin')">✈️</button>
-            </div>
-            <button class="action-btn" onclick="toggleBookmark(this)">🔖</button>
-          </div>
-          <div class="post-likes"><span>1</span> suka</div>
-          <div class="post-caption"><span>pengguna_baru</span> ${caption}</div>
-          <div class="comment-list"></div>
-          <form class="comment-form" onsubmit="addComment(event, this)">
-            <input type="text" placeholder="Tambahkan komentar...">
-            <button type="submit" class="btn-comment">Kirim</button>
-          </form>
-        `;
-        feed.prepend(postCard);
-
-        // Tambahkan juga ke grid profil & explore
-        const profileGrid = document.getElementById('profileGrid');
-        const gridImg = document.createElement('img');
-        gridImg.src = mediaUrl;
-        profileGrid.prepend(gridImg);
-
+        const newPost = {
+          id: Date.now(),
+          username: currentUser.username,
+          avatar: currentUser.avatar,
+          mediaUrl: mediaUrl,
+          caption: caption,
+          likes: 1,
+          isLiked: false,
+          isBookmarked: false,
+          comments: []
+        };
+        posts.unshift(newPost);
+        renderFeed();
+        renderProfileGrid();
       } else {
         const reelsContainer = document.getElementById('reelsContainer');
         const reelCard = document.createElement('div');
@@ -399,14 +623,14 @@
           <video src="${mediaUrl}" loop autoplay muted></video>
           <div class="reel-overlay">
             <div class="reel-info">
-              <h4>@pengguna_baru</h4>
+              <h4>@${currentUser.username}</h4>
               <p>🎵 ${caption || 'Musik Asli'}</p>
             </div>
             <div class="reel-actions">
               <button class="reel-btn" onclick="toggleLike(this)">🤍</button>
-              <button class="reel-btn">💬</button>
+              <button class="reel-btn" onclick="showToast('Komentar')">💬</button>
               <button class="reel-btn" onclick="toggleBookmark(this)">🔖</button>
-              <button class="reel-btn">↗️</button>
+              <button class="reel-btn" onclick="showToast('Dibagikan')">↗️</button>
             </div>
           </div>
         `;
@@ -419,46 +643,89 @@
       document.getElementById('inputCaption').value = '';
     }
 
+    // Fitur Catatan (Notes)
+    function updateNoteCounter(input) {
+      const left = 30 - input.value.length;
+      document.getElementById('noteCounter').innerText = `${left} karakter tersisa`;
+    }
+
     function saveNote() {
-      const noteText = document.getElementById('inputNoteText').value;
-      if (!noteText) return;
-      document.querySelector('.note-item .note-bubble').innerText = noteText;
+      const text = document.getElementById('inputNoteText').value;
+      if(!text) return;
+      document.getElementById('myNoteBubble').innerText = text;
       closeModal('noteModal');
-      showToast('Catatan diperbarui!');
+      showToast('Catatan diperbarui');
       document.getElementById('inputNoteText').value = '';
     }
 
-    function addComment(e, form) {
-      e.preventDefault();
-      const input = form.querySelector('input');
-      const commentList = form.closest('.post-card').querySelector('.comment-list');
+    // Story Viewer Fullscreen
+    function openStoryViewer(imgUrl, username) {
+      document.getElementById('storyViewerImg').src = imgUrl;
+      document.getElementById('storyUsernameHeader').innerText = username;
+      document.getElementById('storyModal').classList.add('active');
       
-      if (!input.value.trim()) return;
+      const fill = document.getElementById('storyProgressFill');
+      fill.style.width = '0%';
+      setTimeout(() => fill.style.width = '100%', 50);
 
-      const commentItem = document.createElement('div');
-      commentItem.innerHTML = `<strong>pengguna_baru</strong> ${input.value}`;
-      commentList.appendChild(commentItem);
-      input.value = '';
+      setTimeout(() => {
+        closeStoryViewer();
+      }, 5000);
+    }
+    function closeStoryViewer() {
+      document.getElementById('storyModal').classList.remove('active');
     }
 
+    // Edit Profil
+    function saveProfileChanges() {
+      const newName = document.getElementById('editUsernameInput').value.trim();
+      const newBio = document.getElementById('editBioInput').value.trim();
+
+      if(newName) currentUser.username = newName;
+      if(newBio) currentUser.bio = newBio;
+
+      document.getElementById('profileUsernameDisplay').innerText = currentUser.username;
+      document.getElementById('profileBioDisplay').innerText = currentUser.bio;
+
+      closeModal('editProfileModal');
+      showToast('Profil berhasil diperbarui');
+    }
+
+    // Chat / DM Interaktif
     function sendChatMessage(e) {
       e.preventDefault();
       const input = document.getElementById('chatInput');
-      const msgContainer = document.getElementById('chatMessages');
+      const container = document.getElementById('chatMessages');
 
-      if (!input.value.trim()) return;
+      if(!input.value.trim()) return;
 
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'chat-bubble-msg';
-      msgDiv.innerText = input.value;
-      msgContainer.appendChild(msgDiv);
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble-msg';
+      bubble.innerText = input.value;
+      container.appendChild(bubble);
       input.value = '';
-      msgContainer.scrollTop = msgContainer.scrollHeight;
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function logoutApp() {
+      if(confirm('Keluar dari sesi akun ini?')) {
+        showToast('Berhasil keluar akun');
+        closeModal('settingsModal');
+      }
+    }
+
+    function showUserProfile(username) {
+      showToast('Melihat profil: ' + username);
     }
 
     function filterExplore(keyword) {
-      // Fitur filter sederhana pencarian eksplorasi
-      showToast('Mencari: ' + keyword);
+      showToast('Mencari topik: ' + keyword);
+    }
+
+    function setExploreFilter(type, btn) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      showToast('Filter kategori: ' + type);
     }
   </script>
 </body>
