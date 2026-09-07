@@ -4,427 +4,207 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Underworld Social - Viral Indonesia (2020-2026)</title>
+  <title>Instagram Clone</title>
   <style>
     :root {
-      --bg-color: #080808;
-      --card-bg: #141414;
-      --text-color: #ededed;
-      --border-color: #262626;
-      --subtext-color: #888888;
-      --primary-color: #ff2222;
-    }
-
-    [data-theme="light"] {
-      --bg-color: #f4f4f4;
+      --bg-color: #fafafa;
       --card-bg: #ffffff;
-      --text-color: #1a1a1a;
-      --border-color: #dcdcdc;
-      --subtext-color: #777777;
-      --primary-color: #e60000;
+      --text-color: #262626;
+      --border-color: #dbdbdb;
+      --subtext-color: #8e8e8e;
+      --primary-color: #0095f6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s; padding-bottom: 60px; }
+    body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; }
 
     /* Navbar */
-    .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 15%; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 18px; font-weight: 700; color: var(--primary-color); cursor: pointer; }
-    .nav-icons { display: flex; gap: 14px; align-items: center; }
-    .nav-icons button { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); }
+    .navbar { background: var(--card-bg); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: bold; font-family: cursive; cursor: pointer; }
+    .nav-icons { display: flex; gap: 15px; align-items: center; }
+    .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; }
 
-    /* Container Layout */
-    .container { display: flex; max-width: 950px; margin: 20px auto; gap: 20px; padding: 0 15px; }
-    .main-content { flex: 2; max-width: 580px; }
-    .sidebar-right { flex: 1.3; }
+    /* Container Utama */
+    .container { max-width: 600px; margin: 20px auto; padding: 0 10px; }
 
-    /* Profil Pengguna */
-    .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 20px; }
-    .profile-header-top { display: flex; align-items: center; gap: 20px; }
-    .profile-avatar-box { position: relative; }
-    .avatar-lg { width: 75px; height: 75px; border-radius: 50%; background: #222; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; overflow: hidden; object-fit: cover; }
-    
-    .note-bubble { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 4px 10px; font-size: 10px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 4px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
-
-    .profile-info { flex: 1; }
-    .profile-info-name { font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-    .btn-edit-profile { padding: 4px 10px; font-size: 11px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-color); cursor: pointer; font-weight: 600; }
-    .profile-bio { font-size: 11px; margin-top: 6px; color: var(--subtext-color); line-height: 1.3; }
+    /* Stories Bar */
+    .stories-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; gap: 15px; overflow-x: auto; margin-bottom: 20px; }
+    .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+    .story-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ff0055; padding: 2px; object-fit: cover; }
+    .story-name { font-size: 11px; margin-top: 4px; color: var(--text-color); width: 60px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Post Card */
     .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; }
-    .post-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; }
-    .avatar-sm { width: 30px; height: 30px; border-radius: 50%; background: var(--primary-color); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; overflow: hidden; object-fit: cover; }
-    .post-media-container { width: 100%; max-height: 380px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .post-media-container img, .post-media-container video { width: 100%; max-height: 380px; object-fit: contain; }
-    .post-action-bar { padding: 10px 16px; display: flex; gap: 12px; }
-    .action-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-color); }
-    .post-likes { padding: 0 16px; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-    .post-caption { padding: 0 16px; font-size: 12px; margin-bottom: 6px; }
-    .comment-list { padding: 0 16px; font-size: 11px; margin-bottom: 6px; color: var(--subtext-color); }
-    .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 8px 16px; }
-    .comment-form input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 12px; }
-    .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
-
-    /* Playlist Daftar Lagu Viral Box */
-    .music-list-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: sticky; top: 70px; }
-    .song-search-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 11px; margin-bottom: 8px; outline: none; }
-    .song-counter { font-size: 10px; color: var(--primary-color); margin-bottom: 6px; font-weight: bold; }
-    .song-list { max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
-    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); font-size: 11px; border-left: 3px solid var(--primary-color); }
-
-    /* Modals & DM System */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--card-bg); width: 380px; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
-    .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 5px; margin-bottom: 10px; font-size: 11px; }
-
-    /* Chat Modal & Catatan Teks Style */
-    .chat-box { width: 620px; height: 480px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
-    .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
-    .chat-user-item { padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; border-bottom: 1px solid var(--border-color); font-size: 11px; }
-    .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
+    .post-header { display: flex; align-items: center; gap: 10px; padding: 12px; }
+    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #ddd; }
+    .post-username { font-size: 13px; font-weight: 600; }
     
-    .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-    .message { max-width: 75%; padding: 7px 10px; border-radius: 12px; font-size: 11px; }
-    .message.received { background: var(--bg-color); align-self: flex-start; }
-    .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
+    .post-media { width: 100%; max-height: 500px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .post-media img, .post-media video { width: 100%; max-height: 500px; object-fit: cover; }
     
-    .chat-note-card { background: rgba(255, 34, 34, 0.1); border: 1px solid var(--primary-color); border-radius: 10px; padding: 6px 10px; font-size: 11px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .post-actions { padding: 10px 12px; display: flex; gap: 12px; }
+    .action-btn { background: none; border: none; font-size: 22px; cursor: pointer; }
+    
+    .post-likes { padding: 0 12px; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .post-caption { padding: 0 12px; font-size: 13px; margin-bottom: 8px; }
+    .post-caption span { font-weight: 600; margin-right: 5px; }
+    
+    .comment-list { padding: 0 12px; font-size: 12px; margin-bottom: 6px; color: var(--subtext-color); }
+    .comment-form { display: flex; border-top: 1px solid var(--border-color); padding: 10px 12px; }
+    .comment-form input { flex: 1; border: none; outline: none; font-size: 13px; background: transparent; }
+    .btn-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
 
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,34,34,0.95); color: #fff; padding: 7px 16px; border-radius: 20px; font-size: 11px; display: none; z-index: 2000; font-weight: bold; }
+    /* Modal Form */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--card-bg); width: 350px; padding: 20px; border-radius: 10px; }
+    .modal-content input, .modal-content textarea { width: 100%; padding: 8px; margin: 8px 0; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; }
+    .modal-content button { width: 100%; background: var(--primary-color); color: white; border: none; padding: 8px; border-radius: 4px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+    /* Toast Notification */
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; display: none; z-index: 2000; }
   </style>
 </head>
-<body data-theme="dark">
+<body>
 
   <div class="navbar">
-    <div class="logo">🔥 Indo Viral (2020-2026)</div>
+    <div class="logo">Instagram</div>
     <div class="nav-icons">
-      <button title="Direct Message & Catatan" onclick="openModal('chatModal')">💬</button>
-      <button title="Buat Postingan" onclick="openModal('createPostModal')">➕</button>
-      <button title="Ganti Tema" onclick="toggleTheme()">☀️/🌙</button>
+      <button title="Buat Postingan" onclick="openModal('postModal')">➕</button>
+      <button title="Profil" onclick="showToast('Halaman Profil Anda')">👤</button>
     </div>
   </div>
 
   <div class="container">
-    <div class="main-content">
-      
-      <div class="profile-card">
-        <div class="profile-header-top">
-          <div class="profile-avatar-box">
-            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Ubah status catatan">
-              💬 <span id="noteSongTitle">Satu Bulan</span> • <span id="noteTextTitle">Top Viral Indo</span>
-            </div>
-            <img id="userAvatarImg" class="avatar-lg" src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=150" alt="Avatar">
-          </div>
-          <div class="profile-info">
-            <div class="profile-info-name">
-              <span id="userNameDisplay">indo_hits2026</span>
-              <button class="btn-edit-profile" onclick="openModal('editProfileModal')">Edit Profil</button>
-            </div>
-            <div class="profile-bio" id="userBioDisplay">Arsip daftar lagu viral Indonesia terlengkap dari tahun 2020 sampai 2026. Fitur musik telah dinonaktifkan sementara sesuai permintaan.</div>
-          </div>
-        </div>
+    
+    <div class="stories-container" id="storiesList">
+      <div class="story-item">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Story">
+        <span class="story-name">clarissa</span>
       </div>
-
-      <div id="feedList">
-        <div class="post-card">
-          <div class="post-header">
-            <div class="avatar-sm">V</div>
-            <span style="font-size: 12px; font-weight: bold;">viral_indo_official</span>
-          </div>
-          <div class="post-media-container">
-            <img src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=600" alt="Concert Vibe">
-          </div>
-          <div class="post-action-bar">
-            <button class="action-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="action-btn" onclick="openChatWith('viral_indo_official')">💬</button>
-          </div>
-          <div class="post-likes"><span>2026</span> suka</div>
-          <div class="post-caption"><strong>viral_indo_official</strong> Daftar arsip lagu viral Indonesia 2020-2026 dapat dilihat di panel sebelah kanan! 🎤✨</div>
-          <div class="comment-list"></div>
-          <form class="comment-form" onsubmit="addComment(event, this)">
-            <input type="text" placeholder="Tambahkan komentar...">
-            <button type="submit" class="btn-submit-comment">Kirim</button>
-          </form>
-        </div>
+      <div class="story-item">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Story">
+        <span class="story-name">dimas_p</span>
       </div>
-
-    </div>
-
-    <div class="sidebar-right">
-      <div class="music-list-card">
-        <h4 style="margin-bottom: 4px; font-size: 12px; color: var(--primary-color);">🇮🇩 Arsip Viral Indo (2020-2026)</h4>
-        <div class="song-counter" id="songCounterText">Memuat daftar lagu...</div>
-        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari judul lagu atau tahun..." onkeyup="filterSongs()">
-        <div class="song-list" id="songListContainer">
-          </div>
+      <div class="story-item">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Story">
+        <span class="story-name">siti_a</span>
       </div>
     </div>
-  </div>
 
-  <div class="modal-overlay" id="editProfileModal">
-    <div class="modal-box">
-      <h3>Edit Profil</h3>
-      <label style="font-size:11px;">Nama Akun:</label>
-      <input type="text" id="editNameInput" value="indo_hits2026">
-      <label style="font-size:11px;">URL Avatar:</label>
-      <input type="text" id="editAvatarInput" placeholder="https://...">
-      <label style="font-size:11px;">Bio:</label>
-      <textarea id="editBioInput" rows="2">Bio profil...</textarea>
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="saveProfile()">Simpan</button>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="noteModal">
-    <div class="modal-box">
-      <h3>Catatan Status Profil</h3>
-      <label style="font-size:11px;">Pilih Referensi Lagu:</label>
-      <select id="noteSongSelect"></select>
-      <label style="font-size:11px;">Pesan Status (Maks 25 Karakter):</label>
-      <input type="text" id="noteTextInput" placeholder="Lagi on repeat..." maxlength="25">
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="saveNote()">Pasang Status</button>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="createPostModal">
-    <div class="modal-box">
-      <h3>Buat Postingan</h3>
-      <label style="font-size:11px;">Tipe:</label>
-      <select id="mediaTypeSelect">
-        <option value="image">Foto (URL)</option>
-        <option value="video">Video MP4 (URL)</option>
-      </select>
-      <label style="font-size:11px;">URL Media:</label>
-      <input type="text" id="mediaUrlInput" placeholder="https://...">
-      <label style="font-size:11px;">Caption:</label>
-      <textarea id="postCaptionInput" rows="2" placeholder="Caption..."></textarea>
-      <button class="btn-submit-comment" style="width:100%; background:var(--primary-color); color:#fff; padding:6px; border-radius:6px;" onclick="submitNewPost()">Bagikan</button>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="chatModal">
-    <div class="modal-box chat-box">
-      <div class="chat-sidebar">
-        <div class="chat-user-item" onclick="selectChatUser('viral_indo_official')">
-          <div class="avatar-sm">V</div>
-          <div><strong>viral_indo_official</strong></div>
+    <div id="feedContainer">
+      <div class="post-card">
+        <div class="post-header">
+          <img class="avatar-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Avatar">
+          <span class="post-username">clarissa</span>
         </div>
-        <div class="chat-user-item" onclick="selectChatUser('penikmat_senja')">
-          <div class="avatar-sm" style="background:#444;">P</div>
-          <div><strong>penikmat_senja</strong></div>
+        <div class="post-media">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Post Image">
         </div>
-      </div>
-      <div class="chat-area">
-        <div style="padding:10px 12px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:11px; display:flex; justify-content:space-between; align-items:center;">
-          <span id="activeChatUsername">viral_indo_official</span>
-          <span style="font-size:9px; color:var(--primary-color);">💬 Ruang Catatan Aktif</span>
+        <div class="post-actions">
+          <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+          <button class="action-btn">💬</button>
+          <button class="action-btn">✈️</button>
         </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="chat-note-card">
-            <span>💬</span>
-            <div>
-              <strong>Status Catatan:</strong>
-              <div style="font-size:10px; color:var(--subtext-color);" id="chatNotePreview">Satu Bulan - Bernadya (Top Viral Indo)</div>
-            </div>
-          </div>
-          <div class="message received">Halo! Mari berdiskusi seputar lagu viral Indonesia tahun 2020 sampai 2026 di sini.</div>
-        </div>
-        <form style="display:flex; border-top:1px solid var(--border-color); padding:6px;" onsubmit="sendChatMessage(event)">
-          <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:11px;" placeholder="Kirim pesan...">
-          <button type="submit" class="btn-submit-comment">Kirim</button>
+        <div class="post-likes"><span>1,245</span> suka</div>
+        <div class="post-caption"><span>clarissa</span> Menikmati senja di pantai hari ini 🌅✨</div>
+        <div class="comment-list"></div>
+        <form class="comment-form" onsubmit="addComment(event, this)">
+          <input type="text" placeholder="Tambahkan komentar...">
+          <button type="submit" class="btn-comment">Kirim</button>
         </form>
       </div>
+    </div>
+
+  </div>
+
+  <div class="modal" id="postModal">
+    <div class="modal-content">
+      <h3>Buat Postingan Baru</h3>
+      <input type="text" id="inputUsername" placeholder="Nama Akun Anda" value="pengguna_baru">
+      <input type="text" id="inputImgUrl" placeholder="URL Gambar (Contoh: https://...)">
+      <textarea id="inputCaption" placeholder="Tulis caption..."></textarea>
+      <button onclick="createNewPost()">Bagikan</button>
+      <button style="background:#8e8e8e; margin-top:5px;" onclick="closeModal('postModal')">Batal</button>
     </div>
   </div>
 
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    /* Daftar Lengkap Arsip Lagu Viral Indonesia 2020 - 2026 */
-    const viralIndo2020to2026 = [
-      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024" },
-      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024" },
-      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024" },
-      { id: "v4", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025" },
-      { id: "v5", title: "Lamunan - Masdddho", realm: "Viral 2024" },
-      { id: "v6", title: "Untungnya Hidup Harus Berjalan - Bernadya", realm: "Viral 2024" },
-      { id: "v7", title: "Ego - Lyodra", realm: "Viral 2024" },
-      { id: "v8", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021" },
-      { id: "v9", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022" },
-      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023" },
-      { id: "v11", title: "Tertawan Hati - Awdella", realm: "Viral 2023" },
-      { id: "v12", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023" },
-      { id: "v13", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020" },
-      { id: "v14", title: "Hati-Hati di Jalan - Tulus", realm: "Viral 2022" },
-      { id: "v15", title: "Monolog - Pamungkas", realm: "Viral 2020" },
-      { id: "v16", title: "To the Bone - Pamungkas", realm: "Viral 2021" },
-      { id: "v17", title: "Pesan Terakhir - Lyodra", realm: "Viral 2021" },
-      { id: "v18", title: "Evaluasi - Hindia", realm: "Viral 2020" },
-      { id: "v19", title: "Kukira Kau Rumah - Amigdala", realm: "Viral 2021" },
-      { id: "v20", title: "Sisa Rasa - Mahalini", realm: "Viral 2021" }
-    ];
-
-    window.onload = function() {
-      document.getElementById('songCounterText').innerText = `Total Arsip: ${viralIndo2020to2026.length} Lagu`;
-      renderSongList(viralIndo2020to2026);
-      populateNoteSelect();
-    };
-
-    function renderSongList(songs) {
-      const container = document.getElementById('songListContainer');
-      container.innerHTML = '';
-      
-      songs.forEach(song => {
-        const div = document.createElement('div');
-        div.className = 'song-item';
-        div.innerHTML = `
-          <div>
-            <strong>🎵 ${song.title}</strong>
-            <div style="font-size:9px; color:var(--subtext-color);">Kategori: <span style="color:var(--primary-color);">${song.realm}</span></div>
-          </div>
-          <span style="font-size:10px; color:var(--subtext-color);">Arsip</span>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function filterSongs() {
-      const query = document.getElementById('songSearch').value.toLowerCase();
-      if (!query) {
-        renderSongList(viralIndo2020to2026);
-        return;
-      }
-      const filtered = viralIndo2020to2026.filter(s => 
-        s.title.toLowerCase().includes(query) || s.realm.toLowerCase().includes(query)
-      );
-      renderSongList(filtered);
-    }
-
-    function populateNoteSelect() {
-      const select = document.getElementById('noteSongSelect');
-      viralIndo2020to2026.forEach(song => {
-        const opt = document.createElement('option');
-        opt.value = `${song.title} - ${song.realm}`;
-        opt.innerText = `🎵 ${song.title} (${song.realm})`;
-        select.appendChild(opt);
-      });
-    }
-
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    
-    function toggleTheme() {
-      const body = document.body;
-      body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    }
-
-    function saveProfile() {
-      const name = document.getElementById('editNameInput').value.trim();
-      const bio = document.getElementById('editBioInput').value.trim();
-      const avatar = document.getElementById('editAvatarInput').value.trim();
-      if (name) document.getElementById('userNameDisplay').innerText = name;
-      if (bio) document.getElementById('userBioDisplay').innerText = bio;
-      if (avatar) document.getElementById('userAvatarImg').src = avatar;
-      closeModal('editProfileModal');
-      showToast("Profil berhasil diperbarui!");
-    }
-
-    function saveNote() {
-      const song = document.getElementById('noteSongSelect').value;
-      const text = document.getElementById('noteTextInput').value.trim();
-      if (text) {
-        document.getElementById('noteSongTitle').innerText = song.split('-')[0];
-        document.getElementById('noteTextTitle').innerText = text;
-        document.getElementById('chatNotePreview').innerText = `${song} (${text})`;
-        closeModal('noteModal');
-        showToast("Catatan status berhasil diperbarui!");
-      }
-    }
-
-    function submitNewPost() {
-      const type = document.getElementById('mediaTypeSelect').value;
-      const url = document.getElementById('mediaUrlInput').value.trim();
-      const caption = document.getElementById('postCaptionInput').value.trim();
-      const userName = document.getElementById('userNameDisplay').innerText;
-      if (!url) { showToast("Masukkan URL media terlebih dahulu!"); return; }
-
-      let mediaHtml = type === 'video' ? `<video controls src="${url}"></video>` : `<img src="${url}">`;
-      const feedList = document.getElementById('feedList');
-      const newPost = document.createElement('div');
-      newPost.className = 'post-card';
-      newPost.innerHTML = `
-        <div class="post-header"><div class="avatar-sm">U</div><span style="font-size:12px; font-weight:bold;">${userName}</span></div>
-        <div class="post-media-container">${mediaHtml}</div>
-        <div class="post-action-bar"><button class="action-btn" onclick="toggleLike(this)">🤍</button></div>
-        <div class="post-likes"><span>1</span> suka</div>
-        <div class="post-caption"><strong>${userName}</strong> ${caption}</div>
-        <div class="comment-list"></div>
-        <form class="comment-form" onsubmit="addComment(event, this)">
-          <input type="text" placeholder="Tambahkan komentar...">
-          <button type="submit" class="btn-submit-comment">Kirim</button>
-        </form>
-      `;
-      feedList.prepend(newPost);
-      closeModal('createPostModal');
-      showToast("Postingan berhasil dibagikan!");
-    }
-
-    function toggleLike(btn) {
-      const card = btn.closest('.post-card');
-      const countElem = card.querySelector('.post-likes span');
-      let count = parseInt(countElem.innerText);
-      if (btn.classList.contains('liked')) {
-        btn.innerText = '🤍';
-        btn.classList.remove('liked');
-        count--;
-      } else {
-        btn.innerText = '❤️';
-        btn.classList.add('liked');
-        count++;
-      }
-      countElem.innerText = count;
-    }
-
-    function addComment(e, form) {
-      e.preventDefault();
-      const input = form.querySelector('input');
-      const list = form.closest('.post-card').querySelector('.comment-list');
-      const userName = document.getElementById('userNameDisplay').innerText;
-      if (!input.value.trim()) return;
-      const item = document.createElement('div');
-      item.innerHTML = `<strong>${userName}</strong> ${input.value}`;
-      list.appendChild(item);
-      input.value = '';
-    }
-
-    function openChatWith(user) {
-      document.getElementById('activeChatUsername').innerText = user;
-      openModal('chatModal');
-    }
-
-    function selectChatUser(user) {
-      document.getElementById('activeChatUsername').innerText = user;
-    }
-
-    function sendChatMessage(e) {
-      e.preventDefault();
-      const input = document.getElementById('chatInput');
-      const box = document.getElementById('chatMessages');
-      if (!input.value.trim()) return;
-      const msg = document.createElement('div');
-      msg.className = 'message sent';
-      msg.innerText = input.value;
-      box.appendChild(msg);
-      input.value = '';
-      box.scrollTop = box.scrollHeight;
-    }
 
     function showToast(text) {
       const toast = document.getElementById('toastMsg');
       toast.innerText = text;
       toast.style.display = 'block';
       setTimeout(() => toast.style.display = 'none', 2000);
+    }
+
+    function toggleLike(btn) {
+      if(btn.innerText === '🤍') {
+        btn.innerText = '❤️';
+      } else {
+        btn.innerText = '🤍';
+      }
+    }
+
+    function createNewPost() {
+      const username = document.getElementById('inputUsername').value || 'pengguna';
+      const imgUrl = document.getElementById('inputImgUrl').value;
+      const caption = document.getElementById('inputCaption').value;
+
+      if (!imgUrl) {
+        showToast('Mohon masukkan URL gambar!');
+        return;
+      }
+
+      const feed = document.getElementById('feedContainer');
+      const postCard = document.createElement('div');
+      postCard.className = 'post-card';
+      postCard.innerHTML = `
+        <div class="post-header">
+          <img class="avatar-sm" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Avatar">
+          <span class="post-username">${username}</span>
+        </div>
+        <div class="post-media">
+          <img src="${imgUrl}" alt="Post Image">
+        </div>
+        <div class="post-actions">
+          <button class="action-btn" onclick="toggleLike(this)">🤍</button>
+          <button class="action-btn">💬</button>
+          <button class="action-btn">✈️</button>
+        </div>
+        <div class="post-likes"><span>1</span> suka</div>
+        <div class="post-caption"><span>${username}</span> ${caption}</div>
+        <div class="comment-list"></div>
+        <form class="comment-form" onsubmit="addComment(event, this)">
+          <input type="text" placeholder="Tambahkan komentar...">
+          <button type="submit" class="btn-comment">Kirim</button>
+        </form>
+      `;
+
+      feed.prepend(postCard);
+      closeModal('postModal');
+      showToast('Postingan berhasil dibagikan!');
+      
+      // Reset form
+      document.getElementById('inputImgUrl').value = '';
+      document.getElementById('inputCaption').value = '';
+    }
+
+    function addComment(e, form) {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      const commentList = form.closest('.post-card').querySelector('.comment-list');
+      
+      if (!input.value.trim()) return;
+
+      const commentItem = document.createElement('div');
+      commentItem.innerHTML = `<strong>anda</strong> ${input.value}`;
+      commentList.appendChild(commentItem);
+      input.value = '';
     }
   </script>
 </body>
