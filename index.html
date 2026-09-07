@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Underworld Social - Musik di Catatan & DM</title>
+  <title>Underworld Social - Viral Indonesia (2020-2026)</title>
   <style>
     :root {
       --bg-color: #080808;
@@ -65,13 +66,12 @@
     .comment-form input { flex: 1; border: none; outline: none; background: transparent; color: var(--text-color); font-size: 12px; }
     .btn-submit-comment { background: none; border: none; color: var(--primary-color); font-weight: 600; cursor: pointer; }
 
-    /* Playlist Infinite Box */
+    /* Playlist Daftar Lagu Viral Box */
     .music-list-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; position: sticky; top: 70px; }
     .song-search-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 11px; margin-bottom: 8px; outline: none; }
     .song-counter { font-size: 10px; color: var(--primary-color); margin-bottom: 6px; font-weight: bold; }
     .song-list { max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
-    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); cursor: pointer; font-size: 11px; border-left: 3px solid var(--primary-color); }
-    .song-item:hover { background: rgba(255,34,34,0.08); }
+    .song-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: var(--bg-color); font-size: 11px; border-left: 3px solid var(--primary-color); }
 
     /* Modals & DM System */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; }
@@ -79,23 +79,17 @@
     .modal-box { background: var(--card-bg); width: 380px; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
     .modal-box input, .modal-box textarea, .modal-box select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-top: 5px; margin-bottom: 10px; font-size: 11px; }
 
-    /* Chat Modal & Catatan Musik Style */
+    /* Chat Modal & Catatan Teks Style */
     .chat-box { width: 620px; height: 480px; display: flex; padding: 0; overflow: hidden; border-radius: 12px; }
     .chat-sidebar { width: 35%; border-right: 1px solid var(--border-color); background: var(--card-bg); overflow-y: auto; }
     .chat-user-item { padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; border-bottom: 1px solid var(--border-color); font-size: 11px; }
     .chat-area { width: 65%; display: flex; flex-direction: column; background: var(--card-bg); }
     
-    /* Pemutar Musik Khusus di Ruang Chat */
-    .chat-music-player { background: var(--bg-color); border-bottom: 1px solid var(--border-color); padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
-    .chat-music-player audio { flex: 1; height: 26px; filter: invert(0.85); }
-    .chat-now-playing { font-size: 10px; font-weight: bold; width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--primary-color); }
-
     .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
     .message { max-width: 75%; padding: 7px 10px; border-radius: 12px; font-size: 11px; }
     .message.received { background: var(--bg-color); align-self: flex-start; }
     .message.sent { background: var(--primary-color); color: #fff; align-self: flex-end; }
     
-    /* Pesan Catatan Musik dalam Chat */
     .chat-note-card { background: rgba(255, 34, 34, 0.1); border: 1px solid var(--primary-color); border-radius: 10px; padding: 6px 10px; font-size: 11px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
 
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,34,34,0.95); color: #fff; padding: 7px 16px; border-radius: 20px; font-size: 11px; display: none; z-index: 2000; font-weight: bold; }
@@ -103,26 +97,23 @@
 </head>
 <body data-theme="dark">
 
-  <!-- Navbar -->
   <div class="navbar">
-    <div class="logo">🔥 Indo Viral (2020-2026) & 99999+</div>
+    <div class="logo">🔥 Indo Viral (2020-2026)</div>
     <div class="nav-icons">
-      <button title="Direct Message & Catatan Musik" onclick="openModal('chatModal')">💬</button>
+      <button title="Direct Message & Catatan" onclick="openModal('chatModal')">💬</button>
       <button title="Buat Postingan" onclick="openModal('createPostModal')">➕</button>
       <button title="Ganti Tema" onclick="toggleTheme()">☀️/🌙</button>
     </div>
   </div>
 
   <div class="container">
-    <!-- Main Feed -->
     <div class="main-content">
       
-      <!-- Profil Akun -->
       <div class="profile-card">
         <div class="profile-header-top">
           <div class="profile-avatar-box">
-            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Ubah status lagu catatan">
-              🎵 <span id="noteSongTitle">Satu Bulan</span> • <span id="noteTextTitle">Top Viral Indo</span>
+            <div class="note-bubble" id="userNoteDisplay" onclick="openModal('noteModal')" title="Ubah status catatan">
+              💬 <span id="noteSongTitle">Satu Bulan</span> • <span id="noteTextTitle">Top Viral Indo</span>
             </div>
             <img id="userAvatarImg" class="avatar-lg" src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=150" alt="Avatar">
           </div>
@@ -131,12 +122,11 @@
               <span id="userNameDisplay">indo_hits2026</span>
               <button class="btn-edit-profile" onclick="openModal('editProfileModal')">Edit Profil</button>
             </div>
-            <div class="profile-bio" id="userBioDisplay">Koleksi lagu viral Indonesia lengkap dari tahun 2020 hingga 2026. Putar musik langsung di dalam ruang chat & catatan!</div>
+            <div class="profile-bio" id="userBioDisplay">Arsip daftar lagu viral Indonesia terlengkap dari tahun 2020 sampai 2026. Fitur musik telah dinonaktifkan sementara sesuai permintaan.</div>
           </div>
         </div>
       </div>
 
-      <!-- Feed Postingan -->
       <div id="feedList">
         <div class="post-card">
           <div class="post-header">
@@ -151,7 +141,7 @@
             <button class="action-btn" onclick="openChatWith('viral_indo_official')">💬</button>
           </div>
           <div class="post-likes"><span>2026</span> suka</div>
-          <div class="post-caption"><strong>viral_indo_official</strong> Buka menu Chat (ikon 💬) di atas untuk menikmati pemutar musik langsung di tempat catatan dan DM! 🎤✨</div>
+          <div class="post-caption"><strong>viral_indo_official</strong> Daftar arsip lagu viral Indonesia 2020-2026 dapat dilihat di panel sebelah kanan! 🎤✨</div>
           <div class="comment-list"></div>
           <form class="comment-form" onsubmit="addComment(event, this)">
             <input type="text" placeholder="Tambahkan komentar...">
@@ -162,20 +152,17 @@
 
     </div>
 
-    <!-- Sidebar Playlist Viral 2020-2026 & 99999+ Tak Terbatas -->
     <div class="sidebar-right">
       <div class="music-list-card">
-        <h4 style="margin-bottom: 4px; font-size: 12px; color: var(--primary-color);">🇮🇩 Playlist Viral & 99999+</h4>
-        <div class="song-counter" id="songCounterText">Memuat katalog lagu...</div>
-        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari lagu viral atau lainnya..." onkeyup="filterSongs()">
+        <h4 style="margin-bottom: 4px; font-size: 12px; color: var(--primary-color);">🇮🇩 Arsip Viral Indo (2020-2026)</h4>
+        <div class="song-counter" id="songCounterText">Memuat daftar lagu...</div>
+        <input type="text" id="songSearch" class="song-search-input" placeholder="Cari judul lagu atau tahun..." onkeyup="filterSongs()">
         <div class="song-list" id="songListContainer">
-          <!-- Diisi otomatis melalui JS -->
-        </div>
+          </div>
       </div>
     </div>
   </div>
 
-  <!-- Modals -->
   <div class="modal-overlay" id="editProfileModal">
     <div class="modal-box">
       <h3>Edit Profil</h3>
@@ -191,8 +178,8 @@
 
   <div class="modal-overlay" id="noteModal">
     <div class="modal-box">
-      <h3>Catatan Lagu Status</h3>
-      <label style="font-size:11px;">Pilih Lagu Favorit:</label>
+      <h3>Catatan Status Profil</h3>
+      <label style="font-size:11px;">Pilih Referensi Lagu:</label>
       <select id="noteSongSelect"></select>
       <label style="font-size:11px;">Pesan Status (Maks 25 Karakter):</label>
       <input type="text" id="noteTextInput" placeholder="Lagi on repeat..." maxlength="25">
@@ -216,7 +203,6 @@
     </div>
   </div>
 
-  <!-- Chat & Music Notes Modal -->
   <div class="modal-overlay" id="chatModal">
     <div class="modal-box chat-box">
       <div class="chat-sidebar">
@@ -230,24 +216,19 @@
         </div>
       </div>
       <div class="chat-area">
-        <!-- Pemutar Musik Khusus di Area Chat / Catatan -->
-        <div class="chat-music-player">
-          <div class="chat-now-playing" id="chatNowPlayingTitle">🎵 Pilih Lagu di Kanan</div>
-          <audio id="chatAudioPlayer" controls src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3"></audio>
-        </div>
-        <div style="padding:6px 12px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:11px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="padding:10px 12px; border-bottom:1px solid var(--border-color); font-weight:bold; font-size:11px; display:flex; justify-content:space-between; align-items:center;">
           <span id="activeChatUsername">viral_indo_official</span>
-          <span style="font-size:9px; color:var(--primary-color);">🎵 Catatan Musik Aktif</span>
+          <span style="font-size:9px; color:var(--primary-color);">💬 Ruang Catatan Aktif</span>
         </div>
         <div class="chat-messages" id="chatMessages">
           <div class="chat-note-card">
-            <span>🎵</span>
+            <span>💬</span>
             <div>
-              <strong>Status Catatan Lagu:</strong>
+              <strong>Status Catatan:</strong>
               <div style="font-size:10px; color:var(--subtext-color);" id="chatNotePreview">Satu Bulan - Bernadya (Top Viral Indo)</div>
             </div>
           </div>
-          <div class="message received">Halo! Putar lagu viral 2020-2026 langsung dari pemutar musik di atas ya! 🎶</div>
+          <div class="message received">Halo! Mari berdiskusi seputar lagu viral Indonesia tahun 2020 sampai 2026 di sini.</div>
         </div>
         <form style="display:flex; border-top:1px solid var(--border-color); padding:6px;" onsubmit="sendChatMessage(event)">
           <input type="text" id="chatInput" style="flex:1; border:none; outline:none; background:transparent; color:var(--text-color); font-size:11px;" placeholder="Kirim pesan...">
@@ -260,59 +241,33 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    /* Kurasi Daftar Lagu Viral Indonesia 2020 - 2026 */
+    /* Daftar Lengkap Arsip Lagu Viral Indonesia 2020 - 2026 */
     const viralIndo2020to2026 = [
-      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
-      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
-      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
-      { id: "v4", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
-      { id: "v5", title: "Lamunan - Masdddho", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
-      { id: "v6", title: "Untungnya Hidup Harus Berjalan - Bernadya", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
-      { id: "v7", title: "Ego - Lyodra", realm: "Viral 2024", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
-      { id: "v8", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
-      { id: "v9", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
-      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
-      { id: "v11", title: "Tertawan Hati - Awdella", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
-      { id: "v12", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
-      { id: "v13", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
-      { id: "v14", title: "Hati-Hati di Jalan - Tulus", realm: "Viral 2022", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" },
-      { id: "v15", title: "Monolog - Pamungkas", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3" },
-      { id: "v16", title: "To the Bone - Pamungkas", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=soft-delicate-ambient-124115.mp3" },
-      { id: "v17", title: "Pesan Terakhir - Lyodra", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3fb2185.mp3?filename=the-cradle-of-your-soul-15700.mp3" },
-      { id: "v18", title: "Evaluasi - Hindia", realm: "Viral 2020", url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db323d4411.mp3?filename=lofi-study-10657.mp3" },
-      { id: "v19", title: "Kukira Kau Rumah - Amigdala", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3" },
-      { id: "v20", title: "Sisa Rasa - Mahalini", realm: "Viral 2021", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3" }
+      { id: "v1", title: "Satu Bulan - Bernadya", realm: "Viral 2024" },
+      { id: "v2", title: "Gala Bunga Matahari - Sal Priadi", realm: "Viral 2024" },
+      { id: "v3", title: "Sialan - Juicy Luicy feat. Adrian Khalif", realm: "Viral 2024" },
+      { id: "v4", title: "Bunga Abadi - Nadin Amizah", realm: "Viral 2025" },
+      { id: "v5", title: "Lamunan - Masdddho", realm: "Viral 2024" },
+      { id: "v6", title: "Untungnya Hidup Harus Berjalan - Bernadya", realm: "Viral 2024" },
+      { id: "v7", title: "Ego - Lyodra", realm: "Viral 2024" },
+      { id: "v8", title: "Runtuh - Feby Putri feat. Fiersa Besari", realm: "Viral 2021" },
+      { id: "v9", title: "Asmalibrasi - Soegi Bornean", realm: "Viral 2022" },
+      { id: "v10", title: "Sial - Mahalini", realm: "Viral 2023" },
+      { id: "v11", title: "Tertawan Hati - Awdella", realm: "Viral 2023" },
+      { id: "v12", title: "Mangu - Kunto Aji feat. Sal Priadi", realm: "Viral 2023" },
+      { id: "v13", title: "Kala Cinta Menggoda - Noah", realm: "Viral 2020" },
+      { id: "v14", title: "Hati-Hati di Jalan - Tulus", realm: "Viral 2022" },
+      { id: "v15", title: "Monolog - Pamungkas", realm: "Viral 2020" },
+      { id: "v16", title: "To the Bone - Pamungkas", realm: "Viral 2021" },
+      { id: "v17", title: "Pesan Terakhir - Lyodra", realm: "Viral 2021" },
+      { id: "v18", title: "Evaluasi - Hindia", realm: "Viral 2020" },
+      { id: "v19", title: "Kukira Kau Rumah - Amigdala", realm: "Viral 2021" },
+      { id: "v20", title: "Sisa Rasa - Mahalini", realm: "Viral 2021" }
     ];
-
-    /* Generator 99999+ Lagu Tak Terbatas */
-    const realmsList = ["Indo Pop Hits", "Indie Nusantara", "TikTok Indo Viral", "Melancholy Pop", "Akustik Senja", "Lintas Generasi"];
-    const adjectiveList = ["Malam", "Rindu", "Luka", "Senja", "Hampa", "Cinta", "Bayang", "Asmara", "Langkah", "Kenangan"];
-    const nounList = ["Melodi", "Kisah", "Symphony", "Lagu", "Harmoni", "Suara", "Echo", "Requiem", "Hymn", "Sonata"];
-    const sampleAudioUrls = [
-      "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf7f6.mp3?filename=lofi-study-112191.mp3",
-      "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c7a736f3.mp3?filename=gonna-be-strong-10908.mp3",
-      "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=chill-abstract-intention-12099.mp3"
-    ];
-
-    let infiniteHellSongs = [...viralIndo2020to2026];
-    
-    for (let i = 21; i <= 100000; i++) {
-      let adj = adjectiveList[i % adjectiveList.length];
-      let noun = nounList[Math.floor(i / 7) % nounList.length];
-      let realm = realmsList[i % realmsList.length];
-      let url = sampleAudioUrls[i % sampleAudioUrls.length];
-      
-      infiniteHellSongs.push({
-        id: i,
-        title: `${adj} ${noun} #${i}`,
-        realm: realm,
-        url: url
-      });
-    }
 
     window.onload = function() {
-      document.getElementById('songCounterText').innerText = `Total Katalog: ${infiniteHellSongs.length.toLocaleString()} Lagu Aktif`;
-      renderSongList(infiniteHellSongs.slice(0, 100));
+      document.getElementById('songCounterText').innerText = `Total Arsip: ${viralIndo2020to2026.length} Lagu`;
+      renderSongList(viralIndo2020to2026);
       populateNoteSelect();
     };
 
@@ -320,7 +275,7 @@
       const container = document.getElementById('songListContainer');
       container.innerHTML = '';
       
-      songs.slice(0, 150).forEach(song => {
+      songs.forEach(song => {
         const div = document.createElement('div');
         div.className = 'song-item';
         div.innerHTML = `
@@ -328,31 +283,19 @@
             <strong>🎵 ${song.title}</strong>
             <div style="font-size:9px; color:var(--subtext-color);">Kategori: <span style="color:var(--primary-color);">${song.realm}</span></div>
           </div>
-          <button style="border:none; background:none; cursor:pointer; font-size:12px;" onclick="playSongInChat('${song.title}', '${song.realm}', '${song.url}')">▶️ Putar</button>
+          <span style="font-size:10px; color:var(--subtext-color);">Arsip</span>
         `;
         container.appendChild(div);
       });
     }
 
-    function playSongInChat(title, realm, url) {
-      const player = document.getElementById('chatAudioPlayer');
-      const titleDisplay = document.getElementById('chatNowPlayingTitle');
-      player.src = url;
-      player.play().catch(e => console.log("Autoplay handled", e));
-      titleDisplay.innerText = `🎵 ${title}`;
-      
-      // Buka modal chat otomatis jika belum terbuka agar pengguna langsung melihat pemutarnya
-      openModal('chatModal');
-      showToast(`Memutar di Catatan/Chat: ${title}`);
-    }
-
     function filterSongs() {
       const query = document.getElementById('songSearch').value.toLowerCase();
       if (!query) {
-        renderSongList(infiniteHellSongs.slice(0, 100));
+        renderSongList(viralIndo2020to2026);
         return;
       }
-      const filtered = infiniteHellSongs.filter(s => 
+      const filtered = viralIndo2020to2026.filter(s => 
         s.title.toLowerCase().includes(query) || s.realm.toLowerCase().includes(query)
       );
       renderSongList(filtered);
@@ -360,7 +303,7 @@
 
     function populateNoteSelect() {
       const select = document.getElementById('noteSongSelect');
-      infiniteHellSongs.slice(0, 30).forEach(song => {
+      viralIndo2020to2026.forEach(song => {
         const opt = document.createElement('option');
         opt.value = `${song.title} - ${song.realm}`;
         opt.innerText = `🎵 ${song.title} (${song.realm})`;
@@ -395,7 +338,7 @@
         document.getElementById('noteTextTitle').innerText = text;
         document.getElementById('chatNotePreview').innerText = `${song} (${text})`;
         closeModal('noteModal');
-        showToast("Catatan lagu profil diperbarui!");
+        showToast("Catatan status berhasil diperbarui!");
       }
     }
 
