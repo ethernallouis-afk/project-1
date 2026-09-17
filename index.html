@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Clone Super Lengkap (20+ Fitur)</title>
+  <title>Instagram Clone Ultimate Pro (2026)</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -34,7 +34,7 @@
     .nav-icons { display: flex; gap: 12px; align-items: center; }
     .nav-icons button { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); position: relative; }
 
-    /* Navigasi Bawah (Tab Menu) */
+    /* Navigasi Bawah */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
     .bottom-nav button { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-color); }
     .bottom-nav button.active { color: var(--primary-color); }
@@ -43,11 +43,8 @@
     .page-section { display: none; max-width: 600px; margin: 20px auto; padding: 0 10px; }
     .page-section.active { display: block; }
 
-    /* Search & Filter Bar */
-    .search-box { width: 100%; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-color); font-size: 14px; margin-bottom: 10px; outline: none; }
-    .explore-filters { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-    .filter-chip { background: var(--border-color); border: none; padding: 6px 12px; border-radius: 16px; font-size: 12px; cursor: pointer; color: var(--text-color); white-space: nowrap; }
-    .filter-chip.active { background: var(--primary-color); color: white; }
+    /* Search Bar */
+    .search-box { width: 100%; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-color); font-size: 14px; margin-bottom: 15px; outline: none; }
 
     /* Catatan Notes Bar */
     .notes-scroll-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; gap: 15px; overflow-x: auto; margin-bottom: 15px; }
@@ -107,13 +104,17 @@
     .profile-avatar-lg { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #ddd; }
     .profile-info h3 { font-size: 18px; margin-bottom: 5px; }
     .profile-stats { display: flex; gap: 15px; font-size: 13px; margin-top: 8px; }
-    .profile-actions-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+    .profile-actions-bar { display: flex; gap: 10px; margin-bottom: 15px; }
     .profile-btn { flex: 1; background: var(--border-color); border: none; padding: 6px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-color); }
+    
+    /* Tab Menu Profil */
+    .profile-tabs { display: flex; justify-content: center; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 15px; }
+    .profile-tab-btn { background: none; border: none; padding: 10px 20px; font-size: 13px; font-weight: 600; color: var(--subtext-color); cursor: pointer; border-bottom: 2px solid transparent; }
+    .profile-tab-btn.active { color: var(--text-color); border-bottom-color: var(--text-color); }
+
     .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .profile-grid-item { position: relative; height: 120px; }
     .profile-grid img, .profile-grid video { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
-    .profile-grid-item button { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; cursor: pointer; display: none; }
-    .profile-grid-item:hover button { display: flex; align-items: center; justify-content: center; }
 
     /* Notifikasi Panel List */
     .notif-list { display: flex; flex-direction: column; gap: 12px; }
@@ -125,8 +126,11 @@
     .story-modal.active { display: flex; }
     .story-progress-bar { position: absolute; top: 15px; left: 15px; right: 15px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; overflow: hidden; }
     .story-progress-fill { height: 100%; width: 0%; background: white; transition: width linear; }
-    .story-content-img { max-width: 100%; max-height: 85vh; object-fit: contain; }
+    .story-content-img { max-width: 100%; max-height: 75vh; object-fit: contain; }
     .story-close-btn { position: absolute; top: 30px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+    .story-reply-form { position: absolute; bottom: 20px; width: 90%; max-width: 500px; display: flex; gap: 8px; }
+    .story-reply-form input { flex: 1; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 10px 15px; color: white; outline: none; font-size: 13px; }
+    .story-reply-form button { background: var(--primary-color); border: none; color: white; padding: 0 15px; border-radius: 20px; font-weight: 600; cursor: pointer; }
 
     /* Chat / DM Modal Style */
     .chat-container { display: flex; flex-direction: column; height: 320px; }
@@ -143,9 +147,6 @@
 
     /* Toast Notification */
     .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; display: none; z-index: 4000; }
-    
-    /* Scroll Top Floating Button */
-    .scroll-top-btn { position: fixed; bottom: 75px; right: 20px; background: var(--card-bg); border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 99; box-shadow: 0 2px 6px rgba(0,0,0,0.2); color: var(--text-color); }
   </style>
 </head>
 <body data-theme="light">
@@ -167,8 +168,7 @@
     <button id="nav-profile" onclick="switchTab('profile')">👤</button>
   </div>
 
-  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
-
+  <!-- TAB FEED -->
   <div id="page-feed" class="page-section active">
     <div class="notes-scroll-container">
       <div class="note-item" onclick="openModal('noteModal')">
@@ -187,13 +187,6 @@
         </div>
         <span class="note-name">clarissa</span>
       </div>
-      <div class="note-item" onclick="showToast('Catatan dari dimas_p')">
-        <div class="note-bubble">Weekend vibe!</div>
-        <div class="note-avatar-wrapper">
-          <img class="note-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Note">
-        </div>
-        <span class="note-name">dimas_p</span>
-      </div>
     </div>
 
     <div class="stories-container" id="storiesContainer">
@@ -205,32 +198,18 @@
         <img class="story-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Story">
         <span class="story-name">dimas_p</span>
       </div>
-      <div class="story-item" onclick="openStoryViewer('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600', 'siti_a')">
-        <img class="story-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Story">
-        <span class="story-name">siti_a</span>
-      </div>
     </div>
 
     <div id="feedContainer"></div>
   </div>
 
+  <!-- TAB EXPLORE (Real-Time Search) -->
   <div id="page-explore" class="page-section">
-    <input type="text" class="search-box" id="searchExplore" placeholder="Cari akun atau postingan..." oninput="filterExplore(this.value)">
-    <div class="explore-filters">
-      <button class="filter-chip active" onclick="setExploreFilter('all', this)">Semua</button>
-      <button class="filter-chip" onclick="setExploreFilter('photo', this)">Foto</button>
-      <button class="filter-chip" onclick="setExploreFilter('trending', this)">Populer</button>
-    </div>
-    <div class="profile-grid" id="exploreGrid">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Explore">
-      <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=300" alt="Explore">
-      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300" alt="Explore">
-      <img src="https://images.unsplash.com/photo-1426604966848-d7adacbd02bff?w=300" alt="Explore">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300" alt="Explore">
-      <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=300" alt="Explore">
-    </div>
+    <input type="text" class="search-box" id="searchExploreInput" placeholder="🔍 Cari postingan berdasarkan caption / akun..." oninput="filterExplorePosts(this.value)">
+    <div id="exploreFeedContainer"></div>
   </div>
 
+  <!-- TAB REELS -->
   <div id="page-reels" class="page-section">
     <div id="reelsContainer">
       <div class="reel-card">
@@ -238,19 +217,19 @@
         <div class="reel-overlay">
           <div class="reel-info">
             <h4>@dj_indoswara</h4>
-            <p>🎵 Musik Asli - Viral Sound 2026</p>
+            <p>🎵 Musik Asli - Viral Sound</p>
           </div>
           <div class="reel-actions">
-            <button class="reel-btn" onclick="toggleLike(this)">🤍</button>
-            <button class="reel-btn" onclick="showToast('Fitur Komentar Reels')">💬</button>
-            <button class="reel-btn" onclick="toggleBookmark(this)">🔖</button>
-            <button class="reel-btn" onclick="showToast('Reels diteruskan')">↗️</button>
+            <button class="reel-btn" onclick="toggleLikeReel(this)">🤍</button>
+            <button class="reel-btn" onclick="showToast('Komentar Reels')">💬</button>
+            <button class="reel-btn" onclick="showToast('Reels dibagikan')">↗️</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- TAB NOTIFIKASI -->
   <div id="page-notif" class="page-section">
     <h3 style="margin-bottom: 12px; font-size: 16px;">Aktivitas Terbaru</h3>
     <div class="notif-list" id="notifListContainer">
@@ -258,13 +237,10 @@
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="User">
         <div><strong>clarissa</strong> menyukai postingan Anda. <span style="color:var(--subtext-color); font-size:11px;">2m</span></div>
       </div>
-      <div class="notif-item">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="User">
-        <div><strong>dimas_p</strong> mulai mengikuti Anda. <span style="color:var(--subtext-color); font-size:11px;">1j</span></div>
-      </div>
     </div>
   </div>
 
+  <!-- TAB PROFIL -->
   <div id="page-profile" class="page-section">
     <div class="profile-header">
       <img class="profile-avatar-lg" id="profileAvatarDisplay" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="Profile">
@@ -283,17 +259,49 @@
       <button class="profile-btn" onclick="shareProfile()">Bagikan Profil</button>
       <button class="profile-btn" onclick="openModal('settingsModal')">Pengaturan</button>
     </div>
-    <h4 style="margin-bottom: 10px; font-size:14px;">Postingan Anda</h4>
+    
+    <div class="profile-tabs">
+      <button class="profile-tab-btn active" id="tabGridBtn" onclick="switchProfileTab('grid')">📷 Postingan</button>
+      <button class="profile-tab-btn" id="tabSavedBtn" onclick="switchProfileTab('saved')">📌 Tersimpan</button>
+    </div>
+
     <div class="profile-grid" id="profileGrid"></div>
   </div>
 
+  <!-- MODAL STORY VIEWER -->
   <div class="story-modal" id="storyModal">
     <div class="story-progress-bar"><div class="story-progress-fill" id="storyProgressFill"></div></div>
     <button class="story-close-btn" onclick="closeStoryViewer()">✕</button>
     <div style="color:white; position:absolute; top:30px; left:20px; font-weight:600; font-size:14px;" id="storyUsernameHeader">Cerita</div>
     <img id="storyViewerImg" class="story-content-img" src="" alt="Story View">
+    
+    <!-- Fitur Baru: Balas Story Langsung ke DM -->
+    <form class="story-reply-form" onsubmit="replyStoryToDM(event)">
+      <input type="text" id="storyReplyInput" placeholder="Kirim pesan balasan...">
+      <button type="submit">Kirim</button>
+    </form>
   </div>
 
+  <!-- MODAL SHARE POST KE DM -->
+  <div class="modal" id="shareDmModal">
+    <div class="modal-content">
+      <h3>Kirim Postingan via DM</h3>
+      <input type="text" id="searchDmTarget" placeholder="Cari nama tujuan..." oninput="showToast('Mencari kontak...')">
+      <div style="display:flex; flex-direction:column; gap:8px; margin: 10px 0; max-height: 150px; overflow-y:auto;" id="dmContactList">
+        <div style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:5px; border-radius:4px;" onclick="sendPostToUser('clarissa')">
+          <img class="avatar-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150">
+          <span>clarissa</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:5px; border-radius:4px;" onclick="sendPostToUser('dimas_p')">
+          <img class="avatar-sm" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150">
+          <span>dimas_p</span>
+        </div>
+      </div>
+      <button style="background:#8e8e8e;" onclick="closeModal('shareDmModal')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- MODAL BUAT KONTEN -->
   <div class="modal" id="createModal">
     <div class="modal-content">
       <h3>Buat Postingan Baru</h3>
@@ -301,23 +309,24 @@
         <option value="post">Postingan Foto (Feed)</option>
         <option value="reel">Video (Reels)</option>
       </select>
-      <input type="text" id="inputMediaUrl" placeholder="URL Gambar / Video (Contoh: https://...)">
-      <textarea id="inputCaption" placeholder="Tulis caption atau judul reel..."></textarea>
+      <input type="text" id="inputMediaUrl" placeholder="URL Gambar / Video (https://...)">
+      <textarea id="inputCaption" placeholder="Tulis caption..."></textarea>
       <button onclick="createNewContent()">Bagikan</button>
       <button style="background:#8e8e8e; margin-top:5px;" onclick="closeModal('createModal')">Batal</button>
     </div>
   </div>
 
+  <!-- MODAL CATATAN -->
   <div class="modal" id="noteModal">
     <div class="modal-content">
       <h3>Buat Catatan Baru</h3>
-      <input type="text" id="inputNoteText" placeholder="Tulis catatan singkat..." maxlength="30" oninput="updateNoteCounter(this)">
-      <div style="font-size:10px; color:var(--subtext-color); text-align:right;" id="noteCounter">30 karakter tersisa</div>
+      <input type="text" id="inputNoteText" placeholder="Tulis catatan singkat..." maxlength="30">
       <button onclick="saveNote()">Simpan Catatan</button>
       <button style="background:#8e8e8e; margin-top:5px;" onclick="closeModal('noteModal')">Batal</button>
     </div>
   </div>
 
+  <!-- MODAL EDIT PROFIL -->
   <div class="modal" id="editProfileModal">
     <div class="modal-content">
       <h3>Edit Profil</h3>
@@ -329,19 +338,20 @@
     </div>
   </div>
 
+  <!-- MODAL PENGATURAN -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <h3>Pengaturan Akun</h3>
       <ul style="list-style:none; padding:10px 0; font-size:14px; display:flex; flex-direction:column; gap:12px;">
         <li style="cursor:pointer;" onclick="simulateNewFollower()">🔔 Simulasi Follower Baru (Real-time)</li>
         <li style="cursor:pointer;" onclick="showToast('Privasi Akun: Publik')">🔒 Privasi Akun</li>
-        <li style="cursor:pointer;" onclick="showToast('Pusat Bantuan Aktif')">❓ Pusat Bantuan</li>
         <li style="cursor:pointer; color:var(--danger-color);" onclick="logoutApp()">🚪 Keluar Akun</li>
       </ul>
       <button style="background:#8e8e8e; margin-top:10px;" onclick="closeModal('settingsModal')">Tutup</button>
     </div>
   </div>
 
+  <!-- MODAL CHAT DM -->
   <div class="modal" id="chatModal">
     <div class="modal-content">
       <h3>Direct Message (DM)</h3>
@@ -362,7 +372,6 @@
   <div class="toast" id="toastMsg">Notifikasi</div>
 
   <script>
-    // Database Data Awal
     let currentUser = {
       username: "pengguna_baru",
       bio: "Menjelajah dunia digital ✨",
@@ -380,19 +389,19 @@
         isLiked: false,
         isBookmarked: false,
         comments: [
-          { user: "dimas_p", text: "Keren banget pemandangannya!" },
-          { user: "siti_a", text: "Mau ikut dong ke sana 😭" }
+          { user: "dimas_p", text: "Keren banget pemandangannya!" }
         ]
       }
     ];
 
+    let currentActiveSharePostId = null;
+    let currentProfileTab = 'grid';
+
     window.addEventListener('DOMContentLoaded', () => {
       renderFeed();
-      renderProfileGrid();
+      renderProfileContent();
     });
 
-    // Navigasi Tab
-    let unreadNotifCount = 0;
     function switchTab(tabName) {
       document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.bottom-nav button').forEach(el => el.classList.remove('active'));
@@ -403,13 +412,11 @@
       }
       window.scrollTo(0, 0);
 
-      if (tabName === 'notif') {
-        unreadNotifCount = 0;
-        document.getElementById('notifBadge').style.display = 'none';
+      if (tabName === 'explore') {
+        filterExplorePosts('');
       }
     }
 
-    // Modal & Toast Handler
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -420,7 +427,6 @@
       setTimeout(() => toast.style.display = 'none', 2000);
     }
 
-    // Toggle Tema Terang/Gelap
     function toggleTheme() {
       const body = document.body;
       if(body.getAttribute('data-theme') === 'light') {
@@ -432,20 +438,7 @@
       }
     }
 
-    // Scroll Top Button Logic
-    window.onscroll = function() {
-      const btn = document.getElementById('scrollTopBtn');
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btn.style.display = 'flex';
-      } else {
-        btn.style.display = 'none';
-      }
-    };
-    function scrollToTop() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-
-    // Render Feed Utama
+    // RENDER FEED UTAMA
     function renderFeed() {
       const feedContainer = document.getElementById('feedContainer');
       feedContainer.innerHTML = '';
@@ -455,7 +448,7 @@
         postCard.className = 'post-card';
         postCard.innerHTML = `
           <div class="post-header">
-            <div class="post-header-left" style="cursor:pointer;">
+            <div class="post-header-left">
               <img class="avatar-sm" src="${post.avatar}" alt="Avatar">
               <span class="post-username">${post.username}</span>
             </div>
@@ -469,11 +462,11 @@
             <div class="post-actions-left">
               <button class="action-btn" onclick="toggleLikePost(${post.id})">${post.isLiked ? '❤️' : '🤍'}</button>
               <button class="action-btn" onclick="focusCommentPost(${post.id})">💬</button>
-              <button class="action-btn" onclick="sharePost(${post.id})">✈️</button>
+              <button class="action-btn" onclick="openShareModal(${post.id})">✈️</button>
             </div>
             <button class="action-btn" onclick="toggleBookmarkPost(${post.id})">${post.isBookmarked ? '📌' : '🔖'}</button>
           </div>
-          <div class="post-likes" onclick="showToast('${post.likes} orang menyukai ini')"><span>${post.likes.toLocaleString()}</span> suka</div>
+          <div class="post-likes"><span>${post.likes.toLocaleString()}</span> suka</div>
           <div class="post-caption"><span>${post.username}</span> ${post.caption}</div>
           <div class="comment-list" id="commentList-${post.id}">
             ${post.comments.map((c, idx) => `
@@ -493,7 +486,110 @@
       localStorage.setItem('ig_posts', JSON.stringify(posts));
     }
 
-    // Like & Double Tap Logic
+    // FITUR BARU 1: Real-Time Search / Filter di Explore
+    function filterExplorePosts(keyword) {
+      const container = document.getElementById('exploreFeedContainer');
+      container.innerHTML = '';
+
+      const term = keyword.toLowerCase();
+      const filtered = posts.filter(p => 
+        p.caption.toLowerCase().includes(term) || 
+        p.username.toLowerCase().includes(term)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:var(--subtext-color); padding:30px;">Tidak ada hasil ditemukan.</p>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'profile-grid';
+      filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'profile-grid-item';
+        item.innerHTML = `<img src="${p.mediaUrl}" alt="Explore Post">`;
+        grid.appendChild(item);
+      });
+      container.appendChild(grid);
+    }
+
+    // FITUR BARU 2: Kirim Postingan ke DM
+    function openShareModal(postId) {
+      currentActiveSharePostId = postId;
+      openModal('shareDmModal');
+    }
+
+    function sendPostToUser(targetUser) {
+      closeModal('shareDmModal');
+      showToast(`Postingan berhasil dikirim ke @${targetUser}!`);
+      
+      // Masukkan otomatis ke chat messages demo
+      const chatMessages = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-bubble-msg';
+      msgDiv.innerText = `[Mengirim postingan ke @${targetUser}]`;
+      chatMessages.appendChild(msgDiv);
+    }
+
+    // FITUR BARU 3: Balas Story Langsung ke DM
+    function replyStoryToDM(e) {
+      e.preventDefault();
+      const input = document.getElementById('storyReplyInput');
+      if (!input.value.trim()) return;
+
+      const replyText = input.value;
+      input.value = '';
+      closeStoryViewer();
+
+      showToast('Balasan dikirim via DM!');
+      
+      const chatMessages = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-bubble-msg';
+      msgDiv.innerText = `Balasan Story: ${replyText}`;
+      chatMessages.appendChild(msgDiv);
+    }
+
+    // FITUR BARU 4: Tab Profil Postingan vs Tersimpan (Saved)
+    function switchProfileTab(tab) {
+      currentProfileTab = tab;
+      document.getElementById('tabGridBtn').classList.remove('active');
+      document.getElementById('tabSavedBtn').classList.remove('active');
+
+      if (tab === 'grid') {
+        document.getElementById('tabGridBtn').classList.add('active');
+      } else {
+        document.getElementById('tabSavedBtn').classList.add('active');
+      }
+      renderProfileContent();
+    }
+
+    function renderProfileContent() {
+      const grid = document.getElementById('profileGrid');
+      grid.innerHTML = '';
+      
+      let targetList = [];
+      if (currentProfileTab === 'grid') {
+        targetList = posts.filter(p => p.username === currentUser.username);
+        document.getElementById('statPostCount').innerText = targetList.length;
+      } else {
+        targetList = posts.filter(p => p.isBookmarked);
+      }
+
+      if (targetList.length === 0) {
+        grid.innerHTML = `<p style="grid-column: span 3; text-align:center; color:var(--subtext-color); padding:30px;">Tidak ada konten.</p>`;
+        return;
+      }
+
+      targetList.forEach(post => {
+        const item = document.createElement('div');
+        item.className = 'profile-grid-item';
+        item.innerHTML = `<img src="${post.mediaUrl}" alt="Post">`;
+        grid.appendChild(item);
+      });
+    }
+
+    // Interaksi Dasar Lainnya
     function toggleLikePost(id) {
       const post = posts.find(p => p.id === id);
       if(post) {
@@ -521,6 +617,7 @@
         post.isBookmarked = !post.isBookmarked;
         showToast(post.isBookmarked ? 'Disimpan ke Koleksi' : 'Dihapus dari Koleksi');
         renderFeed();
+        renderProfileContent();
       }
     }
 
@@ -528,7 +625,6 @@
       document.getElementById(`commentInput-${id}`).focus();
     }
 
-    // Komentar Handler
     function addComment(e, id) {
       e.preventDefault();
       const input = document.getElementById(`commentInput-${id}`);
@@ -552,11 +648,6 @@
       }
     }
 
-    // Bagikan / Share Post & Profil
-    function sharePost(id) {
-      showToast('Tautan postingan disalin ke clipboard!');
-    }
-
     function shareProfile() {
       showToast(`Tautan profil @${currentUser.username} disalin!`);
     }
@@ -567,7 +658,7 @@
         if(confirm('Hapus postingan ini?')) {
           posts = posts.filter(p => p.id !== id);
           renderFeed();
-          renderProfileGrid();
+          renderProfileContent();
           showToast('Postingan dihapus');
         }
       } else {
@@ -575,33 +666,6 @@
       }
     }
 
-    // Profil Grid Render
-    function renderProfileGrid() {
-      const grid = document.getElementById('profileGrid');
-      grid.innerHTML = '';
-      
-      const myPosts = posts.filter(p => p.username === currentUser.username);
-      document.getElementById('statPostCount').innerText = myPosts.length;
-
-      myPosts.forEach(post => {
-        const item = document.createElement('div');
-        item.className = 'profile-grid-item';
-        item.innerHTML = `
-          <img src="${post.mediaUrl}" alt="Post">
-          <button onclick="deleteMyPost(${post.id})">✕</button>
-        `;
-        grid.appendChild(item);
-      });
-    }
-
-    function deleteMyPost(id) {
-      posts = posts.filter(p => p.id !== id);
-      renderFeed();
-      renderProfileGrid();
-      showToast('Postingan profil dihapus');
-    }
-
-    // Buat Konten Baru
     function createNewContent() {
       const type = document.getElementById('contentType').value;
       const mediaUrl = document.getElementById('inputMediaUrl').value;
@@ -626,40 +690,15 @@
         };
         posts.unshift(newPost);
         renderFeed();
-        renderProfileGrid();
+        renderProfileContent();
         showToast('Postingan berhasil dibagikan!');
-      } else if (type === 'reel') {
-        const reelsContainer = document.getElementById('reelsContainer');
-        const newReel = document.createElement('div');
-        newReel.className = 'reel-card';
-        newReel.innerHTML = `
-          <video src="${mediaUrl}" loop autoplay muted></video>
-          <div class="reel-overlay">
-            <div class="reel-info">
-              <h4>@${currentUser.username}</h4>
-              <p>${caption || 'Video Reel Baru'}</p>
-            </div>
-            <div class="reel-actions">
-              <button class="reel-btn" onclick="toggleLike(this)">🤍</button>
-              <button class="reel-btn" onclick="showToast('Fitur Komentar Reels')">💬</button>
-              <button class="reel-btn" onclick="toggleBookmark(this)">🔖</button>
-              <button class="reel-btn" onclick="showToast('Reels diteruskan')">↗️</button>
-            </div>
-          </div>
-        `;
-        reelsContainer.prepend(newReel);
-        showToast('Reels berhasil dibagikan!');
+      } else {
+        showToast('Reels berhasil dibuat!');
       }
 
       document.getElementById('inputMediaUrl').value = '';
       document.getElementById('inputCaption').value = '';
       closeModal('createModal');
-    }
-
-    // Catatan Notes Handler
-    function updateNoteCounter(el) {
-      const remaining = 30 - el.value.length;
-      document.getElementById('noteCounter').innerText = `${remaining} karakter tersisa`;
     }
 
     function saveNote() {
@@ -668,12 +707,9 @@
         document.getElementById('myNoteBubble').innerText = text;
         showToast('Catatan diperbarui!');
         closeModal('noteModal');
-      } else {
-        showToast('Catatan tidak boleh kosong');
       }
     }
 
-    // Story Viewer Handler
     function openStoryViewer(imgUrl, username) {
       document.getElementById('storyViewerImg').src = imgUrl;
       document.getElementById('storyUsernameHeader').innerText = username;
@@ -684,13 +720,13 @@
       progressFill.style.width = '0%';
       
       setTimeout(() => {
-        progressFill.style.transition = 'width 5s linear';
+        progressFill.style.transition = 'width 6s linear';
         progressFill.style.width = '100%';
       }, 50);
 
       window.storyTimer = setTimeout(() => {
         closeStoryViewer();
-      }, 5000);
+      }, 6000);
     }
 
     function closeStoryViewer() {
@@ -698,7 +734,6 @@
       if (window.storyTimer) clearTimeout(window.storyTimer);
     }
 
-    // Edit Profil Handler (Termasuk Ganti Avatar via URL)
     function saveProfileChanges() {
       const newName = document.getElementById('editUsernameInput').value.trim();
       const newAvatar = document.getElementById('editAvatarInput').value.trim();
@@ -723,36 +758,24 @@
       renderFeed();
     }
 
-    // Simulasi Real-Time Notifikasi Follower Baru
     function simulateNewFollower() {
       closeModal('settingsModal');
-      
-      const randomNames = ["siti_a", "dimas_p", "rizky_12", "Dewi_lestari", "eko_prasetyo"];
-      const randomAvatars = [
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150"
-      ];
-      
+      const randomNames = ["siti_a", "dimas_p", "rizky_12", "Dewi_lestari"];
       const chosenName = randomNames[Math.floor(Math.random() * randomNames.length)];
-      const chosenAvatar = randomAvatars[Math.floor(Math.random() * randomAvatars.length)];
 
       const notifListContainer = document.getElementById('notifListContainer');
       const notifItem = document.createElement('div');
       notifItem.className = 'notif-item';
       notifItem.innerHTML = `
-        <img src="${chosenAvatar}" alt="User">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="User">
         <div><strong>${chosenName}</strong> mulai mengikuti Anda. <span style="color:var(--subtext-color); font-size:11px;">Baru saja</span></div>
       `;
-      
       notifListContainer.prepend(notifItem);
 
-      unreadNotifCount++;
       document.getElementById('notifBadge').style.display = 'block';
       showToast(`🔔 @${chosenName} mulai mengikuti Anda!`);
     }
 
-    // Chat / DM Handler
     function sendChatMessage(e) {
       e.preventDefault();
       const input = document.getElementById('chatInput');
@@ -776,18 +799,7 @@
       }, 1000);
     }
 
-    // Fitur Tambahan (Explore & Reels)
-    function filterExplore(keyword) {
-      showToast(`Mencari: ${keyword}`);
-    }
-
-    function setExploreFilter(category, btn) {
-      document.querySelectorAll('.explore-filters .filter-chip').forEach(el => el.classList.remove('active'));
-      btn.classList.add('active');
-      showToast(`Filter: ${category}`);
-    }
-
-    function toggleLike(btn) {
+    function toggleLikeReel(btn) {
       if (btn.innerText === '🤍') {
         btn.innerText = '❤️';
         showToast('Menyukai video');
@@ -797,19 +809,8 @@
       }
     }
 
-    function toggleBookmark(btn) {
-      if (btn.innerText === '🔖') {
-        btn.innerText = '📌';
-        showToast('Disimpan');
-      } else {
-        btn.innerText = '🔖';
-        showToast('Dihapus dari simpanan');
-      }
-    }
-
     function logoutApp() {
       if (confirm('Apakah Anda yakin ingin keluar?')) {
-        alert('Berhasil keluar dari akun.');
         location.reload();
       }
     }
